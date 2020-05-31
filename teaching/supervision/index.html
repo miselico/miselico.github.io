@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Master Thesis supervision - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/supervision/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Master Thesis supervision</h1>
+    
+  </header>
+  
+  <p>As part of my teaching activities I supervise master students working on their thesis.
+If you want to have me as a supervisor of your thesis work, <a href="/contact/">contact</a> me.
+I can only supervise a limited number of students. There is no guarantee that I can supervise you, even if you want to work on one of the available topics below.
+You can also contact me with your own ideas.</p>
+
+<p><span style="color:red">This page is no longer maintained. check your course program pages for topics I am offering</span></p>
+
+<h1 id="outdated-topic-list">Outdated topic list:</h1>
+
+<h2 id="related-to-the-big-data-engineering-course">Related to the <a href="../TIES438/">Big Data Engineering</a> course</h2>
+
+<p>Most of the topics dealt with during the lectures are still active research topics and can be used as the basis for a master thesis. Some examples:</p>
+
+<ul>
+  <li>[taken] Standard Locality-sensitive hashing (LSH) can be used to approximate, for example, Jaccard distance between documents or speed up the search for near neighbors. 
+One limitation of standard LSH is that it only works for symmetric distance metrics i.e. d(A,B)=d(B,A).
+Not all metrics are like that, however. 
+Set containment is one example of such a metric. 
+The authors of <a href="http://arxiv.org/abs/1411.3787">http://arxiv.org/abs/1411.3787</a> have investigated “Asymmetric Minwise Hashing”, which adapts the standard LSH to work for this type of asymmetric distance metrics.
+The student would give an overview of LSH and this variation. Then experiments with the asymmetric version are to be performed on specific types of data.</li>
+  <li>[taken] <a href="http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/">Apache Samza</a> is a different way to handle relational data when compared to more traditional SQL databases.
+Instead of allowing any SQL query one predefines a set of views and only these can be queried. As a result the design allows different  optimizations and robustness measures.
+This thesis would perform comparison between more traditional databases and Apache Samza. Further, the thesis should discuss how this approach compares to NOSQL approaches.
+(See also <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=199947">http://research.microsoft.com/apps/pubs/default.aspx?id=199947</a>)</li>
+  <li>Performing a thorough analyzes of the the data from the last (fourth) exercise related to the distribution of charge on the surface of the molecule could lead to a master thesis. 
+This thesis will be in collaboration with the faculty of Mathematics and Science (Gerrit Groenhof)</li>
+  <li>During the lecture we looked at the basic working of a bloom filter. 
+For a master thesis work a student can provide a broad literature review of different types of bloom filters and their use beyond fast membership checking.</li>
+  <li>We used LSH and in particular cosine distance between text documents. Cosine distance can be used for other vectors too.
+However, the distance must somehow capture the meaning which the user expects.
+When comparing images, a simple way to measure the distance would be to compute the angular distance between a vector consisting of the (e.g. RGB) values of each pixel.
+However, this simple approach does not lead to very good results.
+In this thesis the student would look at different ways to convert images into feature vectors.
+Then he or she will experimentally find out how well the used distance metric corresponds to the meaning (content) of the images.</li>
+  <li>We looked trough some algorithms for approximate cardinality estimation. The best algorithm we discussed was hyperloglog (HLL).
+Hyperlogolog uses the number of trailing zeros in the hashed values.
+This is, however, not the only possible choice.
+In a thesis a student could analyze other approaches to use the hash values and obtain an approximation.
+Warning: as part of the thesis the student should perform a mathematical analysis of the developed method and compare it with existing ones.
+This type of analysis is not easy and the teacher only has a very limited experience with it.</li>
+  <li>Random hyperplane hashing (RHH) is based on randomly selecting hyperplanes.
+However, in some cases (when we have more information about the dataset) it seems reasonable to not choose the hyperplanes completely randomly.
+Further, if normal RRH is performed with a low number of hyperplanes, then the hyperplanes are likely to not cover the space very well.
+This thesis will be about choosing the hyperplane in a data dependent way and try to sample the hyperplanes such that they cover the space nicely.</li>
+  <li>LSH works by hashing elements to discrete buckets. However, in some cases the hash function has to make a decision which leads to similar points being hashed apart.
+This, for instance, happens when a point is close to a hyperplane in RHH. One solution to this problem is to hash several small perturbations of the points and insert all of them into the indexes.
+Other solutions also exist.
+This thesis will look into the different options for improving the performance of LSH by hashing points to multiple buckets instead of just one.</li>
+  <li>Graph summarization is a technique used to obtain a more compact (exact) representation of a graph.
+The algorithms used in graph summarization are typically NP hard and will hence either not scale well or not obtain the most compact graph.
+In this thesis the student will investigate approaches to perform an approximate graph summarization where the obtained compact representation only approximatively represents the original graph in exchange for a better time and/or space complexity.</li>
+</ul>
+
+<h2 id="related-to-the-soa-and-cloud-computing-course">Related to the <a href="../TIES456/">SOA and Cloud Computing</a> course</h2>
+
+<p>There are several topics related to SOA and Cloud Computing which can be used as a Master thesis topic. Ideas include:</p>
+
+<ul>
+  <li>Most modern servers will use some form of in memory caching to reduce the number of lookups on the database. A common solution for this is the use of <a href="http://memcached.org/">memcached</a>, a high-performance, distributed memory object caching system. This technology is used in very popular websites like Wikipedia, Flickr, Twitter and Youtube.
+Recently (July 2013) a new proposal was published which tends to improve certain aspects of the memcached approach. This new approach is called <a href="https://github.com/golang/groupcache">groupcache</a>. The biggest difference is that the groupcache is itself responsible for loading values when a cache miss occurs.
+  In the thesis work the student would research history of distributed caching (mainly modern caching for web servers, etc.), in particular both models described above and describes their theoretical properties. Further, the students makes a comparison between both approaches, depending on the system characteristics.
+ The topic can be adapted to the interests of the student.</li>
+  <li><a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29">Paxos</a> is a protocol used to ensure the finding of a consensus about something between a group of computers.  A thesis work related to this algorithms is possible.</li>
+  <li><a href="http://docker.io">Docker</a> is a new way of managing container virtualization. You can make thesis in which you compare
+  different options for virtualization, compare and experiment with their properties.</li>
+  <li>[taken] <a href="http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/">Apache Samza</a> is a different way to handle relational data when compared to more traditional SQL databases.
+Instead of allowing any SQL query one predefines a set of views and only these can be queried. As a result the design allows different  optimizations and robustness measures.
+This thesis would perform comparison between more traditional databses and Apache Samza. Further, the thesis should discuss how this approach compares to NOSQL approaches.
+(See also <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=199947">http://research.microsoft.com/apps/pubs/default.aspx?id=199947</a>)</li>
+</ul>
+
+<h2 id="related-to-the-agent-technologies-for-developers-course">Related to the <a href="../TIES454/">Agent Technologies for Developers</a> course</h2>
+
+<p>It is possible to make your master thesis around a topic related to this course. The following topics are currently available. Other topics can be discussed with the teacher.</p>
+
+<ul>
+  <li><em>Use of  cryptography to build trust in an agent based system.</em>  <br />
+Studies related to agent based systems usually assume good behavior, i.e. agents behave towards a common goal of the system and do not try to sabotage each other intentionally.
+  <a href="http://bitcoin.org/bitcoin.pdf">Bitcoin</a> is a decentralized digital currency based on an open-source, peer-to-peer internet protocol.
+  It is using cryptography to reduce the possibility of cheating. 
+  In this thesis the student would try to find out how a similar protocol can be used to create trust in an agent based system where agents cannot count on the fact that other agents are honest.<br />
+  This thesis topic will be worked on under joint supervision with Gil David.
+  <!-- http://dl.acm.org/citation.cfm?id=1025132.1026417&coll=DL&dl=ACM&preflayout=flat --></li>
+  <li><em>Comparison between agent-based systems and emerging programming languages.</em>
+New programming languages are created regularly. Some of these languages do not live long. 
+Others gain a bigger user base and get used in large scale projects. It is possible to see an analogy between concepts used in programming languages like Go used during this course and an agent-based system. 
+This thesis would analyze how concepts can be mapped between the agent and actor based and more conventional programming paradigms. 
+It also critically evaluates whether we need actor/agent languages at all when some concurrency concepts are added to traditional programming languages.<br />
+This thesis topic will be worked on under joint supervision with Jonne Itkonen and one more supervisor.</li>
+  <li><em>Data race analyzers.</em> A thesis on the topic of existing data race analyzers (both static and run-time).</li>
+</ul>
+
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

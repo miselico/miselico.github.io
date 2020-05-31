@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Authentication using Spring - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES456/exercises/week41/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Authentication using Spring</h1>
+    
+  </header>
+  
+  <h1 id="goal">Goal</h1>
+<p>The goal of the task is to get familiar with the Spring framework and use it for authentication.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+<p>Learn about spring boot (embedded application server for spring applications that automates a lot of spring application related configuration based on the libraries found in the classpath)
+<a href="https://spring.io/guides/gs/spring-boot/">https://spring.io/guides/gs/spring-boot/</a></p>
+
+<p>Learn how to use spring CRUD repositories (note, that these are available only in Spring 4) 
+<a href="https://spring.io/guides/gs/accessing-data-mongodb/">https://spring.io/guides/gs/accessing-data-mongodb/</a> explains how to set it up in the easiest possible way and
+<a href="http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/">http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/</a> contains more information on how to use it.</p>
+
+<p>Check out some basic information about spring security from <a href="http://www.mkyong.com/spring-security/spring-security-hello-world-annotation-example/">http://www.mkyong.com/spring-security/spring-security-hello-world-annotation-example/</a>.
+Your users will be stored in your mongodb database. MongoDB can be downloaded from <a href="https://www.mongodb.org/downloads#production">here</a></p>
+
+<p>You can start the database by going to the <code class="highlighter-rouge">&lt;installation directory&gt;/bin/</code> directory and running <code class="highlighter-rouge">mongod.exe</code> on Windows or <code class="highlighter-rouge">./mongod --dbpath=path/to/where/you/want/mongodata/</code> on Linux.</p>
+
+<p>A start for the application can be found from <a href="https://github.com/kamiljano/teaching/tree/master/teaching-spring">Kamil’s repository</a>.</p>
+
+<p>This <a href="http://stackoverflow.com/a/29606918">stackoverflow answer</a> will help to implement the authentication.
+A gradle Eclipse plugin is available as part of the buildship plug-in. 
+Use the update site from <a href="http://projects.eclipse.org/projects/tools.buildship/downloads">http://projects.eclipse.org/projects/tools.buildship/downloads</a>.</p>
+
+<p>An tutorial in which a very similar application has been implemented can be found from <a href="http://kielczewski.eu/2014/12/spring-boot-security-application/">http://kielczewski.eu/2014/12/spring-boot-security-application/</a>.</p>
+
+<h1 id="task">Task</h1>
+
+<p>In this exercise you will write a spring application that registers users and lets them log in. The user should first be presented with a registration form with the following input fields:</p>
+
+<ul>
+  <li>Name</li>
+  <li>email address</li>
+  <li>password</li>
+  <li>repeat password</li>
+</ul>
+
+<p>Once the fields are filled, the user presses the “register” button. That triggers an HTTP POST request to the backend.
+The backend then checks in the database if the user with the following email address already exists, if it does, it should return an error message to the client.
+The backend should also make sure that the passwords are the same and at least 6 characters long and if they are not, it should return an appropriate error.
+Whatever the error, it should be dynamically presented to the user without reloading the page.
+If no error occurs during the registration, the user should be persisted with the provided email and password.</p>
+
+<p>Once the user is registered, it should be possible for him to log in. You should use spring security framework for that purpose.
+When the user is finally logged in, just display his name.</p>
+
+<p>#Hints</p>
+
+<h2 id="dependency-injection-in-spring">Dependency injection in Spring</h2>
+<p>Spring framework provides you with dependency injection. In order to inject a resource into your controller or a service, you can use the @Autowired annotation, like in the following example</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RestController
+public class IndexController {
+    
+    @Autowired
+    private UserRepository userRepository;
+
+    public void someMethodThatUsesUserRepository() {
+        ...
+    }
+}
+</code></pre></div></div>
+
+<p>This way spring will automatically initialize the userRepository before executing any of your methods.</p>
+
+<p>In order to enable the connection to mongodb database, first add annotation to your configuration class/main class: @EnableMongoRepositories
+and then add to your resources a file called application.properties and paste into it the following content</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.uri=mongodb://localhost/georpg
+spring.data.mongodb.repositories.enabled=true
+</code></pre></div></div>
+
+<p>If you decide to use gradle for your project, your build.gradle file could look as follows</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>buildscript {
+    ext {
+        springBootVersion = '1.2.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+group 'fi.teaching.spring'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf',
+            'org.springframework.boot:spring-boot-starter-data-mongodb',
+            'org.springframework.security:spring-security-web:4.0.1.RELEASE', //spring security
+            'org.springframework.security:spring-security-config:4.0.1.RELEASE'
+
+}
+</code></pre></div></div>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

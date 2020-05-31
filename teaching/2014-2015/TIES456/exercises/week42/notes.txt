@@ -1,0 +1,23 @@
+Setting up the databases used to include setting up multiple nodes on one host. However, I could not get it running with the newest Riak version myself. Thus left out. 
+If I get it running next time, it could be put back.
+
+
+4. Now, you should run the database server. See [Running multiple Nodes on one host](http://docs.basho.com/riak/latest/ops/building/basic-cluster-setup/#Running-Multiple-Nodes-on-One-Host).
+Create three nodes for the server machine on the same host. 
+In a real environment the nodes would be on separate machines, but to reduce repetition of the steps for the exercise they are created in one machine. 
+You must configure the ports as follows (`http` ip and `pb_ip` are initially set to `127.0.0.1` and should be the same for the three nodes and is the IP of the database VM.):
+    <style>
+    tr:first-child    { background-color:#889ea5; } 
+td:nth-child(odd)    { background-color:#eee8d5; }
+td:nth-child(even)    { background-color:#fff; }
+    </style>
+    <table>
+    <tr><th>Node</th><th>nodename</th><th>`listener.protobuf.internal`</th><th>`listener.http.internal`</th><th>`handoff.port`</th></tr>
+    <tr><td>Node 1</td><td>riak1@127.0.0.1</td><td>192.168.122.1XX:8087</td><td>192.168.122.1XX:8098</td><td>8101</td></tr>
+    <tr><td>Node 2</td><td>riak2@127.0.0.1</td><td>192.168.122.1XX:8088</td><td>192.168.122.1XX:8099</td><td>8102</td></tr>
+    <tr><td>Node 3</td><td>riak3@127.0.0.1</td><td>192.168.122.1XX:8089</td><td>192.168.122.1XX:8100</td><td>8103</td></tr>
+    </table>
+Note that the `handoff.port` configuration setting has to be added to the configuaration file. 
+If riak does not start, and everything seems configured correctly, check whether you still have free diskspace on the vm. 
+
+

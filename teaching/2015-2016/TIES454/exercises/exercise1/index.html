@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Assignment 1: First steps using a multi-agent system - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES454/exercises/exercise1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Assignment 1: First steps using a multi-agent system</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>After completing these exercises the student should have a basic understanding of how to start developing on a multi-agent platform (in particular JADE).
+Concepts covered are agents, basic behaviors, and messaging.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Attendance to the first four <a href="http://www.cs.jyu.fi/ai/vagan/ties453.html">lectures by Vagan</a> is recommended. Otherwise, self-study of the materials is necessary.
+Most of the concepts used are dealt with in the theory part of the course.</p>
+
+<p>A beginners guide to JADE : <a href="http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-beginners.pdf">http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-beginners.pdf</a></p>
+
+<p>If you are interested in the standards used for agent communication, you could attempt to read trough the 
+<a href="http://www.fipa.org/specs/fipa00061/SC00061G.html">FIPA ACL Message Structure Specification</a> and the
+<a href="http://www.fipa.org/specs/fipa00037/SC00037J.html">FIPA Communicative Act Library Specification</a>.
+This is for the moment not strictly necessary.</p>
+
+<p>You must have knowledge of programming in Java or be prepared to work on your skills during the course.</p>
+
+<h2 id="tasks">Tasks</h2>
+
+<p>The assignment consists of five tasks, which build upon each other. 
+First, you will create a very simple scenario with two agents.
+Then, these two agents will have to communicate.
+Next, the functionality of the agents needs to be extended using Behaviors.
+Next, you need to use message filters to receive specific messages only.
+Finally, you need to implement a basic messaging pattern.</p>
+
+<p>These tasks are performed individually. You have to use Java 7 or 8 for these tasks.</p>
+
+<p>###Task 1 - Hello Agent World###</p>
+
+<p>To start the first task, you need to create a maven project.
+Use <code class="highlighter-rouge">fi.jyu.ties454</code> as the Group Id, <code class="highlighter-rouge">&lt;username&gt;.assignment1</code> as the Artifact Id, and Version <code class="highlighter-rouge">0.0.1-SNAPSHOT</code>.</p>
+
+<p>After the project is created include the following parts in the <code class="highlighter-rouge">pom.xml</code> file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependencies&gt;
+&lt;!-- The agent platform --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.tilab.jade&lt;/groupId&gt;
+        &lt;artifactId&gt;jade&lt;/artifactId&gt;
+        &lt;version&gt;4.4.0&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;!-- repository hosting the agent platform --&gt;
+&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;tilab&lt;/id&gt;
+        &lt;url&gt;http://jade.tilab.com/maven/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+&lt;!-- set compiler to Java 8 --&gt;
+&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.3&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;source&gt;1.8&lt;/source&gt;
+                &lt;target&gt;1.8&lt;/target&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre></div></div>
+
+<p>In an IDE like Eclipse you might have to update the project (right click project&gt;Maven&gt;Update Project) in order for these changes to take effect.</p>
+
+<p>Now, make sure the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1</code> exists, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username. 
+All code of this assignment must be placed in that package. 
+The first task must be placed in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task1</code>, the second one in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task2</code>, and so on.
+If your project contains some default code (App.java, AppTest.java), remove it.</p>
+
+<p>It is useful also download the JADE source code. This way you also get the javadoc in your IDE. Unfortunately the maven repository does not include the source code itself.
+Therefore, you will have to download the source code from <a href="http://jade.tilab.com/download/jade/license/jade-download/">http://jade.tilab.com/download/jade/license/jade-download/</a> manually and add attach it (browse to one of the compiled JADE classes in Eclipse and click ‘attach source’).</p>
+
+<p>For this first task you have to create two classes (<code class="highlighter-rouge">HelloAgent</code> and <code class="highlighter-rouge">HiAgent</code>) which extend from the class <code class="highlighter-rouge">jade.core.Agent</code>.
+These classes can now be started as agents using the following code:
+Create a new class called <code class="highlighter-rouge">Run</code> and add the following main method:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void main(String[] args) {
+    Properties pp = new Properties();
+    pp.setProperty(Profile.GUI, Boolean.TRUE.toString());
+    Profile p = new ProfileImpl(pp);
+    AgentContainer ac = jade.core.Runtime.instance().createMainContainer(p);
+    try {
+        ac.acceptNewAgent("Hello", new HelloAgent()).start();
+        ac.acceptNewAgent("Hi", new HelloAgent()).start();
+    } catch (StaleProxyException e) {
+        throw new Error(e);
+    }
+}
+</code></pre></div></div>
+
+<p>Running this main method will start the agent system containing the two agents. Also a GUI will show up which you can use to debug things.
+Play around with the GUI to see what it can do.
+Also try to find your agents in the GUI and note that they are active (they are running even though they are not currently doing anything).</p>
+
+<p>At the moment your agents don’t do anything yet. To make the do something you need to override the <code class="highlighter-rouge">void setup()</code> method.
+For the HelloAgent print “Hello agent world” in that method. For the HiAgent print “Hi agent world”.</p>
+
+<p>###Task 2 - Hello other agent###</p>
+
+<p>The main power of a multi-agent system lies in the fact that it is able to collaborate with other agents.
+In JADE this is facilitated by messaging. Messaging in JADE is point-to-point, i.e., a message is sent from a specified sender to a number of specified receivers.</p>
+
+<p>In this task you will send a message from the HiAgent to the HelloAgent and reply to it.
+First, you need to copy the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task1</code> to <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task2</code> to continue working on the code.
+Then, you need to write code to</p>
+
+<ul>
+  <li>send a message from Hi to Hello (in HiAgent)</li>
+  <li>receive the message from Hi (in HelloAgent)</li>
+  <li>send a response to the message (in HelloAgent)</li>
+  <li>receive the response from Hello (in HiAgent)</li>
+</ul>
+
+<p>To send a message in Jade you have to create an instance of the ACLMessage class.
+Create one of these messages as follows <code class="highlighter-rouge">new ACLMessage(ACLMessage.INFORM);</code>.
+The performative (<code class="highlighter-rouge">ACLMessage.INFORM</code>) is one of the standard FIPA performatives.
+Set the content of the message to <code class="highlighter-rouge">Hello</code> or <code class="highlighter-rouge">Hi</code> and the language to <code class="highlighter-rouge">English</code>.</p>
+
+<p>To receive a message, you need to use one of the receive/blockingReceive methods of the agent. Check their Javadoc to decide which one is suitable.</p>
+
+<p>All code of this task goes into the <code class="highlighter-rouge">setup()</code> method of the agent.</p>
+
+<p>###Task 3 - Behaviors###</p>
+
+<p>Writing the agent’s code in the setup method method is somewhat limited.
+All actions the agent takes must be written in a sequential fashion.
+JADE provides a different way to organize the agent’s functionality using so-called Behaviors.
+The behaviors of an agent are pieces of functionality which will be executed by the agent in a round-robin fashion.</p>
+
+<p>Behaviors are non-preemptive, so you are expected to write your behaviors in a collaborative fashion.
+The way they work can be seen as a horizontal layering.</p>
+
+<p>Implementation-wise, a behavior is a Java class which derives from the <code class="highlighter-rouge">jade.core.behaviours.Behaviour</code> class.
+The behavior has the methods <code class="highlighter-rouge">action()</code> in which the actual functionality gets implemented and <code class="highlighter-rouge">done()</code> which indicates whether the Behavior should be rescheduled.
+(If done() returns <code class="highlighter-rouge">true</code> the behavior will not be rescheduled.)
+Frequently one wants behaviors which only runs once or which run forever.
+To cater these use-cases JADE provides the <code class="highlighter-rouge">OneShotBehavior</code> and <code class="highlighter-rouge">CyclicBehavior</code> classes, respectively.
+One more possible use-case is a task which should repeat every so often (e.g. every 30 seconds). 
+The <code class="highlighter-rouge">TickerBehavior</code> is exactly suitable for that scenario.
+Finally, there is <code class="highlighter-rouge">WakerBehavior</code> which gets executed once after a certain amount of time has elapsed.
+Behaviors can be added to an agent at any time.
+Typically you will add some initial behaviors in the setup() method and add more later as needed,often from inside other behaviors.
+The method on the Agent class to add Behaviors is called addBehavior(Behavior b).</p>
+
+<p>For this task you need to make yet another copy of the package of the previous task and call it <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task3</code>.
+The functionality needs to be as follows:</p>
+
+<ul>
+  <li>The HelloAgent sends its favorite message (“Hello”) to the HiAgent every 5 seconds</li>
+  <li>The HiAgent receives these messages and answers them saying “Hi”</li>
+  <li>The HelloAgent receives these responses and prints them to the console</li>
+</ul>
+
+<p>###Task 4 - Message filtering###</p>
+
+<p>Often an agent will be waiting for multiple messages at the same time. 
+A piece of code used to handle specific messages only wants to receive and process these and not other types.
+One way to solve this problem is to receive a message and then put it back to the agent’s message queue if it was not the message you expected.
+A better way to do this is by using <code class="highlighter-rouge">MessageTemplate</code>s. These templates can, for instance, be created as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MessageTemplate t = MessageTemplate.MatchInReplyTo("8bed3315799895f6f55b");
+</code></pre></div></div>
+
+<p>Then, the template is used in one of the receive calls of the agent.</p>
+
+<p>Again make a fresh copy of the package of the previous task.
+Now, change the functionality as follows:</p>
+
+<ul>
+  <li>The HelloAgent sends “Hello for the x-th time” message to the HiAgent every 5 seconds
+    <ul>
+      <li><code class="highlighter-rouge">x</code> is an integer which is incremented each time a message is sent.</li>
+      <li>The message also has the ReplyWith property set to <code class="highlighter-rouge">x</code></li>
+      <li>Once the message is sent, the HelloAgent starts a Behavior (derive directly from the Behavior class) which only listens for an answer to this specific message.
+        <ul>
+          <li>
+            <p>The following code should be used in the Behavior to listen for messages. The block call ensures that this behavior will not consume all CPU time and that this behavior gets woken up when new messages arrive.</p>
+
+            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  public void action() {
+      ACLMessage msg = myAgent.receive( some template here );
+      if (msg != null) {
+        // Message received. Process it
+      } else {
+          block();
+      } 
+  }
+</code></pre></div>            </div>
+          </li>
+          <li>When the message is received the behavior prints the content and the value of <code class="highlighter-rouge">x</code> to the console.</li>
+          <li>After the message has been printed, the <code class="highlighter-rouge">done()</code> method must return <code class="highlighter-rouge">true</code> such that this Behavior won’t be scheduled any longer.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>The HiAgent receives these messages and answers them saying <code class="highlighter-rouge">Hi</code> after waiting for ten seconds (use WakerBehavior to achieve this).
+    <ul>
+      <li>If you use <code class="highlighter-rouge">message.createReply()</code> the InReplyTo property will be set to whatever was in the ReplyWith property (in this case the value of <code class="highlighter-rouge">x</code>)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>###Task 5 - Complex behaviors and messaging patterns###</p>
+
+<p>Behaviors can be combined in all sorts of ways. JADE provides some classes which aim to help this composition.
+However, often it is easier to combine the four classes mentioned above to compose complex functionality, or to derive from Behavior directly.</p>
+
+<p>Similarly to design patterns in programming there are also messaging patters in MAS.
+This means that for certain engineering tasks certain messaging patterns can be re-used.
+One such pattern is commonly known as publish-subscribe. Your task is to implement that pattern.</p>
+
+<p>In the scenario there are the following agents:</p>
+
+<ul>
+  <li>25 Publishers
+    <ul>
+      <li>Each publisher sends (publishes) a message to the broker every second.</li>
+      <li>The message has two parts: a topic and the content.
+        <ul>
+          <li>The topic is one of the following strings: DTIME, P, EXPTIME, NTIME, NP, NEXPTIME, DSPACE, L, PSPACE, EXPSPACE, NSPACE, NL, NPSPACE, or NEXPSPACE at random.</li>
+          <li>The content is a just a random number.</li>
+          <li>You need to encode these two pieces of information into the content of the message.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>50 Subscribers
+    <ul>
+      <li>Each subscriber is subscribed to 1 of the topics from the list above at random.</li>
+      <li>The subscribers receive updates (use CyclicBehaviour) and print the latest value received every 10 seconds (use TickerBehavior - note that you will need a bit of shared state - between the behaviours - in order to do this).</li>
+    </ul>
+  </li>
+  <li>1 Broker
+    <ul>
+      <li>The broker manages the publishers and subscribers</li>
+      <li>Uses performatives to distinguish between subscribe requests and publish actions.</li>
+      <li>Makes sure that each agent subscribed to a given topic receives the updates about that topic.</li>
+      <li>Note: The behaviors of an agent are executed in the same thread. Hence, you do not have to think about simultaneous access to state.
+However, this also means that you will have to make sure that all behaviors get a chance to run (e.g. don’t use blocking receive calls since they cause the whole agent to be blocked.).</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Note that each agent needs a unique name. Further, it is likely that when you start the platform not all subscribers will immediately get the messages about their topics.
+This can happen because the subscription only gets processed after the publisher already sent the first updates.
+You do not have to solve this problem.</p>
+
+<p>In this last tasks you might run into an issue where the Broker agent is not reachable from the very beginning.
+This happens when you start the publishers and subscribers first and they start sending messages before the broker is started.
+In this case the publisher or subscriber will receive a message from the AMS that the broker could not be found.
+To solve this problem, make sure the broker is started before starting any publishers and subscribers.</p>
+
+<h2 id="returning-the-assignment">Returning the assignment</h2>
+<p>The deadline for this assignment is February 1.</p>
+
+<p>The teacher has created a repository in yousource and added you as a collaborator.
+The repository can be cloned from  git@yousource.it.jyu.fi:ties454-2016-assignment1/&lt;username&gt;.git (again replace &lt;username&gt; with your korppi username).
+Keep in mind that before you can work with yoursource you have to create a keypair (see <a href="http://yousource.it.jyu.fi/yousource/pages/SSH_key_help">http://yousource.it.jyu.fi/yousource/pages/SSH_key_help</a> ).
+A very short guide to git can be found from <a href="http://yousource.it.jyu.fi/yousource/pages/Git_Help">http://yousource.it.jyu.fi/yousource/pages/Git_Help</a>.</p>
+
+<p>In the repository you place</p>
+
+<ol>
+  <li>The maven project (only code + pom.xml file)</li>
+  <li>A readme file with
+    <ul>
+      <li>your name</li>
+      <li>Extra information if you think it is needed</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>The agent platform is a normal Java program. Debuggers can be used normally. It is also useful to combine the debugger and the sniffer in the JADE GUI: one can stop the agents, then start the sniffer and watch all messages being sent.</li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

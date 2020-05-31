@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Approximating Jaccard Distance Between Documents - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES438/exercises/exercise1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Approximating Jaccard Distance Between Documents</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>In this exercises we will implement an algorithm which speeds up the measurement of the Jaccard similarity between documents.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>In principle, the content presented during the lectures suffices to implement this task.
+However, it is certainly beneficial to study the corresponding text in chapter 3 of the <em>Mining of Massive Datasets</em> book.
+You can also watch the videos of the coursera course related to LSH (in week 2).</p>
+
+<h2 id="task">Task</h2>
+<p>The task consists of four parts. 
+First, you need to devise a way to convert the documents to sets.
+Then you need to be able to calculate the exact Jaccard distance between two of these sets.
+Next, you will use locality-sensitive hashing to calculate an approximation of the distance.
+Finally, you need to evaluate the quality of the approximation.</p>
+
+<p>For this task, we will use a cleaned subset of the English Wikipedia. 
+The dataset is downloaded to <code class="highlighter-rouge">oksa3.it.jyu.fi:/home/wikidata/wikipedia_utf8_filtered_20pageviews.csv</code> and can also be downloaded from <a href="https://blog.lateral.io/2015/06/the-unknown-perils-of-mining-wikipedia/">https://blog.lateral.io/2015/06/the-unknown-perils-of-mining-wikipedia/</a>.
+On each line of the file, you will find the an id and the text of the article. 
+Each article has to be taken as a document for this exercise.
+The second file at your disposal can be found from <code class="highlighter-rouge">oksa3.it.jyu.fi:/home/wikidata/words.txt</code>. This file contains all words (punctuation removed, lowercased) occurring in the document with their absolute frequencies.</p>
+
+<p>This task is performed either individually or as a pair. 
+You are free to work using the programming language you want. 
+You can use <code class="highlighter-rouge">oksa3.it.jyu.fi</code> to do this task (log in using <code class="highlighter-rouge">ssh</code>). Alternatively, you can do this task on your own computer.</p>
+
+<p>###Part I###
+Read the dataset one line at a time and apply the transformation to a set on each document. This should be done as follows:</p>
+
+<ul>
+  <li>Until all lines are read (If your implementation is not fast enough, you can limit yourself to 50,000 articles.)
+    <ol>
+      <li>Read a line (there is one document on each line), split of the article part</li>
+      <li>Remove punctuation from the article,  convert everything to lower case and split the line into words.</li>
+      <li>Remove the 200 most frequent words (see <code class="highlighter-rouge">words.txt</code>) and words which appear less than 5 times (probably errors).</li>
+      <li>Apply one of the following (you can apply multiple if you want and have time left):
+        <ul>
+          <li>Apply stemming on each word, add all words to a set.
+            <ul>
+              <li>Check <a href="http://tartarus.org/martin/PorterStemmer/">Porter stemming implementations</a>  for different programming languages.</li>
+            </ul>
+          </li>
+          <li>Add the terms to a set in such a way that duplicates are preserved.
+            <ul>
+              <li>If the words are <code class="highlighter-rouge">[A, A, B]</code>, create the set <code class="highlighter-rouge">{A1,A2,B1}</code></li>
+              <li>Optional: you can also use techniques like TF.IDF to determine the frequency in the final set.</li>
+            </ul>
+          </li>
+          <li>Add all 2-grams to a set.
+            <ul>
+              <li>If the words are <code class="highlighter-rouge">[A, B, C, D, E, F, A, B, C]</code>, then the set will be <code class="highlighter-rouge">{AB, BC, CD, DE, EF, FA}</code></li>
+              <li>Note: using this method will cause most document pairs to be at distance 1.</li>
+            </ul>
+          </li>
+          <li>Add all 5 shingles to a set.
+            <ul>
+              <li>If the line is <code class="highlighter-rouge">abcd efg</code>, then the set will be <code class="highlighter-rouge">{"abcd ", "bcd e", "cd ef", "d efg" }</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Write the content of the obtained set back to the output file.</li>
+    </ol>
+  </li>
+</ul>
+
+<p>###Part II###</p>
+
+<p>Implement a method or function which calculates the Jaccard distance between two sets of Strings.
+To do this, you first compute the size of the union and intersection, then you apply the formula for Jaccard distance.
+<!-- 1 - \frac{D1 \cap D2}{D1 \cup D2} --></p>
+
+<p><img src="jaccard_distance.svg" alt="Jaccard distance formula" /></p>
+
+<p>Now, you should be able to calculate the distance between two of the sets created in the previous parts.</p>
+
+<p>###Part III###
+First, you need to implement a min-hash algorithm, and then use it to approximate the distance between two documents.
+You could implement it using the somewhat optimized algorithm from the course book (section 3.3.5).
+Perhaps easier is to use <a href="Minhasher.java">this implementation</a> or port it to whatever language you are using.</p>
+
+<p>Second, to calculate the approximate distance, we start from what was shown in class.</p>
+
+<!-- \Pr [\text{minhash}(D1) = \text{minhash}(D2)] = 1 - \text{jaccard-distance} (D1,D2)  -->
+<p><img src="approx_deriv1.svg" alt="Probaility of equal minhash is equal to 1 minus jaccard distance" /></p>
+
+<p>And hence 
+<!-- \text{jaccard-distance} (D1,D2) = 1 - \Pr [\text{minhash}(D1) = \text{minhash}(D2)] -->
+<img src="approx_deriv2.svg" alt="jaccard distance is equal to 1 minus Probaility of equal minhash" /></p>
+
+<p>When applying min-hash <code class="highlighter-rouge">n</code> times (using different permutations), we can approximate the distance by</p>
+
+<!--  \text{jaccard-distance} (D1,D2) \approx 1 - \frac{\text{number of times the signature is equal}}{n}  --->
+<p><img src="approx_deriv3.svg" alt="jaccard distance is approx equal to 1 minus number of times the signature is equal divided by n" /></p>
+
+<p>Note that <code class="highlighter-rouge">n</code> is a parameter to your approximation. A (column) vector containing the <code class="highlighter-rouge">n</code> min-hash evaluations (the index of the first ‘1’ in the matrix) for a document is its signature vector.
+<!--When these vectors are placed into a matrix, it is called the signature matrix of the documents.
+Hence, to approximate the distance with `n` min-hash functions, you need to calculate the signature vector for both documents and determine in how many places they agree. -->
+Now you should be able to compute the approximate Jaccard distance between a pair of sets.</p>
+
+<p>###Part IV###
+To evaluate the quality of the approximation, we will observe how much it deviates from the real value.
+Concretely, we will calculate the average absolute error for 100 random distance calculations.</p>
+
+<p>Work as follows:</p>
+
+<ol>
+  <li>Select 100 pairs of documents uniformly at random.</li>
+  <li>Load the corresponding sets (200) and compute signature vectors of length 80.</li>
+  <li>For each distance calculation(100):
+    <ul>
+      <li>Calculate the real distance between D1 and D2</li>
+      <li>For <code class="highlighter-rouge">n</code> in [5, 10, 15, 20, 25, 30, 35. 40, …, 80]:
+        <ul>
+          <li>Calculate the approximate distance (using only the first <code class="highlighter-rouge">n</code> hash function evaluations).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>Finally, for each <code class="highlighter-rouge">n</code>, calculate the average error as follows: 
+<!-- \frac{\sum\limits_{i=1}^{100} \lvert \text{jaccard-distance}(D_1,D_2) - \text{approx. distance}(D_1,D_2) \rvert}{100} --></p>
+
+<p><img src="average_error.svg" alt="average error" /></p>
+
+<p>Create a chart in which you plot the error in function of <code class="highlighter-rouge">n</code>. (You can do this using a spreadsheet program or directly from your program.)</p>
+
+<h2 id="returning-the-task">Returning the task</h2>
+<p>Create a repository in yousource in which you place</p>
+
+<ol>
+  <li>All code you created</li>
+  <li>The figure created in part IV</li>
+  <li>A readme file with
+    <ul>
+      <li>your name(s)</li>
+      <li>instructions on how to compile/run your application (not needed for Java/Python)</li>
+      <li>you answer to the question: “Which behavior did you observed from the created figure?”</li>
+      <li>If you used the min-hash implementation provided: “Why is it okay to just hash the words instead of doing a proper permutation?”</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="note">Note</h2>
+<p>Normally, you would pre-calculate the signatures for all documents and not keep the documents themselves in memory.
+After this has been done you can very fast answer queries for the distance between two documents.
+In general, it is a bad idea, or even impossible, to pre-calculate all the distance between documents, since these distances need O(N^2) storage space.
+For instance, for 2  million documents, and 4 bytes per distance, this would be 7451 Gb.
+I we instead use signatures of length 100, using 4 bytes for the min-hash outcome, we need 0.745 Gb of space.</p>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>Use small part of the data during development. If you notice that your implementation is slow, make sure you only compute the minhashes for documents used in the evaluation.</li>
+  <li>For the programming language, you might just want to choose the one you are most familiar with. Depending on the chosen language the teacher will be able to help more (or less) with language specific issues.</li>
+  <li>Randomized algorithms are difficult to debug. Make it somehow possible by fixing the seed of the random number generator. At least each run will be the same.</li>
+  <li>People using Java should check the <a href="http://code.google.com/p/guava-libraries/">Guava Libraries</a>, in particular classes for splitting strings and working with sets.</li>
+  <li>The operation for permuting lists is most often called shuffle. For instance, 
+in Java <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#shuffle%28java.util.List,%20java.util.Random%29">Collections.shuffle(List&lt;?&gt; list, Random rnd)</a>
+or in Python <a href="https://docs.python.org/2/library/random.html#random.shuffle">random.shuffle(x[, random])</a>. Not that both of these permute the list in-place (no copy is made).</li>
+  <li>Most of the distances will be 1 or very close to 1. Therefore, it might be that your approximation always returns a distance of 1 for a low <code class="highlighter-rouge">n</code>.
+<!-- More concrete, when performing a million random samples the frequency of a given distance occurring looks like this:![frequency of a given distance](distance_frequency.svg) --></li>
+</ol>
+
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

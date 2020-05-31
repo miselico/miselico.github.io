@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Autumn 2014</p>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul>
+<li>Feedback on this week’s exercise</li>
+<li>Short presentations</li>
+<li>Reflective questions</li>
+<li>Next weeks exercise</li>
+</ul>
+</div>
+<div id="general-feedback---received-submissions" class="slide section level1">
+<h1>General feedback - Received submissions</h1>
+<ul>
+<li>Code seems ok</li>
+<li>Not all could be run</li>
+<li>Group 2 - merge problem? + answers to questions missing</li>
+<li>Also use references when answereing to questions. Especially when taking quotes.</li>
+</ul>
+</div>
+<div id="general-feedback---repository-structure" class="slide section level1">
+<h1>General feedback - Repository structure</h1>
+<ul>
+<li>Keep a project structure
+<ul>
+<li>Repository reflects working setting</li>
+<li>Do not dump source files in root directory.</li>
+<li>Do not put compressed files in the repo</li>
+</ul></li>
+<li>Include group number in project name</li>
+</ul>
+</div>
+<div id="projects---create-your-own-libraries" class="slide section level1">
+<h1>Projects - create your own libraries</h1>
+<ul>
+<li>Do not copy your code from one project to the other</li>
+<li>Make a jar file instead
+<ul>
+<li>Simple with Eclipse
+<ul>
+<li>… or other IDE</li>
+</ul></li>
+</ul></li>
+<li>Do include the jars to version control if you do not use a dependency manager.
+<ul>
+<li>Project ‘groupX’ is missing required library: ‘D:/jstl-1.2.jar’</li>
+</ul></li>
+</ul>
+</div>
+<div id="general-feedback---repository-clean-up" class="slide section level1">
+<h1>General feedback - Repository clean-up</h1>
+<ul>
+<li>Clean up stuff which is not used.
+<ul>
+<li>Unused imports, methods, classes</li>
+</ul></li>
+<li>Check out a clean copy of your repository and see whether you get it working</li>
+</ul>
+</div>
+<div id="coding-style---use-of-static-and-singleton" class="slide section level1">
+<h1>Coding style - Use of static and Singleton</h1>
+<ul>
+<li>Singleton is a widely used design pattern, but
+<ul>
+<li>horrible for testing
+<ul>
+<li>No way you can mock it out</li>
+</ul></li>
+<li>largely overused
+<ul>
+<li>performance??</li>
+<li>Often have data races or synchronization problems</li>
+</ul></li>
+</ul></li>
+<li>The same applies to public static methods</li>
+</ul>
+</div>
+<div id="lets-see-some-code" class="slide section level1">
+<h1>Let’s see some code</h1>
+</div>
+<div id="questions-for-discussion" class="slide section level1">
+<h1>Questions for discussion</h1>
+<ul>
+<li>Most REST services do not use WSDL and SOAP. What could be reasons for this?</li>
+<li>SOAP and WSDL use XML, would it be better if they would use something more modern like JSON?</li>
+<li>How did you handle errors and how should it be done? Imagine that your application is running on a production server.</li>
+</ul>
+</div>
+<div id="questions-for-discussion-1" class="slide section level1">
+<h1>Questions for discussion 1</h1>
+<ul>
+<li>Most REST services do not use WSDL and SOAP. What could be reasons for this?</li>
+</ul>
+</div>
+<div id="questions-for-discussion-2" class="slide section level1">
+<h1>Questions for discussion 2</h1>
+<ul>
+<li>SOAP and WSDL use XML, would it be better if they would use something more modern like JSON?</li>
+</ul>
+</div>
+<div id="questions-for-discussion-3" class="slide section level1">
+<h1>Questions for discussion 3</h1>
+<ul>
+<li>How did you handle errors and how should it be done? Imagine that your application is running on a production server.</li>
+</ul>
+</div>
+<div id="tasks-for-week-39" class="slide section level1">
+<h1>Tasks for week 39</h1>
+<ul>
+<li><a href="../../exercises/week39/">This weeks task …</a></li>
+</ul>
+</div>
+<div id="this-week" class="slide section level1">
+<h1>This week</h1>
+<!--- describe tasks --->
+<ul>
+<li>Before Thursday
+<ul>
+<li><em>Read prerequisite material</em></li>
+</ul></li>
+<li>On Thursday and Monday
+<ul>
+<li>Make the assignment in groups</li>
+</ul></li>
+<li>Before Monday (23:59)
+<ul>
+<li>Submit assignment using git (tip of master branch)</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

@@ -1,0 +1,22 @@
+package fi.jyu.ties532.advanced.bustravel;
+
+message Response {
+	
+	enum StatusCode {
+		FOUND = 0;
+		NOT_FOUND = 1;
+		ERROR = 2;
+	}
+
+	required StatusCode status = 1;
+	
+	optional string requestedLocation = 2;
+
+	message Location {
+		required double lat = 1;
+		required double lng = 2;
+	}
+
+	repeated Location location = 3;
+
+}

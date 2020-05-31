@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Spring 2016</p>
+<h2 id="agent-technologies-for-developers-ties454.">Agent Technologies for Developers (TIES454).</h2>
+<h2 id="introduction">Introduction</h2>
+</div>
+<div id="course-teacher--related-work" class="slide section level1">
+<h1>Course teacher -Related work</h1>
+<div style="
+  position: relative;
+  top: 0px;
+  left: 40px;
+   float:left;
+   overflow:wrap;
+  width: 50%;">
+<p><img src="michael.jpg"></p>
+<p>Michael (<a href="">Michael Cochez</a>) <a href="http://fi.linkedin.com/in/michaelcochez"> <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" width="80" height="15" border="0" alt="View Michael Cochez's profile on LinkedIn"></a></p>
+<ul>
+<li>PhD student at MIT department</li>
+<li>Member of the Industrial Ontologies Group (IOG)</li>
+</ul>
+</div>
+<div style="
+  position: relative;
+  top: 0px;
+  right: 40px;
+   float:left;
+  width: 50%;">
+<ul>
+<li>UBIWARE project - MAS design
+<ul>
+<li>Directory facilitation</li>
+<li>User management</li>
+<li>Policies</li>
+<li>Web integration</li>
+<li>Scalability</li>
+</ul></li>
+<li>Semantic Agent Programming Language
+<ul>
+<li>Formalization (master thesis)</li>
+<li>Implementation improvements</li>
+</ul></li>
+<li>Indeterminacy reduction in agent communication
+<ul>
+<li>Vagueness &amp; Uncertainty</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul>
+<li>Course targets</li>
+<li>Practicalities</li>
+<li>First assignment</li>
+</ul>
+</div>
+<div id="main-targets-of-the-course" class="slide section level1">
+<h1>Main targets of the course</h1>
+<ul>
+<li>Learn what an agent-based system is
+<ul>
+<li>By using basic components</li>
+</ul></li>
+<li>Learn how agents can plan and collaborate
+<ul>
+<li>By using BDI architectures and auctions</li>
+</ul></li>
+<li>Learn what an agent-based system can be used for
+<ul>
+<li>By implementing scenarios</li>
+</ul></li>
+<li>Learn how agent-based systems connect to other technologies
+<ul>
+<li>By implementing external behavior for an agent</li>
+</ul></li>
+</ul>
+</div>
+<div id="side-targets" class="slide section level1">
+<h1>Side targets</h1>
+<ul>
+<li>Learn concurrent/parallel programming
+<ul>
+<li>Bill Dally (Chief scientist of NVidia) :</li>
+</ul>
+<p>The future of the world is parallel. You know, Serial programs it’s going to be like COBOL programs. People used to do those, but they don’t do them anymore.</p></li>
+<li>Learn the <a href="http://git-scm.com/">Git</a> distributed version control system</li>
+<li>Learn how agent-based systems relate to other technologies</li>
+<li>Use English as a communication language</li>
+<li>Perform group work with new people</li>
+<li><p>Enjoy!</p></li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-multi-agent-systems" class="slide section level1">
+<h1>Why do you want to study Multi-Agent Systems?</h1>
+<ul>
+<li>Rarely for the systems themselves</li>
+<li>Mainly to carry over concepts to other technologies
+<ul>
+<li>Messaging systems</li>
+<li>Concurrency models</li>
+<li>General AI</li>
+<li>Machine learning</li>
+<li>SOA</li>
+<li>NLP</li>
+<li>…</li>
+</ul></li>
+<li>To know what the future might hold</li>
+</ul>
+</div>
+<div id="prerequisites" class="slide section level1">
+<h1>Prerequisites</h1>
+<ul>
+<li>programming (at least programming 2)</li>
+<li>basic algorithms and data structures</li>
+</ul>
+</div>
+<div id="course-mode" class="slide section level1">
+<h1>Course mode</h1>
+<ul>
+<li>Few traditional lectures (most theory is in Vagan’s course)
+<ul>
+<li>Hands-on experience</li>
+<li>Presentations</li>
+<li>Feedback</li>
+</ul></li>
+<li>Individual work</li>
+<li>Group work</li>
+<li>Self oriented learning
+<ul>
+<li>Read and study what you need</li>
+</ul></li>
+</ul>
+</div>
+<div id="passing-the-course" class="slide section level1">
+<h1>Passing the course</h1>
+<ul>
+<li>Grading (Pass/fail)
+<ul>
+<li>Finish the assignments</li>
+</ul></li>
+</ul>
+</div>
+<div id="course-workload" class="slide section level1">
+<h1>Course workload</h1>
+<pre><code>  About 7 weeks
+  5 credits
+  Vagan&#39;s course
++ -------------
+= Intensive</code></pre>
+<ul>
+<li>You are expected to work outside of the lecture times!</li>
+</ul>
+</div>
+<div id="course-schedule" class="slide section level1">
+<h1>Course schedule</h1>
+<ul>
+<li>Demo sessions (Ag C331.3) are not mandatory
+<ul>
+<li>The tasks and deadlines will be published on-line</li>
+</ul></li>
+<li>Feedback sessions are mandatory
+<ul>
+<li>Ag C331.3
+<ul>
+<li>Wed February 3</li>
+<li>Wed February 17</li>
+<li>Wed March 2</li>
+<li>Wed March 9</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="questions" class="slide section level1">
+<h1>Questions</h1>
+<ul>
+<li>Discuss with your fellow class mates
+<ul>
+<li>This course is not a competition</li>
+</ul></li>
+<li>Ask during the demos</li>
+<li>questions about TIES453
+<ul>
+<li>ask Vagan <a href="mailto:vagan.terziyan@jyu.fi">vagan.terziyan@jyu.fi</a></li>
+</ul></li>
+</ul>
+</div>
+<div id="returning-tasks---collaborating" class="slide section level1">
+<h1>Returning tasks - Collaborating</h1>
+<ul>
+<li>Git is used for collaborative working and submitting results</li>
+<li>Yousource : <a href="https://yousource.it.jyu.fi/">https://yousource.it.jyu.fi/</a> (The faculty’s ‘github’.)</li>
+<li>More information about the repository to use will be in the tasks
+<ul>
+<li>Log in once before the first demo to set up your account!</li>
+</ul></li>
+<li>If unfamiliar with git
+<ul>
+<li>Ask from fellow students</li>
+<li>Read <a href="http://git-scm.com/book">The Pro Git book</a> on-line (the first two sections get you going) and instructions on yousource</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-week" class="slide section level1">
+<h1>This week</h1>
+<!--- describe tasks --->
+<ul>
+<li><strong>Today</strong> (Wednesday)
+<ul>
+<li>Log in to <a href="https://yousource.it.jyu.fi/">https://yousource.it.jyu.fi/</a> with your korppi credentials</li>
+<li>Start working on first demo</li>
+</ul></li>
+<li><strong>Friday</strong>
+<ul>
+<li>First demo
+<ul>
+<li><a href="../../exercises/exercise1/">First steps using a multi-agent system</a></li>
+</ul></li>
+<li>10:15</li>
+<li>Ag C331.3</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

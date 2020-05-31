@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<!-- <img src="logo.png" width=100%/> -->
+<p>Autumn 2014</p>
+<h2 id="ties438---big-data-engineering-5-ects">TIES438 - Big Data Engineering, 5 ECTS</h2>
+</div>
+<div id="course-teacher" class="slide section level1">
+<h1>Course teacher</h1>
+<p><img src="michael.jpg"> Michael (Michael Cochez)</p>
+<p>PhD student at MIT department</p>
+<ul>
+<li>Related work
+<ul>
+<li>Evolving Knowledge Ecosystems for Big Data Understanding</li>
+<li>Locality-Sensitive Hashing for Massive String-Based Ontology Matching</li>
+</ul></li>
+<li>Ongoing:
+<ul>
+<li>Balanced Large Scale Knowledge Matching Using LSH Forest</li>
+<li>Scalable hierarchical clustering</li>
+<li>Scalable graph summarization</li>
+</ul></li>
+</ul>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul class="incremental">
+<li>What is Big Data? Why study this?</li>
+<li>Course content</li>
+<li>Practicalities</li>
+<li>Guest lecture by Prof. Pyshkin</li>
+</ul>
+</div>
+<div id="what-is-big-data" class="slide section level1">
+<h1>What is Big Data?</h1>
+<ul class="incremental">
+<li>Big Data Problems</li>
+<li>Problems</li>
+<li>Lots of data</li>
+<li>See next lectures</li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-big-data-engineering" class="slide section level1">
+<h1>Why do you want to study Big Data (Engineering)?</h1>
+<ul>
+<li>To understand what might be possible
+<ul>
+<li>and what not</li>
+</ul></li>
+<li>To be able to handle larger datasets</li>
+<li>To be able to create your own tools</li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-big-data-engineering-1" class="slide section level1">
+<h1>Why do you want to study Big Data (Engineering)?</h1>
+<ul>
+<li>To know what the fuzz is about</li>
+</ul>
+<p><img src="big-data-social-media-comic.png" width=100%/></p>
+<p>source: http://www.socmedsean.com/comic-the-critical-element-of-a-successful-big-data-strategy/</p>
+<!--
+Why do you want to study Big Data (Engineering)?
+=================================
+
+* To make your boss happy
+
+
+<img src="dilbertbigdata_jan2013.jpg" width=100%/> 
+
+source : http://bigsnarf.wordpress.com/2013/01/10/who-doesnt-love-big-data-and-comics/
+
+-->
+</div>
+<div id="main-course-targets" class="slide section level1">
+<h1>Main course targets</h1>
+<ul>
+<li>Learn generalizable techniques and skills, and not …
+<ul>
+<li>Specific APIs</li>
+<li>Specific programming languages</li>
+<li>Certain platforms</li>
+<li>…</li>
+</ul></li>
+<li>Side targets
+<ul>
+<li>Learn the <a href="http://git-scm.com/">Git</a> distributed version control system</li>
+<li>Use English as a communication language</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-course-is-simple" class="slide section level1">
+<h1>This course is simple</h1>
+<ul class="incremental">
+<li>We only study a small part of the data science process</li>
+<li>We focus more on how we analyze as on what we are exactly analyzing for.</li>
+<li>We do not always care whether what we are doing makes sense.</li>
+<li>We will not interpret the final result.</li>
+<li><img src="Data_visualization_process_v1.png" width=80%/></li>
+</ul>
+<p>source: http://en.wikipedia.org/wiki/Data_analysis</p>
+</div>
+<div id="content" class="slide section level1">
+<h1>Content</h1>
+<ul>
+<li>Algorithms</li>
+<li>Storage</li>
+<li>Hardware</li>
+</ul>
+</div>
+<div id="algorithms---processing" class="slide section level1">
+<h1>Algorithms - Processing</h1>
+<ul>
+<li>Nearest neighbor search
+<ul>
+<li>Locality-sensitive hashing</li>
+</ul></li>
+<li>Map-reduce
+<ul>
+<li>Joint with TJTSM61 (Business Analytics and Big Data Management)</li>
+</ul></li>
+<li>Data streams
+<ul>
+<li>sampling, filtering, dvc, counting ones, decaying windows</li>
+<li>Clustering</li>
+</ul></li>
+<li>Graphs
+<ul>
+<li>page rank</li>
+</ul></li>
+<li><p>Recommendation and Frequent item sets ?</p></li>
+<li>Material
+<ul>
+<li>Mining massive data sets - Anand Rajaraman, Jure Leskovec, Jeffrey D. Ullman</li>
+<li>The online course <a href="https://www.coursera.org/course/mmds">https://www.coursera.org/course/mmds</a> overlaps partially with the course.</li>
+</ul></li>
+</ul>
+</div>
+<div id="storage" class="slide section level1">
+<h1>Storage</h1>
+<ul>
+<li>File system
+<ul>
+<li>HDFS</li>
+<li>Lustre</li>
+</ul></li>
+<li>SQL
+<ul>
+<li>sharding</li>
+<li>Object oriented?</li>
+</ul></li>
+<li>NoSQL
+<ul>
+<li>Key-value stores</li>
+<li>Graphs</li>
+<li>Document store</li>
+<li>Column</li>
+</ul></li>
+</ul>
+</div>
+<div id="hardware-considerations" class="slide section level1">
+<h1>Hardware considerations</h1>
+<ul>
+<li>Memory characteristics
+<ul>
+<li>hierarchy - transfer speeds</li>
+</ul></li>
+<li>Accelerators
+<ul>
+<li>GPU</li>
+<li>Specific hardware</li>
+</ul></li>
+<li>High Performance Computing
+<ul>
+<li>Short intro</li>
+</ul></li>
+</ul>
+</div>
+<div id="computation" class="slide section level1">
+<h1>Computation</h1>
+<ul>
+<li>Center for Science (CSC) - high performance computing
+<ul>
+<li>Sisu (~40000 cores - ~25 in the world )</li>
+<li>Taito (~10000 cores)</li>
+</ul></li>
+<li>Amazon Web Services</li>
+<li>oksa3.it.jyu.fi (16 cores)</li>
+</ul>
+</div>
+<div id="non-topics" class="slide section level1">
+<h1>Non-topics</h1>
+<ul>
+<li>Signal processing (See CIBA120)</li>
+<li>Dimensionality reduction (See summer school - except for LSH)</li>
+<li>Explicit NLP (some techniques are used in NLP)</li>
+<li>Explicit BI (See TJTSM61)</li>
+</ul>
+</div>
+<div id="practicalities" class="slide section level1">
+<h1>Practicalities</h1>
+<ul>
+<li>Weekly cycle
+<ul>
+<li>Two lectures</li>
+<li>One demo session</li>
+</ul></li>
+<li>Hands-on experience
+<ul>
+<li>All content and tools are freely available</li>
+</ul></li>
+<li>Individual work (later)</li>
+<li>Group work (next week)</li>
+<li>Small tests at the end of lectures</li>
+</ul>
+</div>
+<div id="practicalities-1" class="slide section level1">
+<h1>Practicalities</h1>
+<ul>
+<li>Grading (Pass/fail)
+<ul>
+<li>40% individual work</li>
+<li>40% group work</li>
+<li>20% quiz</li>
+</ul></li>
+<li>Uncertain schedule
+<ul>
+<li>Last lectures likely to drop</li>
+<li>Check your e-mail</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-week" class="slide section level1">
+<h1>This week</h1>
+<!--- describe tasks --->
+<ul>
+<li>Today
+<ul>
+<li>Guest lecture by Prof. Pyshkin</li>
+</ul></li>
+<li>Thursday
+<ul>
+<li>Guest lecture (IBM) in Auditorium 3</li>
+</ul></li>
+<li>On Friday
+<ul>
+<li>Normal lecture in Agora Beeta</li>
+</ul></li>
+<li>On Wednesday
+<ul>
+<li>First assignment</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

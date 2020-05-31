@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>VaadinMapOnGAE</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<context-param>
+		<description>
+  	Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<servlet>
+		<description>LocalGDP Servlet</description>
+		<display-name>LocalGDP Servlet</display-name>
+		<servlet-name>LocalGDPServlet</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<!-- Replace this package name with the one for your classes -->
+			<param-value>fi.jyu.ties456.miselico.serviceClass</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>VaadinMap</servlet-name>
+		<servlet-class>com.vaadin.server.GAEVaadinServlet</servlet-class>
+		<init-param>
+			<description>
+  		Vaadin UI class to use</description>
+			<param-name>UI</param-name>
+			<param-value>fi.jyu.ties456.miselico.vaadin.VaadinmapongaeUI</param-value>
+		</init-param>
+		<init-param>
+			<description>
+  		Legacy mode to return the value of the property as a string from AbstractProperty.toString()</description>
+			<param-name>legacyPropertyToString</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<description>
+  	Trying to add the widget set location manually</description>
+			<param-name>widgetset</param-name>
+			<param-value>fi.jyu.ties456.miselico.vaadin.widgetset.VaadinmapongaeWidgetset</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LocalGDPServlet</servlet-name>
+		<url-pattern>/localGDP/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>VaadinMap</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>

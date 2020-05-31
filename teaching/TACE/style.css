@@ -1,0 +1,57 @@
+/*
+The design idea is adapted from Gonzalo Medina and under a creative commons share-alike license.
+http://creativecommons.org/licenses/by-sa/3.0/ and can therefore be shared.
+
+All code and content copyright : Michael Cochez
+*/
+*{ padding:0px; margin:0px; }
+
+/*menu part positioning */
+body{background: #BBBBBB}
+#menucard { 
+position:relative;
+width:850px; height:1240px; margin: auto;
+background-color:#dbbf7b;
+background-image:url('parchment_paper_seamless_pattern.jpg');
+background-position:top left;
+background-repeat:repeat;
+overflow: hidden; /*hide the info box*/
+-webkit-border-radius:30px; -moz-border-radius:30px; border-radius:30px;
+}
+#menucardheader{ background :url('header.svg'); background-repeat: no-repeat; background-position: center top; height:200px; margin-top:20px}
+#menucardbody{  background :url('sidelines.svg'); background-repeat: repeat-y; background-position: center; height:800px; padding: 0 90px 0 90px;}
+#menucardfooter{ background :url('footer.svg'); background-repeat: no-repeat; background-position: center bottom; height:200px}
+
+
+
+#menucardbody h2{ margin: 5px 0px 5px 0px; text-align:center; font-size:3em; font-family: 'Times New Roman';}
+
+ul.dishlist { margin: 5px 0px 5px 100px}
+ul.dishlist li {list-style-type: none;}
+ul.dishlist li a {color:#8B6914; font-size:2em;}
+ul.dishlist li a:hover {color:#B48E31;}  /* mouse over link */
+
+/* General Info Box */
+#detailbox{ border-style:solid ; position:relative;  /*height:1000px;*/ height:80%; width:600px; margin: auto; bottom:-1000px; z-index:20; 
+            padding: 3em 2em 2em 2em; background:url('parchment_paper_seamless_pattern3.jpg'); -webkit-border-radius:15px; -moz-border-radius:15px; border-radius:15px; z-index:20 }
+/*
+                #detailbox a, #infobox a:visited{ font:italic 16px Georgia, serif; color:#555; text-decoration:none; }
+				#infobox a:hover{ text-decoration:underline; }
+	*/			
+/* Close button for info box */
+#closeButton{display:block; position:absolute; right:5px; top:5px;height:38px; width:38px; background:url('close3.png');  border-style:solid; border-color: white; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; }
+
+#closeButton:hover{background:url('close3.png'); border-color:black; }
+
+/* height = #detailbox.height-closeimage.height - 14            14 for scrollbar*/
+div.detailboxcontent {overflow:auto; position:absolute; height :90%; width:90%;     
+/*Hide initially all item descriptions in the info box - unhidden by js*/
+    display: none;}
+
+/* The dimmed background when the info box is showing */	
+#fade_bg{ position:fixed; z-index:15; top:0; left:0; width:100%; height:100%; background:url('dim.png'); display:none ; overflow:auto }
+
+p{margin: 1em 0 1em 0}
+
+.detailboxcontent ul {padding: 0.5em 1em 0.5em 2em}
+.detailboxcontent a{color:rgb(25, 66, 5)} 

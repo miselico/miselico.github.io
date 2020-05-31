@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cloud computing - IaaS - NoSQL servers - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES456/exercises/week42-43/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Cloud computing - IaaS - NoSQL servers</h1>
+    
+  </header>
+  
+  <h2 id="note">Note</h2>
+<p><strong>This is a task for two weeks. The deadline is October 26. On October 20 there will be no lecture.</strong></p>
+
+<h2 id="goal">Goal</h2>
+<p>This task has several goals.
+First, you will have to perform some basic system administration tasks like handling virtual machines, installing software on servers and configuring databases.
+Then, you will have to write a simple web application in Python which connects to this database and stores its data there.
+The goal is that you can transfer what you learned to do in earlier Java exercises to Python.
+Next, you will learn the impact of adding a caching layer to this application and measure the impact of several settings.
+Finally, you will have to compute the cost of running your application.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Learn how to create a simple HTTP server using python with the <a href="http://bottlepy.org/docs/dev/tutorial.html">bottle framework</a>. (You can use other frameworks if you really want.)</p>
+
+<p>Learn what a NoSQL database is. A general description can be found from <a href="http://en.wikipedia.org/wiki/NoSQL">Wikipedia</a>.
+In this exercise we will be using the Riak NoSQL database. Read the basic information from <a href="http://docs.basho.com/riak/latest/theory/concepts/">Riakdoc - concepts</a>.</p>
+
+<p>If you have not been using Linux lately, you can have a look at this <a href="http://files.fosswire.com/2007/08/fwunixref.pdf">cheat sheet</a>.
+Read trough the <a href="http://docs.basho.com/riak/latest/dev/taste-of-riak/python/">Taste of Riak: Python</a> documentation. You will need this later when accessing Riak from your python code.
+More complete docmentation for the python client from <a href="http://basho.github.io/riak-python-client/client.html">http://basho.github.io/riak-python-client/client.html</a></p>
+
+<p>For some parts of this task you will be using the server located at <code class="highlighter-rouge">oksa3.it.jyu.fi</code>. 
+This machine is reachable over ssh from inside the university network (including KOAS and Kortepohja student village).
+Students outside the network can reach the machine using VPN or by first connecting to <code class="highlighter-rouge">charra.it.jyu.fi</code> using ssh and then connect to oksa3.
+In the Linux terminal a typical ssh command would look like: <code class="highlighter-rouge">ssh username@host</code>, for example <code class="highlighter-rouge">ssh miselico@oksa3.it.jyu.fi</code>. On oksa3, all student in this course have an account and X-forwarding is possible.
+Windows users can use <a href="http://www.putty.org/">putty</a> or another shell to connect to the server, but will not be able to use X-forwarding and likely not get a smooth experience.
+Note that the home directory on oksa3 is not related to your normal university home directory. All files are local to oksa3.</p>
+
+<p>Further, you will be using Amazon Web services (AWS). 
+You should obtain your personal password from <a href="http://jyu-aws.appspot.com">http://jyu-aws.appspot.com</a> and try to log in to <a href="https://jyu-it.signin.aws.amazon.com/console">https://jyu-it.signin.aws.amazon.com/console</a>.</p>
+
+<h2 id="task">Task</h2>
+<p>This assignment contains a technical part and several reflective questions (see below).</p>
+
+<p><em>Do</em> <strong>NOT</strong> <em>copy-paste-execute commands without having a clue what they are doing.</em> Some commands need to be adapted before use.</p>
+
+<p>In this exercise you will set-up a NoSQL database and then write a small python server which uses the database as a back-end.
+As an example of a NoSQL database we will use the <a href="http://basho.com/riak/">Riak</a> database. For the server we will use a HTTP server implemented using the python programming language.
+The database will run in a virtual machine provided by Amazon and the web server at the university.</p>
+
+<h3 id="setting-up-the-virtual-machines-on-oksa3">Setting up the virtual machines on oksa3</h3>
+
+<p>Before creating the virtual machines, <em>each</em> student needs to have a public/private key pair; the same type as we used for authentication to yousource with git.
+This key will be used to log-in to the virtual machines. 
+You can create this key pair (on oksa3) as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t rsa
+</code></pre></div></div>
+
+<p>This creates a private and a public key in the <code class="highlighter-rouge">~/.ssh/</code> directory.</p>
+
+<p>Next, a script has been prepared to create the machines. This script is put in everyones home directory and you should read it to see what it does. This script has to be executed <em>only once</em> for each group!</p>
+
+<p>Read the script using:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>less createVMs
+</code></pre></div></div>
+
+<p>Execute the script using :</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./createVMs
+</code></pre></div></div>
+
+<p>The script takes your group number as a parameter. Please double check before providing it.
+You might need to enter your password while this script is running since creating VMs requires root (sudo) access.
+Take note of the hostnames and IP addresses which the script prints, some of it you will need later.
+Again, this script can only be run once per group!!</p>
+
+<p>Note that now only the student who created the VMs can access them (check that you can access them by logging in to the VM <code class="highlighter-rouge">ssh root@192.168.122.***</code> ). 
+This is because of the fact that only that user has the right key to log into the virtual machines.
+Next, you need to add the public keys ( <code class="highlighter-rouge">.ssh/id_*.pub</code> ) of the other students in your group to both virtual machines so that they also get access.
+Adding someone’s public key to the a linux machine is done by <em>appending</em> the key to the file located at <code class="highlighter-rouge">~/.ssh/authorized_keys</code>, more concrete <code class="highlighter-rouge">/root/.ssh/authorized_keys</code>.</p>
+
+<p>A final thing you should realize is that the virtual machines can communicate with each other and you can connect to the virtual machines from the host machine, i.e. oksa3.
+It is, however, not possible (except for people familiar with tunneling) to connect to the created virtual machines from your own work station.
+Instead of using your local browser for testing something, you can use either <code class="highlighter-rouge">wget</code> or <code class="highlighter-rouge">curl</code> from the command line to fetch content. Interactive browsing is possible with <code class="highlighter-rouge">links</code> or <code class="highlighter-rouge">lynx</code>.
+The server has also Firefox installed, which you can us if you have a fast Internet connection and used ssh X-forwarding (connected using <code class="highlighter-rouge">ssh -X oksa3.it.jyu.fi</code>).</p>
+
+<h3 id="setting-up-the-database">Setting up the database</h3>
+
+<p><em>Remark:</em> if you want to start working on the HTTP server before you finish the creation of the database, see the hints section.</p>
+
+<p>The database will be located on AWS. Initially the database will consist out of a 2-node cluster of <code class="highlighter-rouge">t2.micro</code> machines.</p>
+
+<ol>
+  <li>First, you need to log-in to AWS and and select EC2 and change the availability zone (next to your user name) to <code class="highlighter-rouge">US West(Oregon)</code> (from now on (since that availability zone already has too many machines) use <code class="highlighter-rouge">US West (N. California)</code>). Click <code class="highlighter-rouge">Launch instance</code>.</li>
+  <li>For the operating system, go to <code class="highlighter-rouge">Community AMIs</code> and select the Ubuntu operating system.
+Now you should see and select the <code class="highlighter-rouge">ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20150325</code> option.</li>
+  <li>The default instance type is <code class="highlighter-rouge">t2.micro</code>, which is what you should choose.</li>
+  <li>You can leave all the settings as default and launch the server.</li>
+  <li>You will be asked to select an existing key pair or create a new one. 
+At this step you should create a new one  with name <code class="highlighter-rouge">groupXX</code> the first time you make a server and reuse this key when making the next server(s).</li>
+</ol>
+
+<p>By default, the server will only allow access trough port 22 (ssh). Later, when you want to connect to your database you will have to add the needed ports to the automatically created security group.
+Now you should be able to log in to both machines. You cannot continue before you can do this.</p>
+
+<p>Log in to the machine using ssh (for example using <code class="highlighter-rouge">ssh -i groupXX ubuntu@ec2-52-30-198-194.eu-west-1.compute.amazonaws.com</code>) and follow the following steps to install the Riak database.
+This has to be done on both machines. (Installing should be fairly fast; do not attempt to gain time by installing once an making a copy of the VM. This will backfire.)</p>
+
+<ol>
+  <li>The easiest way to install Riak is to follow the instruction from <a href="https://packagecloud.io/basho/riak/packages/debian/wheezy/riak_2.1.1-1_amd64.deb">https://packagecloud.io/basho/riak/packages/debian/wheezy/riak_2.1.1-1_amd64.deb</a></li>
+  <li>Now, riak is installed, but not yet configured. 
+Following the instructions from  <a href="http://docs.basho.com/riak/latest/ops/building/basic-cluster-setup/">http://docs.basho.com/riak/latest/ops/building/basic-cluster-setup/</a> 
+(section <em>Configure the First Node</em> and <em>Add a Second Node to Your Cluster</em>) you should be able to set-up the two node cluster.</li>
+  <li>Make sure your database is working by putting some data into it and fetching it back. 
+To do this you will need to install the curl tool. You can install curl by executing <code class="highlighter-rouge">apt-get install curl</code>.
+Look at the <em>Test the cluster</em> section of <a href="http://docs.basho.com/riak/latest/quickstart/#Test-the-Cluster">Five Minute Install</a> on how you can do a quick test to see whether it works. 
+Also test whether you can connect in the same fashion to the database from the virtual machines created on oksa3 in the previous part.</li>
+</ol>
+
+<p>Now, you have a NoSQL database set-up and you are ready to continue making the http server.</p>
+
+<h3 id="making-the-http-server">Making the HTTP server</h3>
+
+<p>Now, we will make an HTTP server which is providing a minimal phone book service. 
+The HTTP server must be running on the second VM which was created. To login to the machine, you can use the following command: <code class="highlighter-rouge">ssh root@192.168.122.2XX</code>.</p>
+
+<p>First, you should make sure that you can connect from the http server machine to the database machine by executing similar commands as the ones from step 5 in the previous section.</p>
+
+<!--
+(The image service task has been changed to the following tasks due to limitations in the Riak Python Client)
+
+You can start from the server code which can be found by following the link in the prerequisites. The server must be written in Python.
+Your server must have a page for uploading a picture, i.e. a simple upload form.
+The form contains a text element to put the name for the file and a file element for the file.
+The form should be accessible from `http://192.168.122.xxx/uploadPicture/`.
+The server must also handle requests for getting the picture by URL.
+A previously uploaded picture with name `myFancyPicture.jpg` must be retrievable from `http://192.168.122.xxx/getPicture/?name=myFancyPicture.jpg`.
+PROBLEM: streams are not supported. The HTTP framework supports them http://www.doughellmann.com/PyMOTW/BaseHTTPServer/ , but Raik Python client does not.
+-->
+
+<p>To make the HTTP server, which must be written in Python, you should use <a href="http://bottlepy.org/">bottle</a>.</p>
+
+<p>At <code class="highlighter-rouge">http://192.168.122.2XX/add/</code> you must serve an HTML form in which the user can enter a name and phone number.
+Submitting the form to the server is a POST action to <code class="highlighter-rouge">http://192.168.122.2XX/add/handle/</code>.
+The data entered in the form must be stored in the Riak database cluster, old values should be overwritten.
+A previously entered phone number is retrieved by visiting <code class="highlighter-rouge">http://192.168.122.2XX/get/&lt;name&gt;</code>.
+The response must be JSON, as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    {"name" : "John Doe", "number" : "+358408053254"}
+</code></pre></div></div>
+
+<p>For now, the database must be queried for retrieval of the phone number.</p>
+
+<p>Remember to change the hostname from <code class="highlighter-rouge">localhost</code> to <code class="highlighter-rouge">192.168.122.2XX</code> or <code class="highlighter-rouge">0.0.0.0</code> in the code when starting the server.
+Otherwise, the server will not be accessible from outside the virtual machine.</p>
+
+<p>In your python code, you will use a library provided by the riak developers to connect to the database.
+You will need to install a few dependencies before installing the Riak Python libraries. All of then can be installed with apt-get (See Tips section).</p>
+
+<ul>
+  <li><code class="highlighter-rouge">python-pip</code></li>
+  <li><code class="highlighter-rouge">protobuf-compiler</code></li>
+  <li><code class="highlighter-rouge">python-protobuf</code></li>
+  <li><code class="highlighter-rouge">build-essential</code></li>
+  <li><code class="highlighter-rouge">python-dev</code></li>
+  <li><code class="highlighter-rouge">libffi-dev</code></li>
+  <li><code class="highlighter-rouge">libssl-dev</code></li>
+</ul>
+
+<p>Check from <a href="http://docs.basho.com/riak/latest/dev/taste-of-riak/python/">this page</a> how to install the Riak libraries and connect to your Riak server from Python code.
+You just installed <code class="highlighter-rouge">pip</code>, you can now use it for installation of the Python packages. While reading the tutorial, keep in mind that your database is not on localhost.</p>
+
+<h3 id="trying-to-optimize-things---caching">Trying to optimize things - caching</h3>
+
+<p>Several things can be done in order to improve the way your application works. 
+Some of the techniques in this section do not really make a difference for this exercise.
+Again, the goal is to get familiar with things in order to use them when needed.
+Collect the results of these experiments.</p>
+
+<h4 id="adding-data">Adding data</h4>
+
+<p>Add 10000 randomly created users and numbers to your database.
+Do this in such a way that this is repeatable (if you use a random number generator, seed it).
+It might be faster to execute this script on one of the database machines.</p>
+
+<h4 id="measuring-impact">Measuring impact</h4>
+
+<p>To test the impact of changes, you should measure the throughput of your application using JMeter on the server.
+First, download the latest stable version of the software to your account on the server, for example using <code class="highlighter-rouge">wget http://the.url</code>
+Then extract the archive using <code class="highlighter-rouge">tar --extract --verbose --file archive.tar.gz</code> or <code class="highlighter-rouge">unzip archive.zip</code>.</p>
+
+<p>Now, in order to execute JMeter, you have to realize that on the server you cannot use the graphical user interface. 
+Instead, you will make the test plan (.jmx file) on your own machine, using the GUI and execute it on the server (on the host machine, not inside a virtual machine).
+Check from the <a href="http://jmeter.apache.org/usermanual/get-started.html#non_gui">documentation</a> how to execute the plan.
+(Last year some students have succesfully used these instructions http://blog.ionelmc.ro/2012/02/16/how-to-run-jmeter-over-ssh-tunnel/ )</p>
+
+<h4 id="slow-down-the-conncetion">Slow down the conncetion</h4>
+
+<p>To make the testing more realistic, you should simulate a slow network link using <a href="http://www.linuxfoundation.org/collaborate/workgroups/networking/netem">netem</a> on the virtual machine.</p>
+
+<h4 id="create-a-fixed-set-of-500-requests">Create a fixed set of 500 requests</h4>
+
+<p>Instead of repeating the same request over and over again, you should make a fixed list of about 100 add and 400 get requests in random order.
+This list should be generated such that some contacts are more popular than others (probability distribution, anyone?).
+Put this a CSV file which you use as an input to JMeter.
+In this way JMeter will not spend its time computing random calls and your test becomes repeatable.</p>
+
+<h4 id="baseline">Baseline</h4>
+
+<p>Perform the 500 requests with your current implementation. In further steps you will be able to compare and decide whether the change had any effect.</p>
+
+<h4 id="using-protocol-buffers-instead-of-http">Using protocol buffers instead of HTTP</h4>
+
+<p>As you might have read, using HTTP for the client is 2-3 times slower than the protocol buffer API.
+Currently, your client most likely uses HTTP. Changing it to use protocol buffers is straightforward (because we pre-installed the needed dependencies) and only requires you to change the code for creating the client from
+<code class="highlighter-rouge">riak.RiakClient(host="...", port=8098)</code>to something like <code class="highlighter-rouge">riak.RiakClient(host="...", port=8087, protocol='pbc')</code>; or similar.
+Measure the speed difference between HTTP and protocol buffers.</p>
+
+<h4 id="caching-contacts-using-memcached">Caching contacts using memcached</h4>
+
+<p>Some contacts will be more popular than others. Imagine that in the scope of this exercise, it makes sense to cache frequently used contacts for later use. 
+<a href="http://code.google.com/p/memcached/">memcached</a> is one caching solution which is also used in production environments.</p>
+
+<p>Install memcached on the second virtual machine on oksa3 and make use of the caching facilities from your Python web application.
+(You can install and use the packaged memcached version by running <code class="highlighter-rouge">sudo apt-get install memcached</code>).
+The memcache deamon runs automatically as a separate process after installation.
+However, it will be bound to 127.0.0.1 by default and hence it will not be accessible from your second virtual machine.
+To change this to <code class="highlighter-rouge">0.0.0.0</code> you need to edit the configuration file at <code class="highlighter-rouge">/etc/memcached.conf</code> and restart the memchache deamon <code class="highlighter-rouge">service memcached restart</code>.</p>
+
+<p>Then you use a <a href="http://code.google.com/p/memcached/wiki/Clients#Python">client library</a> to connect to it, 
+note that some memcached clients, like e.g. pylibmc, will require you to install <code class="highlighter-rouge">libmemcached-dev</code>.
+The first option from the list (pylibmc) can be installed using <code class="highlighter-rouge">pip install pylibmc</code>.
+If you are using another client, make sure it supports time outs.</p>
+
+<p>Now, you should use this cache to store frequently used contacts. However, you should use a time-out of 10 seconds (i.e., after 10 seconds the contact should disappear from memcache).</p>
+
+<p>Measure how using the cache affects the performance. From now on you have to <a href="http://www.cyberciti.biz/faq/linux-unix-flush-contents-of-memcached-instance/">empty the memcache</a> before each test.</p>
+
+<h4 id="using-a-faster-server-framework">Using a faster server framework</h4>
+
+<p>Currently, you are most likely using a debug / development setting of the python web framework (i.e. bottle).
+Use a production ready server, like cherrypy, instead. Also, turn of debug mode. Measure.</p>
+
+<p>When using a multi-threaded server combined with memcache, you will have to make a small change to the way you use pylibmc.
+The pylibmc is not threadsafe and hence weird errors might start happening when calling it from multiple threads.
+To solve this, you can use a (fifo-like) connection pool as described on <a href="http://sendapatch.se/projects/pylibmc/pooling.html#fifo-like-pooling">http://sendapatch.se/projects/pylibmc/pooling.html#fifo-like-pooling</a>.</p>
+
+<h4 id="load-balancing-your-database">Load balancing your database</h4>
+
+<p>You have set up two nodes for the database. 
+The Riak library supports using one or more connections.
+Measure whether it makes any difference whether you use one or both database servers.</p>
+
+<h3 id="reflective-questions">Reflective questions</h3>
+
+<p>Provide an answer to the following questions in a readme file in your repo</p>
+
+<ol>
+  <li>How would you implement a page which shows a list of contacts?</li>
+  <li>Why would you ever use a set-up with virtual machines in a real (production) environment? Or would you not?</li>
+  <li>Which of the optimizations made sense, which ones not?</li>
+  <li>Compute the daily cost of your amazon usage including
+    <ul>
+      <li>Cost of running the VMs</li>
+      <li>Cost of the network traffic</li>
+      <li>Cost of the storage</li>
+    </ul>
+  </li>
+  <li>What should be improved in this exercise if it is given to students in the future?</li>
+</ol>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+
+<p>You “return” the task by appending the text from <a href="toBeAppendedTo_authorized_keys">toBeAppendedTo_authorized_keys</a> to the <code class="highlighter-rouge">~/.ssh/authorized_keys</code> file on all virtual machines on oksa3 and AWS.
+This way the teacher is able to log into the machines.</p>
+
+<p>In this task’s repository you place:</p>
+
+<ul>
+  <li>your self-written files (web server, database configs, data generation, …)</li>
+  <li>outcomes of your measurements</li>
+  <li>a readme.md with all the answers to the reflective questions and the hostnames of your AWS machines.</li>
+</ul>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">riak.config</code> can be found in <code class="highlighter-rouge">/etc/riak/riak.config</code></p>
+  </li>
+  <li>
+    <p>You can install needed tools on the VMs as you see fit using <code class="highlighter-rouge">apt-get install package_name</code>. Where <code class="highlighter-rouge">package_name</code> is the name of the package to be installed. 
+Keep in mind that the disk space for the virtual machines is fairly limited (free space can be checked with <code class="highlighter-rouge">df -h</code>).</p>
+  </li>
+  <li>
+    <p>You can install the nano text editor to edit files in the terminal. Execute <code class="highlighter-rouge">apt-get install nano</code>. Do not attempt to install X on the virtual machines.</p>
+  </li>
+  <li>
+    <p>If you want to start working on the HTTP server before you finish the creation of the database, 
+you can use the database server running at host <code class="highlighter-rouge">192.168.122.149</code>. The http port for the server is 8098 and the protocol buffer port 8087. 
+Keep in mind that also others might be using the server, so use buckets and keys which contain some identifier related to your group.</p>
+  </li>
+  <li>
+    <p>It is possible to connect to the virtual machines on oksa3 from your local machine using tunneling (only tested on Linux, on other systems your mileage may vary). 
+To set up the tunnel, run a command similar to <code class="highlighter-rouge">ssh miselico@oksa3.it.jyu.fi -L 8098:192.168.122.149:8098 -N</code>. 
+This will set up a tunnel such that when you connect to <code class="highlighter-rouge">localhost:8098</code> it will tunnel trough <code class="highlighter-rouge">oksa3</code> and connect to <code class="highlighter-rouge">192.168.122.149:8098</code>.</p>
+
+    <p>Using a similar kind of tunnel you can even edit files on the virtual machine with locally installed applications. 
+To do this, set up a tunnel like <code class="highlighter-rouge">ssh miselico@oksa3.it.jyu.fi -L 2005:192.168.122.149:22 -N</code>.
+Then you can connect to <code class="highlighter-rouge">sftp://localhost:2005/</code> in for example nautilus (which will tunnel trough oksa3 to port 22 on 192.168.122.149).</p>
+  </li>
+  <li>
+    <p>If you want to create servers to test something else, you can use group numbers between 20 and 40. Run <code class="highlighter-rouge">ls /srv/kvm/</code> on oksa3 to check which ones are in use already.
+Keep in mind that these test servers will be removed without warning at the end of the course.</p>
+  </li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

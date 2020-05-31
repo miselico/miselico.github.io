@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p>December 2017</p>
+<!-- <img src="logo.png" width=100%/> -->
+<h2 id="ties438---big-data-engineering-5-ects">TIES438 - Big Data Engineering, 5 ECTS</h2>
+</div>
+<div id="course-teacher" class="slide section level1">
+<h1>Course teacher</h1>
+<div style="
+  position: relative;
+  top: 0px;
+  left: 70px;
+   float:left;
+   overflow:wrap;
+  width: 50%;">
+<p>Michael (Michael Cochez)</p>
+<p><img src="michael.jpg"></p>
+<ul>
+<li>Postdoc researcher <img src="Logo_Frauenhofer_FIT.jpg" width=40%/></li>
+<li>Postdoc researcher <img src="jyu_logo-new.png" width=30%/></li>
+<li>Scientific advisor <img src="weoptit-2.png" width=15%/></li>
+</ul>
+</div>
+<div style="
+  position: relative;
+  top: 0px;
+  right: 70px;
+   float:left;
+  width: 50%;">
+<ul>
+<li>Related work (PhD)
+<ul>
+<li>Evolving Knowledge Ecosystems for Big Data Understanding</li>
+<li>Locality-Sensitive Hashing</li>
+<li>Scalable Hierarchical Clustering</li>
+</ul></li>
+<li>Ongoing:
+<ul>
+<li>Knowledge Graph Embedding</li>
+<li>Sampling Data Streams</li>
+<li>Frequent Pattern Mining</li>
+<li>Approximate Nearest Neighbor Search (LSH)</li>
+<li>Evolutionary Computing</li>
+<li>Deep Learning (cancer prediction)</li>
+<li>Privacy preserving KG integration gain</li>
+<li>Parking availability estimation</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="today-part-i" class="slide section level1">
+<h1>Today (part I)</h1>
+<ul>
+<li>What is Big Data? Why study this?</li>
+<li>Course content</li>
+<li>Practicalities</li>
+</ul>
+</div>
+<div id="what-is-big-data-1" class="slide section level1">
+<h1>What is Big Data (1)?</h1>
+<p>What do you think?</p>
+<p>Key/buzzwords</p>
+<p>Technologies</p>
+<p>Algorithms</p>
+</div>
+<div id="what-is-big-data-2" class="slide section level1">
+<h1>What is Big Data (2)?</h1>
+<ul>
+<li>Big Data Problems
+<ul>
+<li>Problems</li>
+<li>Lots of data</li>
+</ul></li>
+<li>A belief that if you have enough data, then there will be something in there which is valuable
+<ul>
+<li>Generously told by vendors of all sorts of tools.</li>
+</ul></li>
+</ul>
+</div>
+<div id="what-is-big-data-3" class="slide section level1">
+<h1>What is Big Data (3)?</h1>
+<p><img src="correlation_tomfishburne.com_big-data-analytics.jpg" width=80%/></p>
+</div>
+<div id="what-is-big-data-4" class="slide section level1">
+<h1>What is Big Data (4)?</h1>
+<ul>
+<li>Volume: amount and dimensionality of data</li>
+<li>Velocity: speed of data accumulation (cf. datastreams and concept drift)</li>
+<li>Variety: heterogeneity of data and formats (cf. audio&amp;video)</li>
+<li>V…</li>
+<li>Veracity: quality of data can vary significantly (cf. sampling)</li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-big-data-engineering" class="slide section level1">
+<h1>Why do you want to study Big Data (Engineering)?</h1>
+<ul>
+<li>To understand what might be possible
+<ul>
+<li>and what not</li>
+</ul></li>
+<li>To be able to handle larger datasets</li>
+<li>To be able to create your own tools</li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-big-data-engineering-1" class="slide section level1">
+<h1>Why do you want to study Big Data (Engineering)?</h1>
+<ul>
+<li>To know what the fuzz is about</li>
+</ul>
+<p><img src="big-data-social-media-comic.png" width=100%/></p>
+<p>source: http://www.socmedsean.com/comic-the-critical-element-of-a-successful-big-data-strategy/</p>
+<!--
+Why do you want to study Big Data (Engineering)?
+=================================
+
+* To make your boss happy
+
+
+<img src="dilbertbigdata_jan2013.jpg" width=100%/> 
+
+source : http://bigsnarf.wordpress.com/2013/01/10/who-doesnt-love-big-data-and-comics/
+
+-->
+</div>
+<div id="main-course-targets" class="slide section level1">
+<h1>Main course targets</h1>
+<ul>
+<li>Learn algorithms and generalizable skills, and not …
+<ul>
+<li>Specific APIs</li>
+<li>Specific programming languages</li>
+<li>Certain tools</li>
+<li>…</li>
+</ul></li>
+<li>Side targets
+<ul>
+<li>Brush up some mathematics</li>
+<li>Learn the <a href="http://git-scm.com/">Git</a> distributed version control system</li>
+<li>Use English as a communication language</li>
+</ul></li>
+</ul>
+</div>
+<div id="prerequisites" class="slide section level1">
+<h1>Prerequisites</h1>
+<ul>
+<li>programming (at least programming 2)</li>
+<li>algorithms and data structures</li>
+<li>computational complexity.</li>
+<li>mathematics
+<ul>
+<li>basics of sets, probability theory, linear algebra, and statistics.</li>
+</ul></li>
+</ul>
+</div>
+<div id="content" class="slide section level1">
+<h1>Content</h1>
+<ul>
+<li><strong>Algorithms and Processing</strong></li>
+<li>Storage</li>
+<li>Hardware</li>
+</ul>
+</div>
+<div id="algorithms---processing" class="slide section level1">
+<h1>Algorithms - Processing</h1>
+<ul class="incremental">
+<li>Hashing</li>
+<li>Nearest neighbor search</li>
+<li>Locality-sensitive hashing</li>
+<li>LSH forest</li>
+<li>Map-reduce</li>
+<li>Practically if resources allow</li>
+<li>Data streams</li>
+<li>sampling, filtering, dvc, counting ones, decaying windows</li>
+<li>Bloom filters</li>
+<li>Clustering</li>
+<li>hierarchical and point assignment</li>
+</ul>
+</div>
+<div id="algorithms---processing-1" class="slide section level1">
+<h1>Algorithms - Processing</h1>
+<ul class="incremental">
+<li>Graphs</li>
+<li>(personalized) Page Rank</li>
+<li>Embedding</li>
+<li>graph clustering?</li>
+<li>formal concept analysis?</li>
+<li>Recommendation and Frequent pattern mining</li>
+<li>Set containment</li>
+</ul>
+</div>
+<div id="storage" class="slide section level1">
+<h1>Storage</h1>
+<!--
+* File system
+    * HDFS
+    * Lustre
+* SQL
+    * sharding
+    * Object oriented?
+-->
+<ul>
+<li>NoSQL
+<ul>
+<li>Key-value stores</li>
+<li>Graphs</li>
+<li>Document store</li>
+<li>Column</li>
+</ul></li>
+</ul>
+</div>
+<div id="hardware-considerations" class="slide section level1">
+<h1>Hardware considerations</h1>
+<ul>
+<li>Memory characteristics
+<ul>
+<li>hierarchy - transfer speeds</li>
+</ul></li>
+<li>High Performance Computing
+<ul>
+<li>Short intro</li>
+<li>If resources obtained!!!</li>
+</ul></li>
+</ul>
+<!--
+* Accelerators ??
+    * GPU
+    * Specific hardware
+-->
+</div>
+<div id="course-material" class="slide section level1">
+<h1>Course Material</h1>
+<ul>
+<li><p>Mainly blackboard teaching</p></li>
+<li><p>Some parts from the course website (under construction)</p></li>
+<li>Material
+<ul>
+<li>Mining massive data sets - Anand Rajaraman, Jure Leskovec, Jeffrey D. Ullman</li>
+<li>Scientific and other articles</li>
+<li>Optional: Motwani, and Raghavan. Randomized Algorithms. Cambridge, UK: Cambridge University Press, 1995. ISBN: 0521474655. (available in JYU trough EBSCOhost https://jyu.finna.fi/Record/jykdok.1485577 )</li>
+<li>Optional: Data Clustering: Algorithms and Applications - Charu C. Aggarwal, Chandan K. Reddy 2013 by Chapman and Hall/CRC ISBN 9781466558212</li>
+<li>The online course <a href="https://www.coursera.org/course/mmds">https://www.coursera.org/course/mmds</a> overlaps partially with the course.</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-course-is-simple" class="slide section level1">
+<h1>This course is simple</h1>
+<ul>
+<li>We only study a small part of the data science process
+<ul>
+<li>We focus more on how we analyze as on what we are exactly analyzing for.</li>
+<li>We do not always care whether what we are doing makes sense.</li>
+<li>We will not interpret the final result.</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-course-is-simple-1" class="slide section level1">
+<h1>This course is simple</h1>
+<ul>
+<li><img src="Data_visualization_process_v1.png" width=80%/></li>
+</ul>
+<p>source: http://en.wikipedia.org/wiki/Data_analysis</p>
+</div>
+<div id="non-topics" class="slide section level1">
+<h1>Non-topics</h1>
+<ul>
+<li>Signal processing (See CIBA120)</li>
+<li>Dimensionality reduction (except for LSH see also TIES445)</li>
+<li>Explicit NLP (some techniques are used in NLP)</li>
+<li>Explicit BI or analytics (See TJTSM61)</li>
+<li>A broad overview of data mining (See TIES445)</li>
+<li>Deep Learning for Cognitive Computing (TIES 4910)</li>
+<li>Watson Technologies (ITKA 352)</li>
+</ul>
+</div>
+<div id="computation" class="slide section level1">
+<h1>Computation</h1>
+<ul>
+<li>Unclear for now :-(</li>
+</ul>
+</div>
+<div id="practicalities" class="slide section level1">
+<h1>Practicalities</h1>
+<ul>
+<li>Very intensive
+<ul>
+<li>Two lectures / day</li>
+<li>One demo session / day</li>
+</ul></li>
+<li>Hands-on experience
+<ul>
+<li>All content and tools are freely available</li>
+</ul></li>
+<li>Individual work</li>
+<li>Pair work</li>
+</ul>
+</div>
+<div id="passing-the-course" class="slide section level1">
+<h1>Passing the course</h1>
+<ul>
+<li><p>Two options</p></li>
+<li>If passing in December required:
+<ul>
+<li>Exam</li>
+</ul></li>
+<li>Otherwise:
+<ul>
+<li>Exam</li>
+<li>Making all course assignments (pair) + article summary (individual)</li>
+</ul></li>
+</ul>
+</div>
+<div id="individual-work" class="slide section level1">
+<h1>Individual work</h1>
+<ul>
+<li>Write a summary of a research article</li>
+</ul>
+</div>
+<div id="pair-work" class="slide section level1">
+<h1>Pair work</h1>
+<ul>
+<li>Individual or as a pair</li>
+<li>Mostly programming tasks</li>
+</ul>
+</div>
+<div id="later-today" class="slide section level1">
+<h1>Later today:</h1>
+<!--- describe tasks --->
+<ul>
+<li>Today
+<ul>
+<li>Start with an approximate algorithm</li>
+<li>Locality sensitive hashing</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Autumn 2014</p>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+<p>To be added: Split the commits over the participating students.</p>
+</div>
+<div id="course-teacher" class="slide section level1">
+<h1>Course teacher</h1>
+<p><img src="michael.jpg"> Michael (Michael Cochez)</p>
+<p>PhD student at MIT department</p>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul class="incremental">
+<li>What are services and cloud computing? Why study them?</li>
+<li>Practicalities</li>
+<li>HTTP review</li>
+<li>This weeks task</li>
+</ul>
+</div>
+<div id="services" class="slide section level1">
+<h1>Services</h1>
+<blockquote>
+<p>A service comprises a stand-alone unit of functionality available via a formally defined interface.</p>
+</blockquote>
+<p>Services should follow the following principles</p>
+<ul class="incremental">
+<li>Abstraction</li>
+<li>Autonomy</li>
+<li>Composability</li>
+<li>Discoverability</li>
+<li>Formal contract</li>
+<li>Loose coupling</li>
+<li>Reusability</li>
+<li>Statelessness</li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-services" class="slide section level1">
+<h1>Why do you want to study services?</h1>
+<ul>
+<li>Services are ubiquitous and are the main building block for the Internet.</li>
+<li>All companies’ IT infrastructure is based on services.</li>
+<li>Service orientation makes adapting to change easier.</li>
+<li>Services uses similar concepts as modular programming and interface based design.</li>
+<li>Defining isolated services makes testing easier.</li>
+<li>See later for more …</li>
+</ul>
+</div>
+<div id="cloud-computing" class="slide section level1">
+<h1>Cloud computing</h1>
+<ul>
+<li>Started as a business term</li>
+<li>Cloud computing is the use of computing resources (hardware and software) that are delivered as a service over a network. (Wikipedia)
+<ul>
+<li>Thus services come first</li>
+</ul></li>
+<li>The business aspects have difficult consequences on the implementation side
+<ul>
+<li>Security becomes a big issue when allowing multi tenancy</li>
+</ul></li>
+</ul>
+</div>
+<div id="why-do-you-want-to-study-cloud-computing-12" class="slide section level1">
+<h1>Why do you want to study cloud computing (1/2)?</h1>
+<ul>
+<li>To make your boss happy …</li>
+</ul>
+<p><img src="160498.strip.gif" width=80%/></p>
+</div>
+<div id="why-do-you-want-to-study-cloud-computing-22" class="slide section level1">
+<h1>Why do you want to study cloud computing (2/2)?</h1>
+<ul>
+<li>More and more services are moved to the cloud
+<ul>
+<li>When developing services, you must know cloud computing</li>
+</ul></li>
+<li>It becomes too expensive to manage hardware yourself - especially with low load.
+<ul>
+<li>But it becomes cheaper again at some point.</li>
+</ul></li>
+</ul>
+</div>
+<div id="main-course-targets" class="slide section level1">
+<h1>Main course targets</h1>
+<ul>
+<li>Learn generalizable techniques and skills, and not …
+<ul>
+<li>Specific APIs</li>
+<li>Specific programming languages</li>
+<li>Certain platforms</li>
+<li>…</li>
+</ul></li>
+<li>Basics of services
+<ul>
+<li>which are just a part of SOA</li>
+</ul></li>
+<li>Basics of Cloud computing</li>
+</ul>
+</div>
+<div id="side-targets" class="slide section level1">
+<h1>Side targets</h1>
+<ul>
+<li>Learn the <a href="http://git-scm.com/">Git</a> distributed version control system</li>
+<li>Use English as a communication language</li>
+<li>Perform group work with new people</li>
+<li>Enjoy!</li>
+</ul>
+</div>
+<div id="practicalities" class="slide section level1">
+<h1>Practicalities</h1>
+<ul>
+<li>Course mode</li>
+<li>Course schedule</li>
+<li>Tasks</li>
+<li>TIES532</li>
+</ul>
+</div>
+<div id="course-mode" class="slide section level1">
+<h1>Course mode</h1>
+<ul>
+<li>No lectures</li>
+<li>Self oriented learning
+<ul>
+<li>Read what you need</li>
+</ul></li>
+<li>All content and tools are freely available</li>
+<li>Hands-on experience</li>
+<li>Individual work</li>
+<li>Group work (next week)</li>
+</ul>
+</div>
+<div id="course-schedule" class="slide section level1">
+<h1>Course schedule</h1>
+<p>Only 8 weeks</p>
+<p>5-10 credits (= 135-270 hours)</p>
+<p>+ ————-</p>
+<p>=Very intensive</p>
+<p>You are expected to work outside of the lecture times!</p>
+</div>
+<div id="weekly-cycle" class="slide section level1">
+<h1>Weekly cycle</h1>
+<!--- explain more 
+Learning is own responsibility
+--->
+<p><img src="lecture-cycle.png" width=100%/></p>
+</div>
+<div id="topics" class="slide section level1">
+<h1>Topics</h1>
+<ul>
+<li>Week 37 : Git and Mediafire</li>
+<li>Week 38 : Web Service Clients</li>
+<li>Week 39 : Web Service Servers</li>
+<li>Week 40 : Authentication or virtualization?</li>
+<li>Week 41 : Efficiency</li>
+<li>Week 42 : Cloud computing basics - system administration</li>
+<li>Week 43 : Cloud computing - Amazon Web Services</li>
+</ul>
+</div>
+<div id="assignment-structure" class="slide section level1">
+<h1>Assignment structure</h1>
+<ul>
+<li>Assignments are supposed to be a challenge</li>
+<li>The group should solve them as far as possible</li>
+<li>The goal is to learn, not only to finish the task</li>
+</ul>
+</div>
+<div id="returning-tasks" class="slide section level1">
+<h1>Returning tasks</h1>
+<ul>
+<li>Everything is returned in a git repository
+<ul>
+<li>Yousource : <a href="https://yousource.it.jyu.fi/">https://yousource.it.jyu.fi/</a></li>
+</ul></li>
+<li>For the first taks : make a repository and add the teacher as a collaborator</li>
+<li>If unfamiliar with git
+<ul>
+<li>Read <a href="http://git-scm.com/book">The Pro Git book</a> on-line and instructions on yousource</li>
+<li>Ask in group</li>
+</ul></li>
+</ul>
+<!--
+* Make a repository for you group with name "ties456\_2013\_groupX\_Week37"
+    * with X the number of your group
+* Use folders with the week number for weekly assignment
+* Use a folder with korppi user name for individual assignments
+-->
+</div>
+<div id="ties532" class="slide section level1">
+<h1>TIES532</h1>
+<ul>
+<li>5 credits for assignments in TIES456 Introduction to SOA and Cloud Computing</li>
+<li>5 credits for independent work on a more advanced topic in TIES532 - Service oriented architectures and cloud computing for developers
+<ul>
+<li>but only if the student finishes TIES456</li>
+<li>more information later …</li>
+</ul></li>
+<li>No exam - TIES456 has a small test in the final lecture</li>
+</ul>
+<!--
+Questions
+=================
+* Discuss with your group members
+    * also outside the lecture times
+
+* Question 2 Answer
+    * Collaborative question and answer platform
+        * Everyone is expected to collaborate
+    * Found at [http://desmaani.it.jyu.fi:8254/ties532](http://desmaani.it.jyu.fi:8254/ties532)
+    * Put **ALL** your questions there! 
+        * I monitor the site too.
+-->
+</div>
+<div id="http-short-demo" class="slide section level1">
+<h1>HTTP (short demo)</h1>
+<blockquote>
+<p>In theory, there is no difference between theory and practice. In practice, there is.</p>
+</blockquote>
+<blockquote>
+<p>– Attributed to Jan L. A. van de Snepscheut</p>
+</blockquote>
+<p>Short demo of TCP and HTTP</p>
+<ul>
+<li>TCP using <a href="http://netcat.sourceforge.net/">netcat</a></li>
+<li>HTTP server and client using netcat</li>
+<li>Interaction between netcat and a real HTTP server (WEBrick)</li>
+<li>Interaction between netcat and a real HTTP server (nginx) using the <a href="http://openweathermap.org/current">OpenWeatherMap</a> service
+<ul>
+<li>Not all webservers are compliant (or enforce) to standards</li>
+</ul></li>
+<li><a href="http://howistart.org/posts/go/1#adding-more-routes">An example</a> of how to write a GET request using the Go programming language</li>
+</ul>
+</div>
+<div id="this-weeks-task---rest-client" class="slide section level1">
+<h1>This week’s task - REST client</h1>
+<!--
+
+Image not shown really.
+
+<img src="REST.png" height="80%" /> 
+
+-->
+<ul>
+<li><a href="../../exercises/week37/">This week’s task …</a> online now</li>
+</ul>
+</div>
+<div id="sorting-some-int" class="slide section level1">
+<h1>Sorting some int</h1>
+<ul>
+<li>In class exercise
+<ul>
+<li>Several implementations of the same functionality were analyzed</li>
+<li>It deemed impossible to find a best implementation</li>
+</ul></li>
+<li>A non-exhaustive list of factors which indicate ‘performance’
+<ul>
+<li>Speed
+<ul>
+<li>Processing cycles (how many steps)</li>
+<li>Wall clock time (how much time when executed - in parallel )</li>
+</ul></li>
+<li>Space optimization = memory consumption</li>
+<li>Readability</li>
+<li>Usability
+<ul>
+<li>Broadness of the domain</li>
+</ul></li>
+<li>Development time
+<ul>
+<li>Familiarity with the language and tools</li>
+</ul></li>
+<li>Portability</li>
+<li>Maintainability</li>
+</ul></li>
+</ul>
+</div>
+<div id="this-week" class="slide section level1">
+<h1>This week</h1>
+<!--- describe tasks --->
+<ul>
+<li>Before Thursday
+<ul>
+<li>Read prerequisite material</li>
+</ul></li>
+<li>On Thursday and Monday
+<ul>
+<li>Make the assignment</li>
+</ul></li>
+<li>Before Monday (23:59)
+<ul>
+<li>Submit assignment using git</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

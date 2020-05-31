@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>This is trying same origin restrictions</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+		var jqxhr = $.get( "http://www.google.com", function( data ) {
+		  	$( ".theDiva" ).html( data );
+			alert( "Load 1 was performed." );
+		}).done(function() {
+		    alert( "first done" );
+		}).fail(function() {
+		    alert( "first error" );
+
+		}).always(function() {
+		   alert( "first finished" );
+		});
+
+		var jqxhr2 = $.get( "http://users.jyu.fi/~miselico/teaching/TIES456/2013/", function( data ) {
+                        $( "#theDiva" ).html( data );
+                        alert( "Load 2 was performed." );
+               	}).done(function() {
+                    alert( "second success" );
+                }).fail(function() {
+                    alert( "second error" );
+
+                }).always(function() {
+                   alert( "second finished" );
+                });
+
+
+	</script>
+</head>
+<body>
+    <H1>Trying same origin restrictions</H1>
+	<div id="theDiva">
+		
+	</div>
+</body>
+</html>

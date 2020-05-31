@@ -1,0 +1,15 @@
+Donald Knuth:
+
+> "We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil"
+
+> "In established engineering disciplines a 12 % improvement, easily obtained, is never considered marginal and I believe the same viewpoint should prevail in software engineering"
+
+
+Maven fighting with Ivy fighting with GAE ...
+
+Dependencies on local libraries
+Bad error handling 
+Returning null, "", ...
+
+
+Do not make Vaadin call home

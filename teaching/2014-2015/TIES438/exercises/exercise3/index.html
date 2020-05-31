@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Approximating Stream Cardinalities - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2014-2015/TIES438/exercises/exercise3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Approximating Stream Cardinalities</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>In this exercises we will investigate how large a set needs to be before it starts to make sense to use approximate methods to measure its size.
+Then we will compare the performance of different methods.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>In principle, the content presented during the lectures suffices to implement this task.
+However, it is certainly beneficial to study the corresponding text (sections 4.1, 4.2, 4.4) of the <em>Mining of Massive Datasets</em> book.
+You can also watch the related videos of the coursera course in week 3 : Mining Data Streams (12:01), Sampling a Stream (11:30)  and Completed Counting Distinct Elements (25:59).
+Further, there are the articles about <a href="http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> and 
+<a href="http://research.neustar.biz/2012/07/09/sketch-of-the-day-k-minimum-values/">K-minimum values</a>, which are not covered in the book nor the videos.</p>
+
+<p>Basic usage of map-reduce can be found from the <a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">MapReduce Tutorial</a> of Hadoop.</p>
+
+<h2 id="task">Task</h2>
+<p>The task consists of three parts. 
+First, you have to investigate the limits for set sizes on your own system.
+Then you need to calculate the exact number of unique elements of a part of the stream using map-reduce.
+Finally, you will need to use two approximate methods for determining the cardinality.</p>
+
+<p>The data used is generated (<a href="generator.jar">download generator</a>). 
+This generator is written in Java and deterministically produces the elements on its standard output (one per line).
+This makes it possible to make statistical predictions about the outcome and repeat the same stream multiple times, while there is no need to download a huge (theoretically infinite) amount of data.
+Thousand elements can be shown as follows: <code class="highlighter-rouge">java -jar generator.jar 1000</code>.
+If you do not specify any amount, the generator will produce an infinite stream of elements.
+You can ask it to generate 10000 elements and pipe them to your program, like this: <code class="highlighter-rouge">$ java -jar generator.jar 10000 | python myanalyzer.py</code>.
+In your program you then read the elements from the standard input.</p>
+
+<p>This task is performed either individually or as a pair.
+You are free to work using the programming language you want, however, make sure you take a language in which you can read from standard input and in which you can handle the elements as a stream.</p>
+
+<p>###Part I###
+Investigate the limits of the set implementation of the programming language on your computer.
+The goal of this exercise is not to write an optimized implementation to achieve larger set sizes. 
+Instead, the goal is to get an idea of the magnitude which a normal machine can handle.</p>
+
+<p>To test this, write something like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make an empty set
+while (true){
+    start timer
+    add 1000000 new elements to the set (you can just use 64 bit integers)
+    end timer and print time
+}
+</code></pre></div></div>
+
+<p>You do not have to use the generator to produce items to be added to your set. Instead, you can just use a counter which is incremented after each add operation.
+You can stop the process once you notice that it seems to take a long time (&gt;5 min) or when you run out of memory (which seems more frequent) to add the batch of elements.</p>
+
+<p>Most likely, the timings will not be linear in any way. If the set you used is based on hashing, the time for adding elements is basically constant independent on the set size.
+However, once in a while the table used to store the values needs to be re-sized, which will take longer for larger sets.</p>
+
+<p>The only thing you need to report is the amount of memory you have, the language and set type you used and how many elements you could store.
+If you have set specific memory options, you can report these as well.</p>
+
+<p>###Part II###</p>
+
+<p>The teacher has placed a set of data on Amazon S3 which contains the first 10000-10^8 elements of the stream in bucket 
+<code class="highlighter-rouge">s3://data-for-stream-counting-5e33f2e9-bb84-4c40-bb03-5bb086c7adea/</code>. The dataset is there in larger sizes as well, but processing these will take quite a bit of time.
+(You can browse S3, starting from <a href="https://console.aws.amazon.com/s3/home?region=us-east-1#">here</a>).</p>
+
+<p>Using map-reduce, you need to calculate the number of unique elements exactly.</p>
+
+<p>Computing distinct values using map reduce can be done fairly straightforward, you can implement it by following the pseudocode below.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>map(key, value) -&gt; value, null
+reduce(key, values) -&gt; 1, null
+</code></pre></div></div>
+
+<p>A combiner can be used to save communication, if the map function produces a lot of duplicates. It could be written as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>combine(key, values) -&gt; key, null
+</code></pre></div></div>
+
+<p>You are advised to work with Java. Using Java, you need to export your mapreduce code to a runnable .jar file and place it in your S3 bucket.
+However, do not use anything from the old <code class="highlighter-rouge">.mapred.</code> API, use everything from the new <code class="highlighter-rouge">.mapreduce.</code> instead. 
+Read the <a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">MapReduce Tutorial</a> which was mentioned above.</p>
+
+<p>In order to work on Amazon infrastructure, you first need to get your personal password from <a href="http://jyu-aws.appspot.com">http://jyu-aws.appspot.com</a> and log-in to AWS.
+There you can switch to the elastic map reduce service and read instructions on how to run map reduce jobs.
+All map-reduce tasks must be run on the cluster in availability zone <code class="highlighter-rouge">us-east-1</code> (US East N.Virginia).</p>
+
+<p>When starting jobs, use identifiers from which you can be identified (korppi ID) to avoid interference with others’ work.
+For storing any data, use your personal bucket for this course <code class="highlighter-rouge">jyu-ties438-username-randomUDDI</code> (already created).</p>
+
+<p>Then you have to launch the map-reduce job as described in <em>step 8</em> of <a href="http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-launch-custom-jar-cli.html">EMR DeveloperGuide - launch-custom-jar</a>.</p>
+
+<p>The map-reduce job will generate a number of output files in your output bucket, each containing lines with a one.
+You can use these to determine the size by getting the size of each file and dividing it by two (each line is a one and a new-line, thus two bytes).
+You can also use counters (either internal ones or your own) to determine the size.
+Alternatively, you can use a second map-reduce job to determine the number of lines in the files.</p>
+
+<p>First test on the small dataset and see whether you can get the correct result <code class="highlighter-rouge">data10000</code> should give you 9925 distinct values.
+Then determine the sizes of the sets up till 10^8.</p>
+
+<p>###Part III###
+Implement two algorithms for cardinality estimation. 
+The first one uses (order) statistics (sampling or K-minimum values) and the second one bit pattern observables (Flajolet-Martin (from handbook), LogLog or HyperLogLog - see also hints).
+For both algorithms, you need to calculate the root-mean-square error for 1,000,000 stream elements.</p>
+
+<p>You tell the generator to produce 10000 elements with a seed of 123 as follows <code class="highlighter-rouge">java -jar generator.jar 10000 123</code>. 
+To calculate the error, you need to compute the estimated cardinalities for the 10 different seeds from the table below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | seed |  exact cardinality | 
+    |      |  (1,000,000)       | 
+    |------|--------------------|
+    |  1   | 697757             | 
+    |  2   | 698466             | 
+    |  3   | 698151             |
+    |  4   | 698536             |
+    |  5   | 697079             |
+    |  6   | 697732             |
+    |  7   | 697822             |
+    |  8   | 698286             |
+    |  9   | 698364             |
+    |  10  | 697910             |
+</code></pre></div></div>
+
+<p>Now, for both experiments (2 algorithms) , you can calculate the root-mean-square error as follows:</p>
+
+<!-- \operatorname{RMSE}=\sqrt{\frac{\sum\limits_{i=1}^{n} (estimated_i - exact_i)^2}{n}} = \sqrt{\frac{\sum\limits_{i=1}^{10} (estimated_i - exact_i)^2}{10}} -->
+
+<p><img src="RMSE.svg" alt="RMSE" /></p>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>Use small part of the data during development.</li>
+  <li>For the programming language, you might just want to choose the one you are most familiar with. Depending on the chosen language the teacher will be able to help more (or less) with language specific issues.</li>
+  <li>Randomized algorithms are difficult to debug. Make it somehow possible by fixing the seed of the random number generator. At least each run will be the same.</li>
+  <li>When using Windows, be careful with the command line pipe <code class="highlighter-rouge">|</code> operator. It seems that in some cases the shell buffers all output from the first process and only forwards it to the next after the first one ends.
+If the stream is very large, this will cause it to either write to the disk (slow) or fill up your memory.</li>
+  <li>If you are using a machine with more as 2 cores, you can start multiple experiments at the same time. Since we are not measuring running time, they won’t affect each other.</li>
+  <li>
+    <p>The easiest to develop the map reduce part is using a Maven project. The needed dependency is :</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;dependency&gt;
+     &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+     &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;
+     &lt;version&gt;2.4.0&lt;/version&gt;
+ &lt;/dependency&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>When implementing k-minimum values, make sure the the k values which you keep are unique, i.e. do not contain duplicates. For keeping the k values, you could use a priority queue, but check whether it contains the value before adding.</li>
+  <li>The Flajolet-Martin algorithm from the course book is very slow because it needs to evaluate a hash function for each counter.</li>
+  <li>The LogLog and HyperLogLog algorithm were explained slightly wrong in class and the same mistake can be found in the linked articles.
+The number in the counters is not the number of leading zeros, but the index of the first 1, with indexes counting from 1.
+So the desired number is the number of zeros + 1.</li>
+</ol>
+
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

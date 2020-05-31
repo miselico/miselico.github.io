@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Spring 2016</p>
+<h2 id="agent-technologies-for-developers-ties454.">Agent Technologies for Developers (TIES454).</h2>
+<h2 id="final-session">Final Session</h2>
+</div>
+<div id="things-we-touched-upon" class="slide section level1">
+<h1>Things we touched upon</h1>
+<ul>
+<li>Communication
+<ul>
+<li>Between agents</li>
+<li>Between agents and actuators</li>
+<li>Between agents and sensors</li>
+<li>Between agents and external services</li>
+<li>Language?</li>
+</ul></li>
+<li>Coordination
+<ul>
+<li>Finding each other</li>
+<li>Managing
+<ul>
+<li>agents</li>
+<li>external resources</li>
+</ul></li>
+<li>Scheduling tasks</li>
+</ul></li>
+</ul>
+</div>
+<div id="things-we-touched-upon-1" class="slide section level1">
+<h1>Things we touched upon</h1>
+<ul>
+<li>Mobility</li>
+<li>Agent logic - behavior
+<ul>
+<li>Decision making
+<ul>
+<li>Classifying</li>
+</ul></li>
+<li>Learning</li>
+<li>Optimization</li>
+<li>Prediction</li>
+</ul></li>
+</ul>
+</div>
+<div id="communication-between-agents" class="slide section level1">
+<h1>Communication Between Agents</h1>
+<ul>
+<li>Blackboard vs. Messaging
+<ul>
+<li>Indirect communication vs. Message passing</li>
+<li>Communicating by sharing memory vs. sharing memory by communicating</li>
+<li>They are in essence equivalent</li>
+</ul></li>
+<li>Broadcasting</li>
+<li>Multi-casting</li>
+<li>Publish-subscriber</li>
+<li>Robustness
+<ul>
+<li>simple retry - failure mechanism</li>
+</ul></li>
+<li>You need to think about the design!
+<ul>
+<li>There are O(2^N) blackboards (1 per possible community)</li>
+<li>O(N!) channels possible to share information between agents!</li>
+<li>Do not allocate them naively</li>
+</ul></li>
+</ul>
+</div>
+<div id="communication-between-agents-and-actuators-sensors-and-external-services" class="slide section level1">
+<h1>Communication Between Agents and Actuators, Sensors and External Services</h1>
+<ul>
+<li><p>Is an external service an actuator or sensor?</p></li>
+<li>Options
+<ul>
+<li>You can wrap every sensor and actuator inside an agent which is representing it. SmartResource.</li>
+<li>A sensor, actuator can send messages to the agent and vice verse
+<ul>
+<li>Sensors and actuators are first class members of the environment.</li>
+</ul></li>
+<li>Agents have direct access to sensors and actuators
+<ul>
+<li>Difficult to synchronize access</li>
+<li>Calls to sensors might take a lot of time!</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="coordination" class="slide section level1">
+<h1>Coordination</h1>
+<ul>
+<li>Finding each other
+<ul>
+<li>Directory facilitator (DF)
+<ul>
+<li>Yellow pages service
+<ul>
+<li>maps between services and providers</li>
+<li>Can be pro-active (publish-subscribe)</li>
+</ul></li>
+<li>Usually itself an agent</li>
+</ul></li>
+</ul></li>
+<li>Managing agents
+<ul>
+<li>Agent Management System AMS</li>
+</ul></li>
+</ul>
+</div>
+<div id="agent-logic---behavior" class="slide section level1">
+<h1>Agent logic - behavior</h1>
+<ul>
+<li>Decision making</li>
+<li>Learning</li>
+<li>AI/soft computing/statistical models are frequently be used
+<ul>
+<li>Neural networks</li>
+<li>Genetic Algorithms</li>
+<li>Fuzzy Logic</li>
+<li>Petri-nets</li>
+<li>(Linear) Regression</li>
+<li>Belief Desire Intentions (BDI)</li>
+<li>Back chaining (start from goal)</li>
+<li>Clustering (k-NN, LSH, …)</li>
+<li>(collaborative) filtering</li>
+<li>Support vector machines</li>
+<li>Bayesian networks</li>
+<li>Hidden Markov models</li>
+<li>…</li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---what-to-avoid" class="slide section level1">
+<h1>Where to go from here - What to avoid</h1>
+<ul>
+<li>Many implementations of agent based systems are merely academic and best avoided (except for research purposes)</li>
+<li>Do not use agent based systems where other technology is more appropriate
+<ul>
+<li>Systems with a fixed/simple set-up</li>
+<li>Systems which do not solve any concurrent problem</li>
+<li>Actor based systems vs. Agent Based systems
+<ul>
+<li>Software engineering vs. AI</li>
+<li>Agents are actors with some specifics
+<ul>
+<li>Commitments and goals</li>
+<li>Planning</li>
+<li>An actor system is in most cases sufficient</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---what-to-use---agent-based-systems" class="slide section level1">
+<h1>Where to go from here - what to use - agent based systems</h1>
+<ul>
+<li><a href="http://www.cougaar.org/">Cougaar</a>
+<ul>
+<li>Military grade</li>
+<li>Large scale platforms</li>
+<li>Highly-survivable (recovery) and secure</li>
+<li>Includes planning</li>
+<li>Allows multiple protocols
+<ul>
+<li>Loopback, RMI, SSL-encrypted RMI, CORBA, HTTP, JMS, and XMPP (Jabber)</li>
+</ul></li>
+<li>Complex and does not follow standards
+<ul>
+<li>Extensive documentation</li>
+</ul></li>
+<li>Java</li>
+<li>Open-source</li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---what-to-use-instead---agent-based-systems" class="slide section level1">
+<h1>Where to go from here - what to use instead - agent based systems</h1>
+<ul>
+<li><a href="http://jade.tilab.com/">JADE</a>
+<ul>
+<li>Academic but production ready</li>
+<li>Still actively maintained</li>
+<li><a href="http://www.fipa.org/">FIPA</a> complaint</li>
+<li>Based on behaviors
+<ul>
+<li>Composed dynamically</li>
+</ul></li>
+<li>(Annoyingly) backwards compatible (Java 1.4)
+<ul>
+<li>Runs on anything, also on JavaME</li>
+</ul></li>
+<li>Easy to get started</li>
+<li>Sufficient documentation</li>
+<li>Open-source</li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---what-to-use-instead---agent-based-systems-1" class="slide section level1">
+<h1>Where to go from here - what to use instead - agent based systems</h1>
+<ul>
+<li><a href="http://www.cs.jyu.fi/ai/OntoGroup/UBIWARE_details.htm">UBIWARE</a> (developed at JYU)
+<ul>
+<li>Mainly academic, but used in industry</li>
+<li>Built on top of JADE</li>
+<li>Dormant</li>
+<li>Integrates agent technologies and semantics</li>
+<li>Dynamic management of sensors and actuators</li>
+<li>Integrated Beliefs Desires Intention (BDI) storage</li>
+<li>Hard to program
+<ul>
+<li>Perhaps too many options</li>
+<li>Specific agent language called S-APL</li>
+</ul></li>
+<li>Parts Open-source</li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---what-to-use-instead---actor-systems" class="slide section level1">
+<h1>Where to go from here - what to use instead - actor systems</h1>
+<ul>
+<li>Languages
+<ul>
+<li><a href="http://www.erlang.org/">Erlang</a></li>
+<li><a href="http://www.scala-lang.org/">Scala</a></li>
+<li>Some newcomers
+<ul>
+<li><a href="http://www.rust-lang.org/">Rust</a> (changing frequently)</li>
+<li><a href="http://iolanguage.org/">Io</a> (weird)</li>
+</ul></li>
+</ul></li>
+<li>Libraries for languages
+<ul>
+<li>Java / Scala : <a href="http://akka.io/">Akka</a></li>
+<li>F# : <a href="http://en.wikibooks.org/wiki/F_Sharp_Programming/MailboxProcessor">MailboxProcessor</a></li>
+<li>Haskell : <a href="http://haskell-distributed.github.io/">Cloud Haskell</a></li>
+<li>Many more exist, see <a href="http://en.wikipedia.org/wiki/Actor_model#Actor_libraries_and_frameworks">wikipedia</a></li>
+</ul></li>
+<li>Go is not an agent based or actor system!
+<ul>
+<li>goroutines do not have identity/communication possibilities built-in</li>
+<li>But has many similar features</li>
+</ul></li>
+</ul>
+</div>
+<div id="where-to-go-from-here---reactive-manifesto" class="slide section level1">
+<h1>Where to go from here - Reactive manifesto</h1>
+<ul>
+<li><a href="http://www.reactivemanifesto.org/">Reactive manifesto</a></li>
+<li>Characteristics of a reactive application
+<ul>
+<li>Responsive
+<ul>
+<li>Response time should be independent of load</li>
+</ul></li>
+<li>Scalable
+<ul>
+<li>Up and down</li>
+</ul></li>
+<li>Event-driven
+<ul>
+<li>Loosely coupled design</li>
+<li>Extendable</li>
+<li>Maintainable</li>
+<li>A counter argument : <a href="https://www.usenix.org/legacy/events/hotos03/tech/vonbehren.html">Why Events Are A Bad Idea (for High-concurrency Servers)</a></li>
+</ul></li>
+<li>Resilient
+<ul>
+<li>0% downtime</li>
+<li>Problems in the application should be isolated</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="why-is-writing-concurrent-software-difficult" class="slide section level1">
+<h1>Why is writing concurrent software difficult?</h1>
+<ul>
+<li>Non-reproducible errors
+<ul>
+<li>Different execution paths each time</li>
+<li>Who gets there first</li>
+<li>Test cases are also themselves concurrent programs</li>
+</ul></li>
+<li>Different way of thinking
+<ul>
+<li>Each thread works independently</li>
+<li>Between each two consecutive statements, a whole lot of other things might happen.</li>
+</ul></li>
+<li>Shared data
+<ul>
+<li>Multiple readers and writers</li>
+<li>Possible data corruption</li>
+</ul></li>
+</ul>
+</div>
+<div id="how-do-you-write-concurrent-software" class="slide section level1">
+<h1>How do you write concurrent software?</h1>
+<ul>
+<li>Avoid shared data
+<ul>
+<li>Use immutable data structures</li>
+</ul></li>
+<li>Use external systems
+<ul>
+<li>SQL databases are responsible for data integrity</li>
+</ul></li>
+<li>Message queues
+<ul>
+<li>Channels</li>
+<li>Publish-subscriber</li>
+</ul></li>
+<li>Use synchronized data structures</li>
+<li>Locking</li>
+</ul>
+</div>
+<div id="thank-you" class="slide section level1">
+<h1>Thank You</h1>
+<ul>
+<li>Course feedback in korppi</li>
+</ul>
+</div>
+</body></html>

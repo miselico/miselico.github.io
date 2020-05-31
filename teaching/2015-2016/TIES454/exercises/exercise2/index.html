@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Assignment 2: Platform infrastructure and auctions - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES454/exercises/exercise2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Assignment 2: Platform infrastructure and auctions</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>After completing these exercises the student should have a basic understanding services provided by a multi-agent platform. Further, he or she will be able to implement basic auction mechanisms.
+Concepts covered are directory facilitation, agent mobility, agent cloning, connecting multiple containers, and auctions.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Attendance to the first six <a href="http://www.cs.jyu.fi/ai/vagan/ties453.html">lectures by Vagan</a> is recommended. Otherwise, self-study of the materials is necessary.
+Most of the concepts used are dealt with in the theory part of the course.</p>
+
+<p>You must have completed the <a href="../exercise1/">first assignment</a>.
+The <a href="http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-beginners.pdf">beginners guide to JADE</a> contains a section about the use of the directory facilitator.</p>
+
+<p>You must have knowledge of programming in Java or be prepared to work on your skills during the course.</p>
+
+<h2 id="tasks">Tasks</h2>
+
+<p>The assignment consists of three parts, which are not strictly connected (if you get stuck with one, you can start the next). 
+In the first task you will interact with the Jade Directory Facilitator (DF) and learn how you can discover other agents on the platform.
+Then, in the second task, you will have to connect multiple containers together and find out about moving agents between them.
+Finally, you need to implement an auction scenario to get an impression of how resources can be shared among agents.</p>
+
+<p>These tasks are performed individually. You have to use Java 7 or 8 for these tasks.</p>
+
+<p>###Task 0 - Creating the project###</p>
+
+<p>If you did the first assignment, you can just continue working in the same project/repository.
+Otherwise, check the previous task for a description on how to create the project.</p>
+
+<p>For this task, make sure you create the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2</code>, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username. 
+All code of this assignment must be placed in that package. 
+The first task must be placed in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2.task1</code>, the second one in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2.task2</code>, and so on.</p>
+
+<p>###Task 1 - Directory Facilitation###</p>
+
+<p>For this task you have to create 3 agents.
+Agent1 and Agent2 are service providers. Agent3 is a service consumer.</p>
+
+<ul>
+  <li>Agent1 provides weather information. Specifically, another agent can ask it for the outside temperature for a given city.
+    <ul>
+      <li>The agent actually gets its information from <a href="http://openweathermap.org/current">openweathermap.org</a>. You can either create your own account and get an APPID or ask the teacher.</li>
+    </ul>
+  </li>
+  <li>Agent2 provides clothing advise. Given a temperature, it will advise you on what to wear.
+    <ul>
+      <li>Use your own inspiration, three different options depending on the temperature.</li>
+    </ul>
+  </li>
+  <li>Agent3 is in Jyväskylä and would like to know what to wear at the moment.</li>
+</ul>
+
+<p>If Agent3 would know about the fact that Agent1 and Agent2 provide these services, this would be an easy task.
+However, for this task you have to assume Agent3 does not know about them.
+Therefore, it needs to discover them using the directory facilitator.</p>
+
+<p>Three things must be done:</p>
+
+<ul>
+  <li>Agent1 and Agent2 must register themselves to the DF, indicating they provide the <code class="highlighter-rouge">weatherInfo</code> and <code class="highlighter-rouge">clothingAdvise</code> services, respectively.</li>
+  <li>Agent3 must search for agents providing <code class="highlighter-rouge">weatherInfo</code> and <code class="highlighter-rouge">clothingAdvise</code> services from the DF. Implement the search for service providers in a behavior which blocks for 1 second in case services are not found yet.</li>
+  <li>Once the agents providing these services are found, Agent3 interacts with them to obtain the required information.</li>
+</ul>
+
+<p>All communication between these three agents must be done using a self defined protocol.
+The correct performative to use when asking information is <code class="highlighter-rouge">query-ref</code>. When answering <code class="highlighter-rouge">inform</code> should be sued.
+You can optionally perform the call to openweathermap.org in a separate thread.</p>
+
+<p>###Task 2 - Multiple containers - mobility and cloning###</p>
+
+<p>In this second task you will work with more advanced features of JADE which are also avaialble on most other agent platforms.
+First, you will connect two agent containers together.
+In JADE, an agent container is a one JVM process which accommodates a number of agents.
+The agent platform is a collection of containers which are connected to each other.
+One platform has to be chosen as the main container and all other containers have to connect to that one.
+Up till now we have only used a single container, which was configured as a main container.</p>
+
+<p>Now, you need to start a second container which will connect to the main one. 
+To do this, create a class called <code class="highlighter-rouge">Run2</code> which has the following main method:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void main(String[] args) {
+    Properties pp = new Properties();
+    pp.setProperty(Profile.MAIN, Boolean.FALSE.toString());
+    pp.setProperty(Profile.MAIN_HOST, "127.0.0.1");
+    pp.setProperty(Profile.MAIN_PORT, Integer.toString(1099));
+    Profile p = new ProfileImpl(pp);
+    AgentContainer ac = jade.core.Runtime.instance().createAgentContainer(p);
+    try {
+        ac.acceptNewAgent("JumpingAgent", new Agent()).start();
+    } catch (StaleProxyException e) {
+        throw new Error(e);
+    }
+}
+</code></pre></div></div>
+
+<p>This is very similar to the main method of the <code class="highlighter-rouge">Run</code> classes we have been using in earlier exercises (and which we now also need to start the main container). 
+The changes are some properties indicating how this container must connect to the main container and a different call to the JADE runtime.
+It is possible to run each container on a different computer. However, this will only work in case the firewall allows traffic to go trough on the specified port.
+Try to run both containers and check in the GUI that both containers are visible.
+Note also that only the main container has an <code class="highlighter-rouge">ams</code> and <code class="highlighter-rouge">df</code> agent.</p>
+
+<p>When working with multiple containers it makes a difference whether the agent is on the one or the other platform, in particular when the agent needs to access local resources (like the file system, sensors, actuators, console, CPU power, … ).
+Therefore, it is possible for an agent to migrate from one container to another.
+In JADE the moving process requires that the agent and all classes used in the agent are <a href="https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">Serializable</a>.</p>
+
+<p>There is one difficulty with moving agents and that is specifying where the agent should be going to.
+The doMove() method of the agent requires a Location object and obtaining one of these is unnecessary hard. 
+The code to obtain the list of all locations is given below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private ArrayList&lt;Location&gt; getLocations() {
+    // adapted from :
+    // http://www.iro.umontreal.ca/~vaucher/Agents/Jade/Mobility/ControllerAgent.java
+    getContentManager().registerLanguage(new SLCodec());
+    getContentManager().registerOntology(MobilityOntology.getInstance());
+
+    // Get available locations with AMS
+    ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
+    request.setLanguage(new SLCodec().getName());
+    request.setOntology(MobilityOntology.getInstance().getName());
+    Action action = new Action(getAMS(), new QueryPlatformLocationsAction());
+    try {
+        getContentManager().fillContent(request, action);
+    } catch (CodecException | OntologyException e) {
+        throw new Error(e);
+    }
+    request.addReceiver(action.getActor());
+    send(request);
+
+    // Receive response from AMS
+    MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchSender(getAMS()),
+            MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+    ACLMessage resp = blockingReceive(mt);
+    ContentElement ce;
+    try {
+        ce = getContentManager().extractContent(resp);
+    } catch (CodecException | OntologyException e) {
+        throw new Error(e);
+    }
+    Result result = (Result) ce;
+    jade.util.leap.Iterator it = result.getItems().iterator();
+    ArrayList&lt;Location&gt; locations = new ArrayList&lt;Location&gt;();
+    while (it.hasNext()) {
+        Location loc = (Location) it.next();
+        locations.add(loc);
+    }
+    return locations;
+}
+</code></pre></div></div>
+
+<p>Your task is now to create an agent (class name JumpingAgent) which moves from the one container to the other every five seconds (CyclicBehavior).</p>
+
+<ul>
+  <li>The agent needs to get the list of locations only once.</li>
+  <li>Start the JumpingAgent in the non-main container (to make sure the ‘other’ container exists when getting the list).</li>
+  <li>Remember at which location the agent was (so that you can jump to the other one).</li>
+  <li>Initially you don’t know whether you should jump to the first or second location in the list. Just start by moving to the first one, even if that means you stay in the same container.</li>
+</ul>
+
+<p>###Task 3 - Auctions###</p>
+
+<p>Often the resources on the platform are limited and the agents should agree which ones are going to be able to use the resource.
+Resources can include things like sensors and actuators but also CPU time, etc.
+In order to assign these resources to agents auctions are commonly used.
+The idea is that if an agent wants to use a resource, he should win it in an auction.
+Agents then pay for the resources using some form of virtual money or credit.
+A broad discussion and mathematical analysis of different auction types can be found from <a href="http://www.masfoundations.org">Multiagent Systems - Algorithmic, Game-Theoretic, and Logical Foundations</a>. This exercise description is inspired by that book.</p>
+
+<p>Many different types of auctions exist, and some auction types have multiple names.
+Three common types of <em>open-outcry</em> auctions are:</p>
+
+<ol>
+  <li><em>English auctions</em> : the auctioneer sets a starting bid (can be 0) and agents interested in the resource can place a higher bid. The price increases until no other agents place a higher bid. The agent with the highest bid becomes the winner of the auction i.e. he receives the good and pays the last price he offered.</li>
+  <li><em>Japanese auctions</em> : somewhat similar to English. A starting price is set and agents interested should announce whether they are still interested, agents leaving the auction cannot reenter. The price is increased steadily until only one agent is interested, who pays the last announced price.</li>
+  <li><em>Dutch auction</em> : The starting price is set (too) high. Then it is lowered each time until an agent shows interest. The resource is then sold for that price.</li>
+</ol>
+
+<p>Alternatively, an auction can be done by <em>sealed-bid</em>, i.e. the offers are not publicly announced.
+Typically, the winner of the auction is the one who offered the highest amount. 
+He will either pay the amount he offered or the amount which was offered by the second highest bidder (these are called first-price and second-price auctions).</p>
+
+<p>Your task is to implement a scenario in which 20 agents are competing for access to a sensor using one of the above <em>open-outcry</em> auction types.
+In the scenario there are the following agents:</p>
+
+<ul>
+  <li>20 Bidders
+    <ul>
+      <li>Each bidder initially generates a random number between 500 and 1000 which is the maximum amount he is prepared to pay.</li>
+      <li>Each bidder registers to the auctioneer to inform that it is interested in the auction.</li>
+      <li>When the auctioneer announces a new price, the bidder either
+        <ul>
+          <li>Offers more/confirms that he received the information (English) &lt;– more difficult option: The current highest bidder should not offer more, i.e. the highest bidder should know he is currently the highest bidder.</li>
+          <li>Informs whether he is still in/now out (Japanese)</li>
+          <li>Confirms that he buys/received the information (Dutch)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1 Auctioneer
+    <ul>
+      <li>The auctioneer manages the auction</li>
+      <li>Waits until 20 bidders have registered and then starts the auction (initial price 0 for English, Japanese. 1500 for Dutch)</li>
+      <li>Repeat until sold:
+        <ul>
+          <li>Announce new price (increment/decrement with 1)</li>
+          <li>Wait for all answers to come</li>
+          <li>Check whether sold</li>
+        </ul>
+      </li>
+      <li>Sends the result (winner + final price) of the auction to all 20 agents.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Note that all agents need a unique name. In case of a tie, the final winner is selected at random among the winners.</p>
+
+<p>Start the auctioneer before the bidders to make sure the bidders messages will find the auctioneer.</p>
+
+<h2 id="returning-the-assignment">Returning the assignment</h2>
+<p>The deadline for this assignment is February 15.</p>
+
+<p>The teacher has created a repository for the first assignment in yousource and added you as a collaborator.
+We will keep on using this repository for this second assignment.
+The repository can be cloned from git@yousource.it.jyu.fi:ties454-2016-assignment1/&lt;username&gt;.git (again replace &lt;username&gt; with your korppi username).
+Keep in mind that before you can work with yoursource you have to create a keypair (see <a href="http://yousource.it.jyu.fi/yousource/pages/SSH_key_help">http://yousource.it.jyu.fi/yousource/pages/SSH_key_help</a> ).
+A very short guide to git can be found from <a href="http://yousource.it.jyu.fi/yousource/pages/Git_Help">http://yousource.it.jyu.fi/yousource/pages/Git_Help</a>.</p>
+
+<p>In the repository you place</p>
+
+<ol>
+  <li>The maven project (only code + pom.xml file)</li>
+  <li>A readme file with
+    <ul>
+      <li>your name</li>
+      <li>Extra information if you think it is needed</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>The agent platform is a normal Java program. Debuggers can be used normally. It is also useful to combine the debugger and the sniffer in the JADE GUI: one can stop the agents, then start the sniffer and watch all messages being sent.</li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

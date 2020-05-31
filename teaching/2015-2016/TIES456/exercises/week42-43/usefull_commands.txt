@@ -1,0 +1,178 @@
+
+List all VM
+------------
+
+        virsh list --all
+
+Start VM
+--------
+
+        virsh start pikkukivi2
+
+Stop VM
+-------
+    
+        virsh shutdown pikkukivi2
+        
+Info about VM
+-------------
+
+        sudo virt-viewer group00_database
+ 
+Undefine a VM
+--------------
+
+        virsh undefine pikkukivi2
+        
+Create a VM
+------------
+
+        NEWVM=pikkukivi1
+        NEWIP=192.168.122.101
+        PASSWD=$RANDOM
+        vmbuilder kvm ubuntu --dest=/srv/kvm/$NEWVM --suite=precise --flavour=virtual --arch=amd64 --overwrite --libvirt=qemu:///system --mem=1024 --rootsize=2000 --swapsize=0 --cpus=4 --ip=$NEWIP --mask=255.255.255.0 --gw=192.168.122.1 --hostname=$NEWVM --addpkg=acpid --addpkg=ssh --ssh-key=/root/.ssh/id_rsa.pub --user=ubuntu --pass=$PASSWD --proxy=http://192.168.122.1:3142
+
+
+Old stuff
+--------------
+
+root@lohkare2:/home/miselico# history
+    1  egrep '(en_US|en_GB|fi_FI)' /usr/share/i18n/SUPPORTED >/var/lib/locales/supported.d/local
+    2  dpkg-reconfigure locales
+    3  apt-get install emacs ntp krb5-config libpam-krb5
+    4  cat >>/root/.bashrc <<\EOF
+    5  PATH=$PATH:/root/bin
+    6  export EDITOR=emacs
+    7  EOF
+    8  ssh-keygen -t rsa
+    9  cat .ssh/id_rsa.pub 
+   10  mkdir bin
+   11  scp lohkare1:.emacs .
+   12  scp lohkare1:bin/newuser bin/
+   13  ssh guest@tarzan
+   14  ssh guest@tarzan.it.jyu.fi
+   15  newuser tt
+   16  top
+   17  df
+   18  virsh list --all
+   19  NEWVM=pikkukivi1
+   20  NEWIP=192.168.122.101
+   21  PASSWD=$RANDOM
+   22  time vmbuilder kvm ubuntu --dest=/srv/kvm/$NEWVM --suite=precise --flavour=virtual --arch=amd64 --overwrite --libvirt=qemu:///system --mem=1024 --rootsize=2000 --swapsize=0 --cpus=4 --ip=$NEWIP --mask=255.255.255.0 --gw=192.168.122.1 --hostname=$NEWVM --addpkg=acpid --addpkg=ssh --ssh-key=/root/.ssh/id_rsa.pub --user=ubuntu --pass=$PASSWD --proxy=http://192.168.122.1:3142
+   23  virsh list --all
+   24  virsh undefine pikkukivi
+   25  virsh undefine pikkukivi1
+   26  NEWVM=pikkukivi1
+   27  NEWIP=192.168.122.101
+   28  rm -rf /srv/*
+   29  PASSWD=$RANDOM
+   30  time vmbuilder kvm ubuntu --dest=/srv/kvm/$NEWVM --suite=precise --flavour=virtual --arch=amd64 --overwrite --libvirt=qemu:///system --mem=1024 --rootsize=2000 --swapsize=0 --cpus=4 --ip=$NEWIP --mask=255.255.255.0 --gw=192.168.122.1 --hostname=$NEWVM --addpkg=acpid --addpkg=ssh --ssh-key=/root/.ssh/id_rsa.pub --user=ubuntu --pass=$PASSWD --proxy=http://192.168.122.1:3142
+   31  virsh start pikkukivi1
+   32  ssh pikkukivi1
+   33  ssh 192.168.122.101
+   34  exec env ENV='' PROMPT_COMMAND='' PS1=\#\$\  PS2='' PS3='' /bin/sh
+   35  grep sudo /etc/group
+   36  usermod -a -G sudo tt
+   37  usermod -a -G sudo miselico
+   38  df
+   39  ls /srv
+   40  mkdir /srv/kvm
+   41  du -s /var/cache/*
+   42  virt-viewer pikkukivi1
+   43  vgdisplay 
+   44  cat .ssh/authorized_keys 
+   45  cat >>.ssh/authorized_keys 
+   46  sed -i /lohkare2/d .ssh/authorized_keys 
+   47  sed -i /paasikivi/d .ssh/authorized_keys 
+   48  cat .ssh/authorized_keys 
+.................................................. 
+   49  w
+   50  who
+   51  history 
+   52  virt-viewer pikkukivi1
+   53  exit
+   54  virt-viewer pikkukivi1
+   55  echo $DISPLAY
+   56  virt-viewer pikkukivi1
+   57  ll
+   58  exit
+   59  last
+   60  w
+   61  history 
+   62  virt-viewer pikkukivi2
+   63  exit
+   64  virt-viewer pikkukivi2
+   65  history 
+   66  virsh 
+   67  virsh start pikkukivi2
+   68  virt-viewer pikkukivi2
+   69  exit
+   70  NEWVM=pikkukivi1
+   71  NEWIP=192.168.122.101
+   72  PASSWD=$RANDOM
+   73  NEWVM=pikkukivi2
+   74  NEWIP=192.168.122.102
+   75  PASSWD=$RANDOM
+   76  vmbuilder kvm ubuntu --dest=/srv/kvm/$NEWVM --suite=precise --flavour=virtual --arch=amd64 --overwrite --libvirt=qemu:///system --mem=1024 --rootsize=2000 --swapsize=0 --cpus=4 --ip=$NEWIP --mask=255.255.255.0 --gw=192.168.122.1 --hostname=$NEWVM --addpkg=acpid --addpkg=ssh --ssh-key=/root/.ssh/id_rsa.pub --user=ubuntu --pass=$PASSWD --proxy=http://192.168.122.1:3142
+   77  ps -ef|grep ntp
+   78  history 
+   79  NEWVM=pikkukivi3
+   80  NEWIP=192.168.122.103
+   81  PASSWD=$RANDOM
+   82  cat .ssh/
+   83  cat .ssh/authorized_keys 
+   84  cat /root/.ssh/authorized_keys 
+   85  ssh 192.168.122.102
+   86  w
+   87  df
+   88  ssh 172.16.161.142
+   89  w
+   90  virsh list --all
+   91  ssh pikkukivi2
+   92  ssh 192.168.122.102
+   93  virsh shutdown pikkukivi1
+   94  virsh shutdown pikkukivi2
+   95  w
+   96  shutdown -h now
+   97  virsh list --all
+   98  virsh start pikkukivi1
+   99  df
+  100  grep kvm /etc/fstab
+  101  cat /etc/fstab
+  102  echo "/dev/mapper/lohkare2-srv  /srv  ext4 defaults 0 0" >>/etc/fstab
+  103  mount /srv/kvm
+  104  ls /srv
+  105  ls /srv/kvm
+  106  virsh start pikkukivi1
+  107  ls /srv/kvm
+  108  ls /srv/kvm/pikkukivi1
+  109  virsh start pikkukivi2
+  110  vi /etc/fstab
+  111  virsh undefine pikkukivi1
+  112  NEWVM=pikkukivi1
+  113  NEWIP=192.168.122.101
+  114  PASSWD=$RANDOM
+  115  rm -rf /srv/kvm/pikkukivi1
+  116  time vmbuilder kvm ubuntu --dest=/srv/kvm/$NEWVM --suite=precise --flavour=virtual --arch=amd64 --overwrite --libvirt=qemu:///system --mem=1024 --rootsize=2000 --swapsize=0 --cpus=4 --ip=$NEWIP --mask=255.255.255.0 --gw=192.168.122.1 --hostname=$NEWVM --addpkg=acpid --addpkg=ssh --ssh-key=/root/.ssh/id_rsa.pub --user=ubuntu --pass=$PASSWD --proxy=http://192.168.122.1:3142
+  117  ssh 192.168.122.101
+  118  virsh start pikkukivi1
+  119  ssh 192.168.122.101
+  120  virt-viewer pikkukivi1
+  121  bg
+  122  ssh 192.168.122.101
+  123  sed -i 5d .ssh/known_hosts 
+  124  ssh 192.168.122.101
+  125  virsh list --all
+  126  virsh
+  127  visudo
+  128  vi /etc/group
+  129  ssh 192.168.122.102
+  130  apt-get update;apt-get upgrade
+  131  which vmbuilder
+  132  which virt-viewer
+  133  which virsh
+  134  cat /etc/sudoers
+  135  ssh pikkukivi1
+  136  cat /etc/hosts
+  137  ssh 192.168.122.101
+  138  exec env ENV='' PROMPT_COMMAND='' PS1=\#\$\  PS2='' PS3='' /bin/sh

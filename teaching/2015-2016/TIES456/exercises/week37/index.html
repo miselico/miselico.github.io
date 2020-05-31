@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A simple REST client exercise - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES456/exercises/week37/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">A simple REST client exercise</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>Learn to use a RESTful API. The API used here is an example, the goal is that the student can use the experience from implementing against this RESTful API in another context as well.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Learn what a RESTful webservice is. A first source could be the following IBM article <a href="https://www.ibm.com/developerworks/webservices/library/ws-restful/">https://www.ibm.com/developerworks/webservices/library/ws-restful/</a> also interesting is the wikipedia article <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">http://en.wikipedia.org/wiki/Representational_state_transfer</a>.
+Interested readers can also read the original doctoral dissertation in which Roy Fielding introduced representational state transfer (REST) <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm</a> mainly chapter 5 is of interest. It is however not required to read it.
+The student is supposed to have basic knowledge about xml and/or json. Also basic knowledge of the HTTP protocol is useful (see also the wikipedia article about it at <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol</a>).</p>
+
+<h2 id="task">Task</h2>
+<p>This assignment contains only a programming part. <!-- and some reflective questions.--> 
+The service used is <a href="http://www.mediafire.com/">http://www.mediafire.com/</a>. 
+Before starting, the student has to create an account at the service, do this using password authentication.
+Once logged in, click on your user logo and select <code class="highlighter-rouge">Account settings</code> then select <code class="highlighter-rouge">Developers</code> and create a new application. You will need the App ID and API Key for in the code which you will write for this exercise.
+The RESTful API of mediafire is described on this webpage <a href="http://www.mediafire.com/developers/core_api/1.4/getting_started/">http://www.mediafire.com/developers/core_api/1.4/getting_started/</a> , read trough the description of the interface.
+(You can also find an SDK from other parts of the developer documentation, but you cannot use it for this exercise since it hides all HTTP communication, which is exactly what this exercise is about.)</p>
+
+<p>You are expected to create a method/function/… with four string parameters (APP_id, API_key, email, password) this method/function/… should return an object/struct/type/… from which the following information can be obtained:</p>
+
+<ul>
+  <li>Birth date</li>
+  <li>Display name</li>
+  <li>Email</li>
+  <li>First name</li>
+  <li>Last name</li>
+  <li>Gender</li>
+</ul>
+
+<!--
+* Location
+* Premium
+* Website
+-->
+
+<ul>
+  <li>You need to make two API calls. The first one will log you in to the mediafire service. See <a href="http://www.mediafire.com/developers/core_api/1.4/user/#get_session_token">user documentation</a></li>
+  <li>
+    <p>Information returned by that call will be used in the next call to <a href="http://www.mediafire.com/developers/core_api/1.4/user/#get_info">get user info</a></p>
+  </li>
+  <li>You can choose whether you use XML to communicate with the service or JSON.</li>
+  <li>Do not use simple string concatenation to create URLs (<a href="http://en.wikipedia.org/wiki/Percent-encoding">Percent encoding</a> of parameters is handled automatically in many libraries )</li>
+  <li>You have to test your implementation with weird passwords like <code class="highlighter-rouge">a ~'goöd\" #p@ssw0rd世界</code> (remember to escape this properly if you hard code your password in your program <code class="highlighter-rouge">"a ~'goöd\\\" #p@ssw0rd世界"</code>)</li>
+  <li>You must use the library management tools which are available for the language you choose (Java: maven, Python: pip/easy_install, etc.) if you are using external libraries. 
+If you are using a rare programming language (ask the teacher), add used external libraries to the repository.</li>
+</ul>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+<p>Clone the teacher’s repository in yousource <a href="https://yousource.it.jyu.fi/ties456-2015/week37">git@yousource.it.jyu.fi:ties456-2015/week37.git</a> and add the teacher as a collaborator.
+Put the parts you created yourself to your git repository and add the teacher (username <code class="highlighter-rouge">miselico</code> as a collaborator to your repository)
+Include a class with a ‘main function’ or equivalent to test your class.
+Use of dependency injection and writing proper unit tests is encouraged, but not obligated.</p>
+
+<h2 id="hints-general">Hints (General)</h2>
+<p>1) It is not necessary to check the e-mail address for validity.</p>
+
+<p>2) The class does not need to be thread-safe.</p>
+
+<p>3) The Mediafire API advises to use Session token 2 instead of type 1. For this exercise, version 1 might be simpler, though.</p>
+
+<p>4) You need to make two HTTP GET calls in order to retreive the information. First, you need to log in to the service. Then, with the information obtained you can retreive the required data.</p>
+
+<p>5) You are allowed to use the programming language which you want. If you are not using one of C, C#, C++, Coffeescript, Go, Haskell, Java, Javascript, Lua, Perl, PHP, Python, Ruby, Scala, or Qt verify with the teacher whether this is a reasonable choice.</p>
+
+<h2 id="hints-java-specific-compiled-from-previous-years-when-only-java-was-allowed">Hints (Java specific) compiled from previous years when only Java was allowed.</h2>
+<p>1) It is advised to use the HttpClient from the apache software foundation which is documented on  <a href="http://hc.apache.org/httpcomponents-client-ga/">http://hc.apache.org/httpcomponents-client-ga/</a> and can 
+be configured using dependency information from <a href="http://hc.apache.org/httpcomponents-client-ga/httpclient/dependency-info.html">http://hc.apache.org/httpcomponents-client-ga/httpclient/dependency-info.html</a> 
+(Only the binary versions of HttpClient and HttpCore are needed - do not use the OSGI bundles.) Look trough the quickstart guide at <a href="http://hc.apache.org/httpcomponents-client-ga/quickstart.html">http://hc.apache.org/httpcomponents-client-ga/quickstart.html</a> to get started.</p>
+
+<p>2) You can use, for instance, org.apache.http.client.utils.URIBuilder, for building URIs in a safe manner</p>
+
+<p>3) In Java, you are encouraged to use Maven to manage all your dependencies (There are some other dependency managers as well).</p>
+
+<p>4) For the sha-1 algorithm, you can use the org.apache.commons.codec.digest.DigestUtils class (which is included in the above mentioned libraries) and do</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    digest = DigestUtils.shaHex(original);
+</code></pre></div></div>
+
+<p>5) To extract, for instance, the token from the received XML, one can use code similar to the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    XPathFactory factory = XPathFactory.newInstance();
+    XPath path = factory.newXPath();
+    String token = path.evaluate("/response/session_token", new InputSource(xmlstream));
+</code></pre></div></div>
+
+<p>This snippet uses XPath to extract the token from the XML document. For the interested student familiar with XML, there is an article on XPath to be found at <a href="http://docs.oracle.com/javase/tutorial/jaxp/xslt/xpath.html">http://docs.oracle.com/javase/tutorial/jaxp/xslt/xpath.html</a>.
+An older article : <a href="http://web.archive.org/web/20120510043211/http://www.ibm.com/developerworks/library/x-javaxpathapi">http://www.ibm.com/developerworks/library/x-javaxpathapi/index.html</a>.</p>
+
+<p>6) Also for extracting data from JSOn there are multiple options. For example : http://code.google.com/p/json-simple/ and https://github.com/google/gson</p>
+
+<!--
+6) It is not obligated to use the XML representation. Also JSON is possible, remember to put the response_format to json. You can use [http://json-lib.sourceforge.net/](http://json-lib.sourceforge.net/) as a JSON library in this exercise. This library simplifies the use of Java bean classes like the provided UserInfo class. For more information see [http://json-lib.sourceforge.net/usage.html#objects](http://json-lib.sourceforge.net/usage.html#objects).
+Remember to also put the dependencies of the JSON library on the build path! This library requires (search google for download. Mind the version numbers):
+
+
+* jakarta commons-lang 2.5
+* jakarta commons-beanutils 1.8.0
+* jakarta commons-collections 3.2.1
+* jakarta commons-logging 1.1.1
+* ezmorph 1.0.6
+
+Alternatively, one can use the reference implementation from [https://github.com/douglascrockford/JSON-java](https://github.com/douglascrockford/JSON-java) which does not depend on external libraries, but does not provide automatical tools for interaction with java bean classes.
+-->
+
+<p>6) Some might get a stacktrace which starts as follows :</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Exception in thread "main" javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+    at sun.security.ssl.SSLSessionImpl.getPeerCertificates(SSLSessionImpl.java:371)
+    at org.apache.http.conn.ssl.AbstractVerifier.verify(AbstractVerifier.java:128)
+    ... This means that you have problems with certificates when calling the server. Make sure you have java jdk installed and then follow the steps as per [this website](http://web.archive.org/web/20130528113939/http://my.opera.com/karmazilla/blog/how-to-grab-the-certificate-from-a-website-and-import-it-with-java-keytool). (The website assumes you are using linux. For windows see [https://forum.startcom.org/viewtopic.php?f=15&amp;t=1678](https://forum.startcom.org/viewtopic.php?f=15&amp;t=1678).)  You can download the certificate from the course website [here](mediafire.crt).
+</code></pre></div></div>
+
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

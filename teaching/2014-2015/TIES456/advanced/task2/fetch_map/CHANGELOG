@@ -1,0 +1,418 @@
+CHANGELOG for package fetch_map.
+Author: Olli Lammi <olammi@iki.fi>
+
+Thanks for supporting fetch_map development to:
+  Paavo L., Tommi K., Jiri K., Olli K., Juhani V.,
+  Jani K., Sami S., Petri H., Karl L., Juhani S.,
+  Antti T., Jyri H., Jouko V., Jukka-Pekka G.,
+  Rainer B., Heikki T., Markku P., Jorma R.,
+  Liisi S., Asko L., Tuomas T., Vesa S., 
+  Petri H., Peter N., Jari T., Timo H., Severi E., 
+  Lasse J., Olli P., Mika H., Jukka P., Marko K.,
+  Otto M., Ilkka R., Priit K., Tapio H., Mika A.,
+  Heikki P., Janne M., Paavo L., Taisto H., 
+  Mika K., Paavo L.
+  
+  
+Future wishlist (coming soon):
+------------------------------
+
+* Support for www.paikkatietoikkuna.fi material
+
+
+Known problems:
+---------------
+
+Problem: P_30f_1 
+  With the Kansalaisen Karttapaikka, if a map is fetched
+  with scale 1:16000 or higher from area that occupies
+  area from two different KKJ-zones, Karttapaikka may
+  return map data that has a white area on the other
+  side of the zone border line and correct map data
+  on the other side. As no error is returned, fetch_map
+  considers this valid material and stores it to 
+  cache. This may result to small white areas beside
+  the KKJ-zone border line. This may be a 
+  timing/concurrency issue in the Karttapaikka service. 
+  
+  Affected versions: all
+
+  Fix: There is no fix for this problem at the moment.
+  
+  Workaround: remove the map tiles from map_cache that
+  contain the white area besides the zone border line 
+  and rerun the fetch_map script. The data usually comes
+  ok the second time.    
+
+
+
+Version 3.1i, 23.02.2012
+------------------------
+* Improved error handling with layer image loading in Retkikartta module.
+
+
+Version 3.1h, 22.02.2012
+------------------------
+* Retkikartta module map cache directory layout had problems, corrected.
+
+
+Version 3.1g, 20.02.2012
+------------------------
+* Completely rewritten KKJ coordinate transforms in coordinates 
+  library according to JHS154 and JHS153.
+* Corrected interface problems with Retkikartta layers.
+* Introduced notification for new release version.
+   
+   
+Version 3.1f, 10.02.2012
+------------------------
+* Small fixes to coordinate transforms
+* Fixed a bug with layers and --cachedonly -parameter.
+   
+   
+Version 3.1e, 06.02.2012
+------------------------
+* Release version with Retkikartta layer support and
+  KMZ Google earth file format support
+* Changed the coordinate module Finland area check to
+  more accurate polygon implementation (provided area 
+  is an approximation!) 
+
+
+Version 3.1d, 05.02.2012
+------------------------
+* KML syntax tweaking for Garmin.
+
+
+Version 3.1c, 04.02.2012
+------------------------
+* Added support for older KMZ calibration file without
+  KML2.2 extensions.
+
+
+Version 3.1b, 01.02.2012
+------------------------
+* Added support for KMZ calibration file type. (KMZ is 
+  a Google Earth KML based format).
+
+
+Version 3.1a, 30.01.2012
+------------------------
+* Added support for transparent info layers (--layer -option,
+  at the moment supported only with retkikartta.fi).
+
+
+Version 3.0m, 29.06.2011
+------------------------
+* Added support for FreeTrack calibration files.
+* Correction to OziExplorer .map calibration file
+  map projection setup with ETRS-TM35FIN material.
+
+
+Version 3.0l, 10.04.2011
+------------------------
+* Added support for Kansalaisen Karttapaikka
+  "Kiinteistöjaotus" option. When giving a parameter
+  "--ktjraja" for KKP query, the result map image will
+  contain real estate border lines. (experimental) 
+  
+ 
+Version 3.0k, 03.11.2010
+------------------------
+* Correction to MapInfo tab-file projection setup with
+  ETRS-TM35FIN system.
+* Retkikartta.fi had changed the map scale values. 
+  Changed fetch_map to support the same new scale names.
+
+
+Version 3.0j, 27.09.2010
+------------------------
+* Support for changed Retkikartta.fi platform.
+* Minor changes to module interface.
+* Map calibration file (.map) changed to use UTM map projection with 
+  ETRS-TM35FIN system.
+
+
+Version 3.0i, 05.08.2010
+------------------------
+* Increased iteration area for Lon value in KKJxy_to_KKJlalo 
+  function in coordinates-module. Does not affect normal
+  operation in Finland area.
+
+
+Version 3.0h, 10.02.2010
+------------------------
+* Problem P_30g_2 fixed. 
+
+* Added ETRS-TM35FIN conversions from and to WGS84 to 
+  coordinates library.
+
+* Changed KKP fetch map service to use the new 
+  ETRS-TM35FIN coordinates used at the moment in the 
+  Kansalaisen Karttapaikka.
+
+* Added possibility to use ETRS-TM35FIN coordinates in the
+  command line parameters
+
+
+
+Problem: P_30g_2 (10.2.2010)
+----------------------------
+  Kansalaisen Karttapaikka is not working at the moment
+  with current Fetch_map versions. The coordinate representation
+  in Karttapaikka has changed to ETRS-TM35FIN grid coordinates.
+  Fetch_map will have to be altered to work with the new
+  coordinate system. The transormation and development work
+  with Fetch_map is currently active. 
+
+  Retkikartta.fi map service works ok with current versions of Fetch_map.
+
+  Affected versions: all before v3.0h
+
+  Fix: fixed in v3.0h
+  
+  Workaround: none
+
+
+Version 3.0g, 14.08.2009
+------------------------
+* Added option to generate overlapped images automatically. 
+  In addition to map center and dimensions, user gives
+  the number of sheets in the overlapping map grid and
+  the amount the sheets overlap eachother. Script generates
+  multiple map images that are overlapped by the given 
+  overlap distance. Map images are named in grid:
+  Imagename_x_y.png
+
+* Added support for GPSU GUX calibration file format.
+
+
+Version 3.0f, 17.06.2009
+------------------------
+* Added informational printouts when fetching images.
+  Script first executes a trial round to generate the
+  map image and to calculate the number of map tiles
+  in the image, cached tiles and tiles to download.
+
+* Added KKP 1:8000000 scale, removed 1:12000000
+  as it was no longer available.
+   
+
+Version 3.0e, 26.03.2009
+------------------------
+* Correction to Retkikartta.fi service code.
+
+
+Version 3.0d, 23.03.2009
+------------------------
+* Correction to Retkikartta.fi service code.
+
+
+Version 3.0c, 01.03.2009
+------------------------
+* Corrections to accuracy of ESRI world and MapInfo calibration.
+
+* Added check to KKP fetching for the actual coordinates 
+  returned from the service. In some rare cases the service 
+  returns different area that was requested.
+
+
+Version 3.0b, 19.02.2009
+------------------------
+* Changes to the map construction mathematics and calibration.   
+
+
+Version 3.0a, 18.02.2009
+------------------------
+* Support for retkikartta.fi. A lot of changes to the 
+  script code and structure to support multiple 
+  map services.   
+
+
+Version 2.0f, 27.08.2008
+------------------------
+* Bug fix. Esri world calibration file save did not work
+  correctly with map scale 1:2000.
+
+
+Version 2.0e, 08.08.2008
+------------------------
+* Bug fix. With --corners option there were possible coordinate
+  calculation problems if corner coordinates given were on different 
+  KKJ zones.
+
+
+Version 2.0d, 30.06.2008
+------------------------
+* Support for new scales (1:2000, 1:4000, 1:8000) of
+  Karttapaikka. Scale 1:16000 still the default.
+
+* Experimental support for airplane pictures from Karttapaikka
+  (--orto -parameter).
+  
+
+Version 2.0c, 26.02.2008
+------------------------
+* Fine tuned the temporary file handling when retrieving
+  the map image from map service. Windows rename was not
+  able to rewrite to the map cache. Using shutil.move now.
+  
+  
+Version 2.0b, 25.02.2008
+------------------------
+* OziExplorer map calibration file save is now again by default.
+  Other formats available using the --save option.
+  
+* Given coordinates are now checked to be approximately in Finland
+  area before starting the map image generation.  
+
+* Changed the map image retrieval process a bit. Now the image is
+  first retrieved to a temporary file and processed there before
+  moving to the correct map_cache location. It was possible to 
+  create corrupted map cache images before if the script was
+  interrupted in the wrong place or the processing failed of
+  some reason.
+  
+* It was possible - though very unlikely - that the script
+  was caught in an infinite loop generating the map image.
+  This was due to calculation of the gathered map image
+  when the missing piece was smaller than the aspect ratio
+  of the map images. Corrected the bug.
+  
+
+Version 2.0a, 15.02.2008
+------------------------
+* Corrected the Karttapaikka scaling implementation to 
+  new 600x600 picture image size.
+
+* Added support for WGS84 coordinates in the command line
+  parameters.
+
+* Added parameter for the cache directory to be used.
+
+* Added parameter for offline usage (--cachedonly). With this
+  parameter the script does not retrieve new map images from
+  the map service but uses only images in the cache. Missing
+  areas are filled with yellow background.
+
+* By default the script does not save any calibration files
+  any more. The calibration file types are selected using
+  --save option on the command line. Multiple types can 
+  be given by giving multiple --save options.
+
+* Map coordinates can be given also by giving map bottom left
+  and top right coordinate pairs instead of center point
+  coordinates, width and height (--corners -option).
+
+* Map cache now stores map images under directory structure
+  using also a location based hash algorithm.
+
+* Moved watermark images from the map_cache directory to lib 
+  directory.
+
+
+Version 1.3e, 31.10.2006
+------------------------
+* The script writes a log to the map cache directory
+  of the fetch commands executed.
+
+
+Version 1.3c-d, 30.10.2006
+--------------------------
+* Small change to default values when the wm is not detected.
+
+
+Version 1.3b, 28.10.2006
+------------------------
+* Corrected a small bug.
+
+
+Version 1.3a, 28.10.2006
+------------------------
+* Script now adds _one_ watermark back to the final picture. 
+* Corrected some minor issues with error handling.
+* Changed the math a bit for the watermark detection.
+
+
+Version 1.2a, 28.08.2006
+------------------------
+* Corrected the broken support for map scales.
+
+
+Version 1.1a, 23.08.2006
+------------------------
+* Changed to support new version of Kansalaisen Karttapaikka
+  (released 22.08.2006)
+
+
+Version 1.0a, 11.06.2006
+------------------------
+* Corrected minor spelling error in the output.
+* Added random delay between the map part downloads.
+* Added support for delaying the download start to given
+  time of day (--starttime option).
+* Added support for retrying map part download on failure.
+
+
+Version 0.9a, 04.06.2006
+------------------------
+* Fixed a miscalibration issue in the OziExplorer
+  map file save function. Old version did a false
+  assumption that Lat/Lon coordinates are also
+  in rectangular grid, which is not true.
+
+
+Version 0.8a, 29.12.2005
+------------------------
+* Fixed a small difference in the OziExplorer map
+  file format. Old format worked with Ozi and
+  SmartComGPS (ones that I have tested), but some
+  third party software had problems with extra
+  spaces.
+
+
+Version 0.7a, 14.10.2005
+------------------------
+* Added support for KKJ bands 0 and 5. Eastern parts of
+  Finland were not working properly.
+
+
+Version 0.6a, 03.10.2005
+------------------------
+* Corrected bug in Mapinfo calibration file format.
+
+
+Version 0.5a, 01.10.2005
+------------------------
+* OziExplorer calibration file improved to include correct KKJ-band 
+  (formerly it used YKJ-band for all maps)
+* Included changes from Mikko Syrjï¿½'s code and suggestions:
+  + support for more map picture output
+    formats (whatever PIL-library version supports)
+  + new optional command line parameter (--palette) to convert
+    the result image from true color to palette mode.
+    This will reduce the size of the image on disk,
+    but also the picture quality might be affected.
+  + script outputs also Arcview and MapInfo calibration
+    files (additional calibration file save functions
+    by Mikko Syrjï¿½ <mikko@3d-system.fi>)
+* Coordinates will be converted to proper KKJ band
+  automatically if --force-coordinates -option is not
+  given in the command.
+* Added and updated functionality to the coordinates-library.
+
+
+Version 0.3a, 09.09.2005
+------------------------
+* Added capability to fetch other scales than 1:16000.
+
+
+Version 0.2a, 06.09.2005
+------------------------
+* Map was twisted if coordinate band border was in the middle of the map 
+  picture. Changed the way the script fetches the image from the Karttapaikka.
+
+
+Version 0.1a, 05.09.2005
+------------------------
+* First public version

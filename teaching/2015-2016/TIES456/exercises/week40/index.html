@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cloud computing: Paas - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES456/exercises/week40/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Cloud computing: Paas</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>The goal of this exercise is to get acquainted with how application deployment can be done on cloud infrastructure.
+In this exercise we will use tools made available by the platform providers. Most providers create tools for deployment to their systems.
+Further we will try to measure the performance of the deployed application.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The first thing you need in order to complete this exercise is some nerves and the will to try out things (This is the real world). 
+In the exercise, we will be deploying last weeks servers to Heroku.
+For doing so, you will have to install <a href="https://maven.apache.org/install.html">maven</a> and the <a href="https://toolbelt.heroku.com/">heroku toolbelt</a>.
+After this is done, you can try the <a href="https://devcenter.heroku.com/articles/getting-started-with-java#introduction">Heroku Java tutorial</a>.
+<!--
+Deploying an application on GAE is perhaps the easiest using the [Eclipse plugins](https://developers.google.com/eclipse/).
+If you have time left, you could also check Google App Engine for Java from [https://cloud.google.com/appengine/docs/java/](https://cloud.google.com/appengine/docs/java/).
+-->
+For measuring performance we will be using <a href="http://jmeter.apache.org/">JMeter</a>, 
+most information needed for this exercise can be found from <a href="http://jmeter.apache.org/usermanual/build-web-test-plan.html">Building a Web Test Plan</a>.
+&lt;!–
+In 2014, the deployment was on GAE.</p>
+
+<p>https://developers.google.com/appengine/docs/java/overview
+https://developers.google.com/appengine/docs/java/runtime
+–&gt;</p>
+
+<h2 id="task">Task</h2>
+<p>The task is to deploy the localGDP server which was created in <a href="../week39/">last week’s exercise</a> to cloud service providers.
+The platform we use in this exercise is provided by <a href="http://www.heroku.com/">Heroku</a>.</p>
+
+<h3 id="clean-up--prepare-last-weeks-code">Clean up / prepare last weeks code</h3>
+
+<p>Complete the code you created last week and refactor so that methods and packages have a normal name.
+You must also split the code in two separate projects: one for the WSDL/SOAP GDP service and one for the LocalGDP service.
+In the WSDL/SOAP application you need to add the dependency to <code class="highlighter-rouge">GDP.jar</code> as a local maven repository, which is placed inside the git repository.
+Instruction for doing this can be found from <a href="https://devcenter.heroku.com/articles/local-maven-dependencies">Adding Unmanaged Dependencies to a Maven Project</a>.
+The LocalGDP project should not have a dependency on <code class="highlighter-rouge">GDP.jar</code>.</p>
+
+<!--
+It seems easier to start afresh.
+
+Now change to this week's repository and remove the parts related to the SOAP localGDP server. Change to the new repo by 
+    
+0. cloning the repository
+1. adding a new remote
+2. pushing the branch to the new remote
+3. removing the old remote
+-->
+
+<h3 id="deploying-the-soapwsdl-gdp-service-to-heroku">Deploying the SOAP/WSDL GDP Service to Heroku</h3>
+
+<p>Start by deploying the SOAP/WSDL application on Heroku.
+On Heroku, you can run any Java application which connects in time (within 60 seconds) to the port which Heroku specifies.
+In particular, you can keep the code for the WSDL/SOAP service form last week more or less as it was in most groups.
+However, a few small code changes should be made:</p>
+
+<ol>
+  <li>
+    <p>You cannot hardcode the port you run the server on. Instead you need to read the <code class="highlighter-rouge">PORT</code> environment variable. In Java, this is can be done as follows:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Integer port = Integer.valueOf(System.getenv("PORT"));
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Starting the server on <code class="highlighter-rouge">http://localhost...</code> will not work. You have to use <code class="highlighter-rouge">http://0.0.0.0...</code> instead <a href="http://www.mkyong.com/webservices/jax-ws/jax-ws-hello-world-example/#comment-1412568810">*</a>.</p>
+  </li>
+</ol>
+
+<p>Besides these small changes, you have to add a file called <code class="highlighter-rouge">Procfile</code> and a file called <code class="highlighter-rouge">system.properties</code> as described in the Heroku Java tutorial.</p>
+
+<h3 id="deploying-the-localgdp-service-to-heroku">Deploying the LocalGDP service to Heroku</h3>
+
+<p>Deploying this application can be done in essentially the same way as the other service.</p>
+
+<p>Note: also here you will have to replace <code class="highlighter-rouge">localhost</code> with <code class="highlighter-rouge">0.0.0.0</code> and get the port number as an environment variable. 
+Further you have to regenerate the service classes using <code class="highlighter-rouge">wsimport</code>, such that the other deployed service is used.</p>
+
+<p>Finally, you cannot use <code class="highlighter-rouge">System.in.read()</code> to wait for a keypress to stop the server (heroku closes the standard input, so you will read <code class="highlighter-rouge">-1</code> when reading from <code class="highlighter-rouge">stdin</code>).
+Instead, you do not have to stop the server manually and can just wait forever using <code class="highlighter-rouge">Thread.currentThread().wait();</code>.</p>
+
+<p>If you want you can also use the tools which Heroku provides to deploy war packages directly.</p>
+
+<h3 id="update-your-html-page-on-usersjyufi">Update your html page on <code class="highlighter-rouge">users.jyu.fi</code></h3>
+
+<ul>
+  <li>Update your html page on users.jyu.fi to use the service deployed in Heroku.</li>
+</ul>
+
+<!-- try this out properly in time next year...
+####Getting resource classes to work on GAE ####
+
+As you might have read, GAE requires the entry point of you application to be a Servlet, while all you have for now are classes annotated with JAX-RS annotations!
+You cannot run the Grizzly server on GAE as you did on your local system.
+The solution to this is to use [`org.glassfish.jersey.servlet.ServletContainer`](https://jersey.java.net/apidocs/latest/jersey/org/glassfish/jersey/servlet/ServletContainer.html) (which implements Servlet) to act as a proxy for your service classes.
+
+Concrete, you should be able to get your application running as follows:
+
+1. Create a GAE Web Application Project in Eclipse or use the Vaadin project if you used Vaadin for the map.
+2. Add the dependencies needed for Jersey ([download](LibsForJersey.zip)). Place these and all other used libraries in `/war/WEB-INF/lib/`.
+3. Add your resource classes to the project.
+4. Edit the web.xml file (in /war/WEB-INF), adding the following mapping:
+
+<pre><code>    &lt;servlet&gt;
+        &lt;servlet-name&gt;JerseyServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.glassfish.jersey.servlet.ServletContainer&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+        &lt;param-name&gt;jersey.config.server.provider.packages&lt;/param-name&gt;
+        &lt;!-- Replace this package name with the one for your classes --&gt;
+        &lt;param-value&gt;fi.jyu.ties456.miselico&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;JerseyServlet&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/your/path/as/you/set/it/up/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;</code></pre>
+
+
+After deploying, you should able to access your application from (replace X by your group number.) `http://ties456-2014-groupX.appspot.com/your/path/as/you/set/it/up/lng/lat` 
+or something.
+
+Also put the code for your map in the same project and deploy it to GAE, make it accessible from `http://ties456-2014-groupX.appspot.com/`.
+Note that you might need to register for an API key when using google maps from another host as `localhost`.
+-->
+
+<!--
+
+Leaving this part out
+
+Finally, you have to replace the cache implementation with one using [JCache](https://cloud.google.com/appengine/docs/java/memcache/usingjcache).
+
+
+### Heroku ###
+
+Heroku is much more flexible about the types of applications you can run in the Java environment.
+It is thus also possible to deploy an application which is quite similar to the one we deployed in the first part of the exercise to Heroku.
+Heroku provides a plugin for eclipse which has a tutorial on the [Getting Started with Heroku & Eclipse](http://eclipse-plugin.herokuapp.com/) page.
+
+ old link, recheck later: https://devcenter.heroku.com/articles/getting-started-with-heroku-eclipse 
+
+
+While following that tutorial, make sure to choose the RESTful JAX-RS application type. This way all dependencies will be automatically arranged.
+You can then add the GDPService class to the right folder to make it available.
+Note that the Heroku plug-in depends strongly on Maven to achieve this ease of use.
+
+-->
+
+<h3 id="jmeter">JMeter</h3>
+
+<p>With JMeter you can emulate many requests to your service and hence create a high load on your server.
+Try to come up with a reasonable way to measure the performance.
+Use this technique to measure the performance of your server running locally vs. the one on Heroku.
+Also look at how different settings for your cache affect the performance.
+Note that the GDP.jar implementation has a one second delay when answering to calls.
+Document how you measured the performance, add the measurements and describe how the results compare.</p>
+
+<p>It is recommended to perform these measurements in the Linux class.</p>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+<p>Both projects must be uploaded to the git repository which will be made by the teacher. <em>Note :</em> when deploying to Heroku, you might have pushed all sorts of stuff which does not normally belong in a code repository.
+Do not push all these things to the code repository. Only source and configuration files belong there. No compiled code (except for the local maven repository).</p>
+
+<p>The repositories should contain a short readme.md file which should be formatted using <a href="http://daringfireball.net/projects/markdown/">markdown</a>.
+Also add the documentation about performance measuring and the URL to get the local GDP value for latitude 62.2320 and longitude 25.7367 to the readme file.</p>
+
+<!--
+Hints
+-----
+1. When deploying on GAE, you can see the log by going to your applications dashboard (click on your application name from [https://appengine.google.com/](https://appengine.google.com/)) 
+and then go to Logs using the link on the left hand side of the page.
+2. If you notice an error in your log with type `java.lang.IncompatibleClassChangeError`, you might need to disable `Use Datanucleus JDO/JPA to access the datastore` 
+from Project->Properties->Google->App Engine / Datastore .
+The reason for this error is that the data store code is using classes which are the same as some of the classes in the Jersey libraries except that the versions are different.
+3. Despite what you might read in multiple places, Jersey 2 should now work on AppEngine (see [this resolved bug](https://java.net/jira/browse/JERSEY-2136)).
+
+-->
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

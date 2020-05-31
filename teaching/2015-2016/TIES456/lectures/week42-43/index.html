@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Autumn 2015</p>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul>
+<li>Review of week 42-43</li>
+<li>Small test</li>
+<li>Feedback</li>
+<li>Some extra’s about caching?</li>
+</ul>
+</div>
+<div id="review-week-42---overview" class="slide section level1">
+<h1>Review week 42 - overview</h1>
+</div>
+<div id="test-feedback" class="slide section level1">
+<h1>Test – feedback</h1>
+</div>
+<div id="discussion-about-reflective-questions" class="slide section level1">
+<h1>Discussion about reflective questions</h1>
+<ol style="list-style-type: decimal">
+<li>How would you implement a page which shows a list of contacts. See also <a href="http://docs.basho.com/riak/latest/dev/references/http/list-keys/">List keys</a>.</li>
+<li>Why would you ever use a set-up with virtual machines in a real (production) environment? Or would you not?</li>
+<li>Which of the optimizations made sense, which ones not?</li>
+<li>What should be improved in this exercise if it is given to students in the future?</li>
+</ol>
+</div>
+<div id="listing-keys" class="slide section level1">
+<h1>Listing keys</h1>
+<ul>
+<li>Use a different kind of database</li>
+</ul>
+</div>
+<div id="virtual-machines-in-production" class="slide section level1">
+<h1>Virtual machines in production</h1>
+<ul>
+<li>Benefits
+<ul>
+<li>easy deployment (you can define templates)</li>
+<li>improve utilization rate by putting multiple VM on one real server - cost effective</li>
+<li>security (restrict access)
+<ul>
+<li>Isolated environment for testing things</li>
+<li>Fine grained access control</li>
+</ul></li>
+<li>Some protection against hardware failure</li>
+<li>State can be saved in a file and the whole machine can be moved</li>
+<li>Fast ‘network’ connection between machines
+<ul>
+<li>You can try bad connections too</li>
+</ul></li>
+</ul></li>
+<li>Drawback
+<ul>
+<li>For the absolute performance virtual machines are not the best, but security wise they make a lot of sense.
+<ul>
+<li>HPC is <em>never</em> done using virtual machines</li>
+</ul></li>
+</ul></li>
+<li>Note
+<ul>
+<li>Your http server was only accesible from the host (oksa3), one can set-up port forwarding such that one port of oksa3 is forwarded to a specific port on the VM</li>
+</ul></li>
+</ul>
+</div>
+<div id="optimizations" class="slide section level1">
+<h1>Optimizations</h1>
+<ul>
+<li>Made sense
+<ul>
+<li>Change framework</li>
+<li>Caching (in some cases)</li>
+</ul></li>
+<li>No difference (also not worse)
+<ul>
+<li>Protocol buffers</li>
+<li>Load balance database servers</li>
+</ul></li>
+</ul>
+</div>
+<div id="thesis-topics" class="slide section level1">
+<h1>Thesis topics</h1>
+<ul>
+<li>Caching using groupcache could solve some headaches
+<ul>
+<li>Similar idea to cache from Guava</li>
+<li>The cache is reponsible for fetching missing data</li>
+</ul></li>
+<li><a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29">Paxos</a> is a protocol used to ensure the finding of a consensus about something between a group of computers.<br />
+A thesis work related to this algorithms is possible.</li>
+<li><a href="http://docker.io">Docker</a> is a new way of managing container virtualization. You can make thesis in which you compare different options for virtualization, compare and experiment with their properties.</li>
+<li>…</li>
+</ul>
+</div>
+<div id="review-week-42---caching" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li><p>Caches are hard to get right</p>
+<pre><code>              @post(&#39;/add&#39;)
+              def add():
+                  ... get name and number from form
+                  ... add to database
+
+              @get(&#39;search/&lt;name&gt;&#39;)
+              def search(name):
+                    number = mcClient.get(name)
+                    if (number is None):
+                        number = riakBucket.get(name)
+                        mcClient.set(name, number)
+                     return &quot;Some html with the number&quot;</code></pre></li>
+</ul>
+</div>
+<div id="review-week-42---caching-1" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<!-- This slide was not skipped in class -->
+<ul>
+<li>Problem : stale data in cache in the following case:
+<ol style="list-style-type: decimal">
+<li>/add?name=A&amp;number=0
+<ul>
+<li>DB: (A,0)</li>
+<li>MC: -</li>
+</ul></li>
+<li>/search?name=A //returns 0
+<ul>
+<li>DB: (A,0)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+<li>/add?name=A&amp;number=1 //update to 1
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+<li>/search?name=A //returns 0
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+<div id="review-week-42---caching-2" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li><p>Caches are hard to get right - let’s try to solve this - attempt 1</p>
+<pre><code>              @post(&#39;/add&#39;)
+              def add():
+                  ... get name and number from form
+                  ... remove from memcache
+                  ... add to database
+
+              @get(&#39;search/&lt;name&gt;&#39;)
+              def search(name):
+                    number = mcClient.get(name)
+                    if (number is None):
+                        number = riakBucket.get(name)
+                        mcClient.set(name, number)
+                     return &quot;Some html with the number&quot;</code></pre></li>
+</ul>
+</div>
+<div id="review-week-42---caching-3" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<!-- This slide was skipped in class -->
+<ul>
+<li>Problem : stale data in cache in the following (multi-threaded) case:
+<ol style="list-style-type: decimal">
+<li>/add?name=A&amp;number=0
+<ul>
+<li>DB: (A,0)</li>
+<li>MC: -</li>
+</ul></li>
+<li><p><em>Add and search simultaneously</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>/add?name=A&amp;number=1</th>
+<th>/search?name=A</th>
+<th>DB</th>
+<th>MC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Get data from form</td>
+<td></td>
+<td>(A,0)</td>
+<td>(A,0)</td>
+</tr>
+<tr class="even">
+<td>remove from memcache</td>
+<td></td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>number = mcClient.get(name)</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>if (number is None):</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>number = riakBucket.get(name)</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>mcClient.set(name, number)</td>
+<td>(A,0)</td>
+<td>(A,0)</td>
+</tr>
+<tr class="odd">
+<td>add to database</td>
+<td></td>
+<td>(A,1)</td>
+<td>(A,0)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+<li>/search?name=A //returns 0
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+<div id="review-week-42---caching-4" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li><p>Caches are hard to get right - let’s try to solve this - attempt 2</p>
+<pre><code>              @post(&#39;/add&#39;)
+              def add():
+                  ... get name and number from form
+                  ... add to database
+                  ... remove from memcache
+
+              @get(&#39;search/&lt;name&gt;&#39;)
+              def search(name):
+                    number = mcClient.get(name)
+                    if (number is None):
+                        number = riakBucket.get(name)
+                        mcClient.set(name, number)
+                     return &quot;Some html with the number&quot;</code></pre></li>
+</ul>
+</div>
+<div id="review-week-42---caching-5" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<!-- This slide was skipped in class -->
+<ul>
+<li>Problem : stale data in cache in the following (multi-threaded) case:
+<ol style="list-style-type: decimal">
+<li>/add?name=A&amp;number=0
+<ul>
+<li>DB: (A,0)</li>
+<li>MC: -</li>
+</ul></li>
+<li><p><em>Add and search simultaneously</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>/add?name=A&amp;number=1</th>
+<th>/search?name=A</th>
+<th>DB</th>
+<th>MC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>number = mcClient.get(name)</td>
+<td>(A,0)</td>
+<td>(A,0)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>if (number is None):</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>number = riakBucket.get(name)</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>#number == 0</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td>Get data from form</td>
+<td></td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td>remove from memcache</td>
+<td></td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td>add to database</td>
+<td></td>
+<td>(A,1)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>mcClient.set(name, number)</td>
+<td>(A,1)</td>
+<td>(A,0)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+<li>/search?name=A //returns 0
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+<div id="review-week-42---caching-6" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li><p>You could also do</p>
+<pre><code>              @post(&#39;/add&#39;)
+              def add():
+                  ... get name and number from form
+                  ... add to database
+                  ... set on memcache = overwrite</code></pre></li>
+</ul>
+</div>
+<div id="review-week-42---caching---a-problem-can-still-occur" class="slide section level1">
+<h1>Review week 42 - caching - a problem can still occur</h1>
+<!-- This slide was skipped in class -->
+<ul>
+<li>Problem : stale data in cache in the following (multi-threaded) case:
+<ol style="list-style-type: decimal">
+<li>/add?name=A&amp;number=0
+<ul>
+<li>DB: (A,0)</li>
+<li>MC: -</li>
+</ul></li>
+<li><p><em>Add and search simultaneously</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>/add?name=A&amp;number=0</th>
+<th>/search?name=A</th>
+<th>DB</th>
+<th>MC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>number = mcClient.get(name)</td>
+<td>(A,0)</td>
+<td>(A,0)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>if (number is None):</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>number = riakBucket.get(name)</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>#number == 0</td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td>Get data from form</td>
+<td></td>
+<td>(A,0)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td>set on memcache</td>
+<td></td>
+<td>(A,0)</td>
+<td>(A,1)</td>
+</tr>
+<tr class="odd">
+<td>add to database</td>
+<td></td>
+<td>(A,1)</td>
+<td>(A,1)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>mcClient.set(name, number)</td>
+<td>(A,1)</td>
+<td>(A,0)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+<li>/search?name=A //returns 0
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (A,0)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+<div id="review-week-42---caching-7" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li><p>Caches are hard to get right - let’s try to solve this</p>
+<pre><code>              @post(&#39;/add&#39;)
+              def add():
+                  ... get name and number from form
+                  ... add to database
+                  ... remove from memcache
+
+              @get(&#39;search/&lt;name&gt;&#39;)
+              def search(name):
+                    number = mcClient.get(name)
+                    if (number is None):
+                        number = riakBucket.get(name)
+                        mcClient.cas(name, number) #only do a set if not updated
+                     return &quot;Some html with the number&quot;</code></pre></li>
+</ul>
+</div>
+<div id="review-week-42---caching-8" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<!-- This slide was not skipped in class -->
+<ul>
+<li><p>Problem : The teacher cannot find any guarantees on whether the CAS counter is updated on delete. If this is not the case, the following could happen: stale data in cache in the following (multi-threaded) case:</p>
+<ol style="list-style-type: decimal">
+<li>/add?name=A&amp;number=1
+<ul>
+<li>DB: (A,1)</li>
+<li>MC: (-,-)</li>
+</ul></li>
+<li><p><em>Add and search simultaneously</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>/add?name=A&amp;number=2</th>
+<th>/search?name=A</th>
+<th>DB</th>
+<th>MC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>number = mcClient.get(name)</td>
+<td>(A,1)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>if (number is None):</td>
+<td>(A,1)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>number = riakBucket.get(name)</td>
+<td>(A,1)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td>Get data from form</td>
+<td></td>
+<td>(A,1)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td>add to database</td>
+<td></td>
+<td>(A,2)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="even">
+<td>remove from memcache</td>
+<td></td>
+<td>(A,2)</td>
+<td>(-,-)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>mcClient.cas(name, number) #case1</td>
+<td>(A,2)</td>
+<td>(A,1)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>mcClient.cas(name, number) #case2</td>
+<td>(A,2)</td>
+<td>(-,-)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>case 1
+<ul>
+<li>The counter is not updated on delete and null == null, then the cas will succeed!</li>
+<li>DB: (A,2)</li>
+<li>MC: (A,1)</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>/search?name=A //returns 1
+<ul>
+<li>DB: (A,2)</li>
+<li>MC: (A,1)</li>
+</ul></li>
+</ol></li>
+<li>case 2
+<ul>
+<li>The counter is updated or null != null, then the cas will fail.</li>
+<li>In this case the problem seems solved.</li>
+<li>DB: (A,2)</li>
+<li>MC: (-,-)</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>/search?name=A //returns 2
+<ul>
+<li>DB: (A,2)</li>
+<li>MC: (A,2)</li>
+</ul></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+<div id="review-week-42---caching-9" class="slide section level1">
+<h1>Review week 42 - caching</h1>
+<ul>
+<li>Caches are hard to get right
+<ul>
+<li>One feasible way seems to put a time-out on your memcache entries and time a request can take.
+<ul>
+<li>It might still be that old data is returned, but it should be rare and only for limited time.</li>
+</ul></li>
+<li>Another way is by using a <a href="https://code.google.com/p/memcached/wiki/NewCommands#cas">compare-and-swap operation</a>, where you only overwrite if the data is what you expect.</li>
+<li>If there are multiple memcache servers, they will not inform each other : remove from all
+<ul>
+<li>If this is a <em>hot</em> piece of data, your database will get be hit a lot of times with the same request</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="review-week-42---caching---another-problem" class="slide section level1">
+<h1>Review week 42 - caching - another problem</h1>
+<ul>
+<li><p>In search</p>
+<pre><code>              if mc.get(name):
+                 return mc[name] </code></pre></li>
+<li><p>Or</p>
+<pre><code>              mc[name] = fetched.encoded_data
+              return mc[name] </code></pre></li>
+<li><p>It might be that the data in memcache is removed in between the two calls.</p></li>
+</ul>
+</div>
+</body></html>

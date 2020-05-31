@@ -1,0 +1,53 @@
+week 37
+------------
+* individual task
+* From 2013/37
+    * Fetch user information from Mediafire after authentication
+    * choose own programming language
+
+Week 38
+-------------
+* From now on in groups
+* From 2013/38
+    * Consume a SOAP/WSDL service using JAX-WS
+    * Create a simple command line and web interface (vaadin obligated)
+
+Week 39
+---------------
+* From 2013/39
+    * Service composition
+        * Client
+            * Geocoding rest
+            * GDP for country (SOAP/WSDL)
+        * Server : both SOAP and Rest
+     * Caching
+     * Website showing map
+     
+
+week 40 platform as as service
+-------------
+* From 2013/40
+    * Deploying on GAE and Heroku (Heroku left out in 2014)
+    * Measuring with JMETER (both GAE and Jmeter + local)
+
+Week 41 (This was mainly an idea, some of this was incorporated into the task for week 42. There was no task in week 41!)
+-------------
+* From 2013/40
+    * Proguard class shrinking
+    * Compression
+    * Protocol buffers
+    * netem
+    * Again : measuring using Jmeter, now using variables specified in a CSV file for the longitude and latitude.
+
+Week 42
+------------
+* From 2013/41
+    * System admin
+    * Riak
+    * memcache
+    * Python server (using flask/bottle ? )
+
+Week 43
+------------
+* From 2013/42
+    * using GAE

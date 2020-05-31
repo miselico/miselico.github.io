@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Finding Similar Items - Fighting Spam - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2015-2016/TIES438/exercises/exercise2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Finding Similar Items - Fighting Spam</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>In this exercises we will implement a probabilistic data structure which speeds up the search for items similar to the query.
+In particular, we will build a data structure to find e-mail messages similar to a newly arrived message.
+Then, we will use the similar messages to decide whether the new message is spam.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>In principle, the content presented during the lectures suffices to implement this task.
+However, it is certainly beneficial to study the corresponding text in chapter 3 of the <em>Mining of Massive Datasets</em> book.
+You can also watch the videos of the coursera course related to LSH and k-NN clasifiers (in week 2).
+To get a general idea about how to start, read <a href="https://www.andrew.cmu.edu/course/15-121/labs/HW-4%20Document%20Distance/lab.html">https://www.andrew.cmu.edu/course/15-121/labs/HW-4%20Document%20Distance/lab.html</a>.</p>
+
+<h2 id="task">Task</h2>
+<p>The task consists of four parts. First, you need to make an exact nearest neighbor search. Then you create the approximate search and evaluate its quality.
+In the last part you use the created search functionality to detect spam and measure your accuracy.
+This task is performed individually or as a pair.</p>
+
+<p>For this task, we will use the e-mails from the Enron spam dataset, which are available on oksa3 (<code class="highlighter-rouge">/home/spamdata</code>) or can be downloaded from <a href="http://www.aueb.gr/users/ion/data/enron-spam/">here</a> (you need Enron1-Enron6, totaling 17 mb).
+To measure the distance between two e-mails, we use the angle between their vector representations.
+More concrete, we will use what is called cosine distance in the course book, and <code class="highlighter-rouge">1 -  [Angular similarity]</code> on <a href="http://en.wikipedia.org/wiki/Cosine_similarity#Angular_similarity">Wikipedia</a>.
+Wikipedia also gives a few remarks about the confusing name of this metric.</p>
+
+<!-- \text{distance}(A,B) = \widehat{AB}= \arccos \left({A \cdot B \over \|A\| \|B\|} \right) = \arccos \left(\frac{ \sum\limits_{i=1}^{n}{A_i \times B_i} }{ \sqrt{\sum\limits_{i=1}^{n}{(A_i)^2}} \times \sqrt{\sum\limits_{i=1}^{n}{(B_i)^2}} }\right) -->
+<p><img src="cosineDistance.svg" alt="formula for calculation of cosine distance" /></p>
+
+<p>You are free to work using the programming language you want.</p>
+
+<p>###Part 0###
+Write a function/method to convert an e-mail message to a vector.
+First decide which datatype you want to use for the vector. The vector will be large and sparse (containing a lot of zeros).
+Examples of suitable data structures are maps, multisets, or specific sparse vector datatypes.
+Then, you need to choose a normal (non cryptographic) hash function like murmurhash3 or <a href="https://en.wikipedia.org/wiki/List_of_hash_functions#Non-cryptographic_hash_functions">something else</a> with a fixed seed.
+Now, you can write your converter as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function convert (string email) : sparsevector
+    email = email.substring(8) //get rid of the 'Subject:' part
+    words = splitOnWhiteSpace(email) //note: we keep punctuation, etc. these might actually be good indicators of spam
+    sparsevector V
+    for word in words
+        index = hash(word)
+        V[index] += 1
+    return v
+</code></pre></div></div>
+
+<p>(You can also keep multisets of the strings directly, but then you have to adapt your definitions for dot product and norm accordingly)
+There are many preprocessing/cleaning steps possible, but you’re advised to keep it simple and only improve on this step if you have time left.
+If the sparsevector is empty, then you can either ignore the message or just add one fixed element (0) to it. This way you avoid division by zero in later computations.
+Since this processing is fairly simple, there is no need to store the result of the preprocessing to an intermediate file.</p>
+
+<p>###Part I###
+Implement an exact nearest neighbor search.
+In order to do this you will need to</p>
+
+<ol>
+  <li>Compute the vectors for 1000 emails</li>
+  <li>Compute the vector representation of one more vector (the query - <code class="highlighter-rouge">Dq</code>)</li>
+  <li>Calculate the distance to each of the emails in the set of 1000</li>
+  <li>Find the message (<code class="highlighter-rouge">De</code>) in the set with the smallest distance to the query</li>
+</ol>
+
+<p>The names <code class="highlighter-rouge">Dq</code>, <code class="highlighter-rouge">De</code>, and (in part II) <code class="highlighter-rouge">Da</code> stand for query – the message for which we want to find near neighbors, the exact nearest neighbor, and the nearest neighbor as found by the approximate algorithm.</p>
+
+<p>###Part II###
+Implement an approximate nearest neighbor search.
+Using random hyperplane hashing, it is possible to reduce the amount of messages which we need to compare with.</p>
+
+<p>First, try to implement the method using just one hyperplane, the algorithm goes roughly as follows:</p>
+
+<ol>
+  <li>Compute the vectors for a message in memory</li>
+  <li>You need a random vector (a normal vector of the same dimension as the outcome of your hash function – 2^64), which defines a hyperplane. All messages have to be hashed with the same hyperplane.
+    <ul>
+      <li>It is impossible to create a vector of this size.</li>
+      <li>Instead, you will use a hash function with a different seed for each hyperplane.</li>
+      <li>To get the value for a certain index, hash the index. For instance, if you need n[4500], then you compute hash(4500) and take the outcome as the value of your random vector.</li>
+    </ul>
+  </li>
+  <li>Find out on which side of the hyperplane each message is. Create a dictionary/map which associates the keys (buckets) <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">below</code> with the set of messages which are above and below the hyperplane. 
+(You can represent above and below with a boolean or an enumeration type. See also hints below.)
+    <ul>
+      <li>A message which is on the same side as the random vector, will have a positive dot product when multiplied with it.</li>
+      <li>A message on the other side will result in a negative dot product.</li>
+      <li>A message exactly on the hyperplane (or very close when calculating with floating point numbers) will result in a zero dot product. This is however so rare that you can just return above.</li>
+      <li>To compute the dot product, only compute the summation over the indexes which are non-zero in the message vector. (If you compute the summation over all 2^64 elements, you will be retired long time before the first dot product computation finishes).</li>
+      <li>Beware of overflows while computing the dotproduct.</li>
+    </ul>
+  </li>
+  <li>Load one more message (the query)</li>
+  <li>Find the subset in which to look by finding out whether the query lies above or under the hyperplane.</li>
+  <li>Now, perform the search as you created in part I, but using only the subset of messages, resulting in the message <code class="highlighter-rouge">Da</code>. 
+If there are no messages in the subset, then the distance is <code class="highlighter-rouge">π/2=3.1415926/2</code>.</li>
+</ol>
+
+<p>Once this works (commit to git), you should extend it to multiple hyperplanes.
+For example, for two hyperplanes, instead of only having a separation of the space in two parts, the space gets split in 4.
+In that case, the buckets will be <code class="highlighter-rouge">(above, above)</code>, <code class="highlighter-rouge">(above,below)</code>, <code class="highlighter-rouge">(below, above)</code>, and <code class="highlighter-rouge">(below,below)</code>.
+Because of representation options (see hints), you can limit yourself to up to 60 hyperplanes.
+In the end you check whether you can keep the signatures of all messages from dataset 1 till 5 (~30,000 messages) in memory.</p>
+
+<p>###Part III###
+The method developed in part two might be faster than the linear search, but a certain amount of error is made.
+The goal of this part is to find out the size of this error.
+To measure the error, we will simply calculate the average absolute error for a set of 100 random queries.</p>
+
+<p>Work as follows:</p>
+
+<ul>
+  <li>Load the messages from the first five datasets in memory</li>
+  <li>Load 100 messages (50 spam, 50 genuine) from the sixth dataset - the query messages</li>
+  <li>For each query message find the distance of the exact nearest neighbor.
+    <ul>
+      <li>Record the time needed for this computation</li>
+    </ul>
+  </li>
+  <li>For numberOfHyperplanes in [1, 2, 4, 8, 16, 32]: #You can go up till 60/64 if it does not take too much time to compute
+    <ul>
+      <li>Create the data structure from Part II with numberOfHyperplanes hyper planes</li>
+      <li>Start a timer</li>
+      <li>For each query message
+        <ul>
+          <li>Find the result and distance for the approximate search</li>
+        </ul>
+      </li>
+      <li>Stop the timer</li>
+      <li>Calculate the average error for the current number of hyperplanes <img src="AverageError.gif" alt="formula for calculation of average absolute error" /></li>
+    </ul>
+  </li>
+</ul>
+
+<!-- \frac{\sum\limits_{i=1}^{100} d(D_q,D_a) - d(D_a,D_e)}{100} -->
+
+<p>Create a chart in which you plot the error and timing (2 curves) in function of the number of planes. Also add the time needed for the exact computation.</p>
+
+<p>###Part VI###
+Now, we have an efficient method to find similar messages. We will use this to create the spam detector.
+First, you should create 4 different indexes, each using 16 hyperplanes. (note: this amount might still change) 
+Then, load all messages from datasets 1 till 5 into each index.</p>
+
+<p>Now, try to detect spam mail as follows:</p>
+
+<ul>
+  <li>for each message in the 6th dataset
+    <ul>
+      <li>Collect all messages which are located in the same bucket in any of the indexes.</li>
+      <li>Choose one of these strategies
+        <ul>
+          <li>1-nearest: give the message the label of the nearest message among the collected ones. (this seems to work best among these strategies).</li>
+          <li>pessimistic: if no similar messages are found or any of the found messages is spam, mark the new message as spam.</li>
+          <li>optimistic: if no similar messages are found or any of the found messages is genuine, mark the new message as genuine.</li>
+          <li>majority: give the new message the label which the majority of the found messages has.</li>
+        </ul>
+      </li>
+      <li>In case the collection of potentially close messages is empty, you will have to choose whether you mark the message a spam or not.</li>
+      <li>Check whether this classification was correct.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Four numbers should be reported: the strategy and the percentage of spam marked as spam, spam marked as genuine, genuine marked as spam, and genuine marked as genuine.</p>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+
+<ul>
+  <li>Everything is returned in a git repository
+    <ul>
+      <li>Yousource : <a href="https://yousource.it.jyu.fi/">https://yousource.it.jyu.fi/</a></li>
+    </ul>
+  </li>
+  <li>Make a repository and add the teacher as a collaborator.
+    <ul>
+      <li>You can also keep using the repository you used for the first task.</li>
+    </ul>
+  </li>
+  <li>If unfamiliar with git
+    <ul>
+      <li>Read <a href="http://git-scm.com/book">The Pro Git book</a> on-line and instructions on yousource</li>
+      <li>Ask in group</li>
+    </ul>
+  </li>
+  <li>The deadline for this task is December 1.</li>
+</ul>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>
+    <p>Use small sets (10000 messages or less) of data during development.</p>
+  </li>
+  <li>
+    <p>For the programming language, you might just want to choose the one you are most familiar with. Depending on the chosen language the teacher will be able to help more (or less) with language specific issues.</p>
+  </li>
+  <li>
+    <p>Be careful when using a library to calculate the cosine distance. Read the wikipedia article or the section in the book about the distance. Most built-in implementations will calculate something different.</p>
+  </li>
+  <li>
+    <p>When calculating the arccos, it might happen that due to rounding errors the argument becomes slightly greater than one. The evaluation will (should) then fail. You can check the argument before, and if it is slightly greater than one, make it one.</p>
+  </li>
+  <li>
+    <p>Randomized algorithms are difficult to debug. Make it somehow possible by fixing the seed of the random number generator. At least each run will be the same.</p>
+  </li>
+  <li>
+    <p>Be careful with integer overflows and automatic type conversion (especially in dynamically typed languages).</p>
+  </li>
+  <li>
+    <p>You have many choices to represent the result of hashing using multiple hyperplanes. 
+The most performant one is the use of a integer with 64 bits, where each bit represents one hash function. Then, <code class="highlighter-rouge">1</code> is <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">0</code> is <code class="highlighter-rouge">below</code>.
+Alternatively, you can use a type which can be used in a map/dictionary in the language you are using (like a tuple in python or a list in Java).
+In a language like Java, you could use a Map&lt;List<Location>, List<Email>&gt;, or its multimap variant (available in the Guava library).</Email></Location></p>
+  </li>
+  <li>
+    <p>When you make a query using an message which is itself in the dataset, you should be able to find exactly that message.</p>
+  </li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

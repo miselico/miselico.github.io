@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc plugin for octopress by Michael Cochez" />
+  <meta name="author" content="Michael Cochez" />
+  <!-- This date is wrong <meta name="date" content="2013-04-03" /> -->
+  <title>Session 1</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" href="kalvot.css" type="text/css">    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body><div class="slide section level1">
+
+<p><img src="logo.png" width=100%/></p>
+<p>Autumn 2015</p>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+</div>
+<div id="today" class="slide section level1">
+<h1>Today</h1>
+<ul>
+<li>Overview of Week 39/40</li>
+<li>Next week’s exercise</li>
+<li>Advanced tasks (TIES532)</li>
+</ul>
+</div>
+<div id="overview-week-3940" class="slide section level1">
+<h1>Overview Week 39/40</h1>
+<ul>
+<li>Accepted : groups 2, 3, 5, and 8</li>
+<li>Minor corrections/show deployment/JMeter: groups 4 and 6
+<ul>
+<li>Show changes on Thursday</li>
+</ul></li>
+<li>Major corrections: groups 1, 7, 9, and 10
+<ul>
+<li>Look trough problems during break</li>
+</ul></li>
+</ul>
+</div>
+<div id="general-feedback---use-of-cache---find-the-problem." class="slide section level1">
+<h1>General Feedback - Use of cache - find the problem.</h1>
+<ul>
+<li><p>Creation</p>
+<pre><code>          Cache&lt;String, Double&gt; cache = CacheBuilder.newBuilder()
+              .maximumSize(10)
+              .recordStats()
+              .expireAfterWrite((long) 2.5, TimeUnit.MINUTES)
+              .build();</code></pre></li>
+<li><p>Use</p>
+<pre><code>          if ((cache.getIfPresent(country)) != null) {
+              return cache.getIfPresent(country);
+          } else {
+              double val = gdp.getGDP(country)
+              cache.put(country, val);
+              return val;
+          }</code></pre></li>
+</ul>
+</div>
+<div id="general-feedback---use-of-cache---find-the-problem" class="slide section level1">
+<h1>General Feedback - Use of cache - find the problem</h1>
+<p>(will still somehow work correct in this case, but with degraded performance)</p>
+<ul>
+<li><p>Creation</p>
+<pre><code>          Cache&lt;String, Double&gt; cache = CacheBuilder.newBuilder()
+              .maximumSize(10)
+              .expireAfterWrite(150, TimeUnit.SECONDS)
+              .build();</code></pre></li>
+<li><p>Use</p>
+<pre><code>          Double val = cache.getIfPresent(countryCode);
+          if (val != null){
+              return val;
+          } else {
+              val = gdp.getGDP(countryCode);
+              cache.put(countryCode, val);
+              return val;
+          }</code></pre></li>
+</ul>
+</div>
+<div id="general-feedback---use-of-cache---easiest-to-get-it-right" class="slide section level1">
+<h1>General feedback - Use of cache - easiest to get it right</h1>
+<ul>
+<li><p>Creation</p>
+<pre><code>          LoadingCache&lt;CountryCode, GDP&gt; cache = CacheBuilder.newBuilder()
+              .maximumSize(10)
+              .expireAfterAccess(150, TimeUnit.SECONDS)
+              .refreshAfterWrite(5, TimeUnit.MINUTES)
+              .build(new CacheLoader&lt;CountryCode, GDP&gt;() {
+                  @Override
+                  public GDP load(CountryCode code) throws Exception {
+                      GDP gdp = gdpService.getGDP(code);
+                      return gdp;
+                  }
+              });</code></pre></li>
+<li><p>Use</p>
+<pre><code>          final GDP gdp = cache.get(countryCode);</code></pre></li>
+</ul>
+</div>
+<div id="next-weeks-task" class="slide section level1">
+<h1>Next week’s task</h1>
+<ul>
+<li>Merging of groups …</li>
+<li><a href="../../exercises/week41/">Authentication using Spring</a></li>
+</ul>
+</div>
+<div id="advanced-assignments-ties532" class="slide section level1">
+<h1>Advanced assignments [TIES532]</h1>
+<ul>
+<li><a href="../../advanced/task1/">Mediafire backup</a></li>
+<li><a href="../../advanced/task2/">Bus travel</a></li>
+</ul>
+</div>
+<div id="this-week" class="slide section level1">
+<h1>This week</h1>
+<!--- describe tasks --->
+<ul>
+<li>Before Thursday
+<ul>
+<li><em>Read prerequisite material</em></li>
+</ul></li>
+<li>Before Friday (23:59)
+<ul>
+<li>Make corrections to last week’s exercise</li>
+</ul></li>
+<li>On Thursdays and Mondays
+<ul>
+<li>Make the assignment in groups</li>
+</ul></li>
+<li>Before Monday in two weeks (23:59)
+<ul>
+<li>Submit assignment using git (tip of master branch) - see task.</li>
+</ul></li>
+</ul>
+</div>
+</body></html>

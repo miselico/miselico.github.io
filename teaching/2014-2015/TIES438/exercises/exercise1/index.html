@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Finding Similar Items - Images - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2014-2015/TIES438/exercises/exercise1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Finding Similar Items - Images</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>In this exercises we will implement a probabilistic data structure which speeds up the search for items similar to the query.
+In particular, we will build a data structure to find images similar to a given image.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>In principle, the content presented during the lecture on Friday November 7 suffices to implement this task.
+However, it is certainly beneficial to study the corresponding text in chapter 3 of the <em>Mining of Massive Datasets</em> book.
+You can also watch the videos of the coursera course related to LSH (in week 2).</p>
+
+<h2 id="task">Task</h2>
+<p>The task consists of three parts. First, you need to make an exact search. Then you create the approximate search and finally you need to evaluate its quality.
+This task is performed as a pair. The groups will change during the course.</p>
+
+<p>For this task, we will use the images from the cifar-10 dataset, which can be downloaded from <a href="http://www.cs.toronto.edu/~kriz/cifar.html">the university of Toronto</a>.
+To measure the distance between two images, we use the angle between their vector representations.
+More concrete, we will use what is called cosine distance in the course book, and <code class="highlighter-rouge">1 -  [Angular similarity]</code> on <a href="http://en.wikipedia.org/wiki/Cosine_similarity#Angular_similarity">Wikipedia</a>.
+Wikipedia also gives a few remarks about the confusing name of this metric.</p>
+
+<!-- \text{distance}(A,B) = \widehat{AB}= \arccos \left({A \cdot B \over \|A\| \|B\|} \right) = \arccos \left(\frac{ \sum\limits_{i=1}^{n}{A_i \times B_i} }{ \sqrt{\sum\limits_{i=1}^{n}{(A_i)^2}} \times \sqrt{\sum\limits_{i=1}^{n}{(B_i)^2}} }\right) -->
+<p><img src="cosineDistance.svg" alt="formula for calculation of cosine distance" /></p>
+
+<p>You are free to work using the programming language you want.</p>
+
+<p>###Part I###
+Implement an exact nearest neighbor search.
+In order to do this you will need to</p>
+
+<ol>
+  <li>Load a set of images in memory</li>
+  <li>Load one more image (the query - <code class="highlighter-rouge">Dq</code>)</li>
+  <li>Calculate the distance to each of the images in the set</li>
+  <li>Find the image (<code class="highlighter-rouge">De</code>) in the set with the smallest distance to the query image</li>
+</ol>
+
+<p>###Part II###
+Implement an approximate nearest neighbor search.
+Using random hyperplane hashing, it is possible to reduce the amount of images which we need to compare with.</p>
+
+<p>First, try to implement the method using just one hyperplane, the algorithm goes roughly as follows:</p>
+
+<ol>
+  <li>Load a set of images in memory</li>
+  <li>Create a random vector, which defines a hyperplane</li>
+  <li>Find out on which side of the hyperplane each image is. Create a dictionary/map which associates <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">below</code> with the set of images which are above and below the hyperplane.
+    <ul>
+      <li>An image which is on the same side as the random vector, will have a positive dot product when multiplied with it.</li>
+      <li>An image on the other side will result in a negative dot product.</li>
+      <li>An image exactly on the hyperplane (or very close when calculating with floating point numbers) will result in a zero dot product. This is however so rare that you can just return above or below at random.</li>
+    </ul>
+  </li>
+  <li>Load one more image (the query)</li>
+  <li>Find the subset in which to look by finding out whether the query lies above or under the hyperplane.</li>
+  <li>Now, perform the search as you created in part I, but using only the subset of images, resulting in the image <code class="highlighter-rouge">Da</code>.</li>
+</ol>
+
+<p>Once this works (commit to git), you should extend it to multiple hyperplanes. 
+For example, for two hyperplanes, instead of only having a separation of the space in two parts, the space gets split in 4.
+In that case, the classes will be <code class="highlighter-rouge">(above, above)</code>, <code class="highlighter-rouge">(above,below)</code>, <code class="highlighter-rouge">(below, above)</code>, and <code class="highlighter-rouge">(below,below)</code>.
+Because of representation options, you can limit yourself to up to 60 hyperplanes.</p>
+
+<p>###Part III###
+The method developed in part two might be faster than the linear search, but a certain amount of error is made.
+The goal of this part is to find out the size of this error.
+To measure the error, we will simply calculate the average absolute error for a set of 100 random queries.</p>
+
+<p>Work as follows:</p>
+
+<ul>
+  <li>Load the images in memory</li>
+  <li>For numberOfHyperplanes in [1, 2, 4, 8, 16, 32]: #You can go up till 60 if it does not take too much time to compute
+    <ul>
+      <li>Create the data structure from Part II with numberOfHyperplanes hyper planes</li>
+      <li>For 100 random queries #Use the same 100 random queries each time.
+        <ul>
+          <li>Find the result and distance for the exact nearest neighbor search</li>
+          <li>Find the result and distance for the approximate search</li>
+        </ul>
+      </li>
+      <li>Calculate the average error for the current number of hyperplanes <img src="AverageError.gif" alt="formula for calculation of average absolute error" /></li>
+    </ul>
+  </li>
+</ul>
+
+<!-- \frac{\sum\limits_{i=1}^{100} d(D_q,D_a) - d(D_a,D_e)}{100} -->
+
+<p>Create a chart in which you plot the error in function of the number of planes.</p>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+
+<ul>
+  <li>Everything is returned in a git repository
+    <ul>
+      <li>Yousource : <a href="https://yousource.it.jyu.fi/">https://yousource.it.jyu.fi/</a></li>
+    </ul>
+  </li>
+  <li>For the first task : make a repository and add the teacher as a collaborator</li>
+  <li>If unfamiliar with git
+    <ul>
+      <li>Read <a href="http://git-scm.com/book">The Pro Git book</a> on-line and instructions on yousource</li>
+      <li>Ask in group</li>
+    </ul>
+  </li>
+  <li>The deadline for this task is Sunday November 16.</li>
+</ul>
+
+<h2 id="hints">Hints</h2>
+
+<ol>
+  <li>
+    <p>Use small sets (10000 images or less) of data during development.</p>
+  </li>
+  <li>
+    <p>For the programming language, you might just want to choose the one you are most familiar with. Depending on the chosen language the teacher will be able to help more (or less) with language specific issues.
+The datasets are somewhat easier to read in Python and matlab. In other languages the binary format can be parsed fairly easily.</p>
+  </li>
+  <li>
+    <p>Be careful when using a library to calculate the cosine distance. Read the wikipedia article or the section in the book about the distance. Most built-in implementations will calculate something different.</p>
+  </li>
+  <li>
+    <p>When calculating the arccos, it might happen that due to rounding errors the argument becomes slightly greater than one. The evaluation will (should) then fail. You can check the argument before, and if it is slightly greater than one, make it one.</p>
+  </li>
+  <li>
+    <p>Randomized algorithms are difficult to debug. Make it somehow possible by fixing the seed of the random number generator. At least each run will be the same.</p>
+  </li>
+  <li>
+    <p>Be careful with integer overflows and automatic type conversion (especially in dynamically typed languages).</p>
+  </li>
+  <li>
+    <p>You have many choices to represent the result of hashing using multiple hyperplanes. 
+The most performant one is the use of a integer with 64 bits, where each bit represents one hash function. Then, <code class="highlighter-rouge">1</code> is <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">0</code> is <code class="highlighter-rouge">below</code>.
+Alternatively, you can use a type which can be used in a map/dictionary in the language you are using (like a tuple in python or a list in Java).</p>
+  </li>
+  <li>
+    <p>When you make a query using an image which is itself in the dataset, you should be able to find exactly that image.</p>
+  </li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Web Service Clients - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://localhost:4000/teaching/2014-2015/TIES456/exercises/week38/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="no-sidebar"  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Web Service Clients</h1>
+    
+  </header>
+  
+  <h2 id="goal">Goal</h2>
+<p>To know basics of consuming a web service using JAX-WS</p>
+
+<h2 id="prerequisites">Prerequisites:</h2>
+
+<ul>
+  <li>Learn what a WSDL file is. There is no need to know every detail, just the big picture. In practical use you will learn the details which you need. <a href="http://en.wikipedia.org/wiki/WSDL">http://en.wikipedia.org/wiki/WSDL</a></li>
+  <li>Learn the idea behind the wsimport tool : <a href="http://www.mkyong.com/webservices/jax-ws/jax-ws-wsimport-tool-example/">http://www.mkyong.com/webservices/jax-ws/jax-ws-wsimport-tool-example/</a>
+    <ul>
+      <li>Basically: wsimport converts a WSDL file to Java classes.</li>
+      <li>Full documentation about the tool from <a href="http://jax-ws.java.net/jax-ws-ea3/docs/wsimport.html">http://jax-ws.java.net/jax-ws-ea3/docs/wsimport.html</a></li>
+    </ul>
+  </li>
+  <li>To communicate with the WSDL services SOAP messages will be used. 
+Most of this will be hidden to you because of the use of wsimport. 
+However, it might be useful to have an idea what happens behind the scenes. 
+Therefore, if you are interested, you could read <a href="http://www.w3schools.com/webservices/">http://www.w3schools.com/webservices/</a>. 
+Read the parts about Web Services, SOAP and WSDL. Knowledge about RDF is not needed in this course.</li>
+</ul>
+
+<h2 id="task">Task</h2>
+
+<p>This assignment contains a programming part and several reflective questions.</p>
+
+<p>In the task you are required to make a simple secretary application which will communicate with web services using the WSDL/SOAP standards.</p>
+
+<p>The WSDL files of the services are located at <a href="http://ub1.ad.jyu.fi/people?wsdl">http://ub1.ad.jyu.fi/people?wsdl</a> 
+and <a href="http://ub1.ad.jyu.fi/courses?wsdl">http://ub1.ad.jyu.fi/courses?wsdl</a>. 
+You can open these addresses with your browser to take a look at them. 
+Each WSDL file defines only one service. In a more realistic setting there would be multiple services per WSDL descriptor.</p>
+
+<p>Note: the teacher decided to go with the ‘people’ and ‘courses’ services after all.</p>
+
+<p>The first ‘people’ service defines a service from which you can search for people in the registry.
+Currently the data in the database is as follows (exactly this data):</p>
+
+<table>
+<thead>
+<tr><th>
+
+ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</th><th>
+
+First name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</th><th>
+
+Surname&nbsp;&nbsp;&nbsp;&nbsp;
+</th><th>
+
+Email&nbsp;&nbsp;&nbsp;&nbsp;
+</th></tr>
+</thead>
+<tbody><tr><td>
+
+id1
+</td><td>
+
+John
+</td><td>
+
+Doe
+</td><td>
+
+jd@jd.com
+</td></tr><tr><td>
+
+id2
+</td><td>
+
+Peter
+</td><td>
+
+Caine
+</td><td>
+
+pc@pc.com
+</td></tr><tr><td>
+
+id3
+</td><td>
+
+Mary
+</td><td>
+
+Smith
+</td><td>
+
+ms@ms.com 
+</td></tr></tbody></table>
+
+<p>The method in the ‘courses’ service defines a way of creating a new course in the system. It returns the ID of the created course.
+Your task is to make a Java application which is able to communicate with both services.</p>
+
+<p>Your <strong>first application</strong> must work from the command line and use System.in for input. 
+First, you need to use the wsimport tools to create helper classes which will interact with the published web services. 
+Create the helper classes in the package fi.jyu.it.ties456.week38.services.people and fi.jyu.it.ties456.week38.services.courses (see -p option of wsimport)</p>
+
+<p>Then you can write the application in the class fi.jyu.it.ties456.week38.Main, which needs to have a main method. 
+In the application menu there must be three options : “quit”, “search” and “create”.</p>
+
+<ul>
+  <li>“quit” quits the application.</li>
+  <li>“search” asks for a search string, performs the search method on the people registry and prints the results. 
+Then the application starts over asking the option from the user.</li>
+  <li>“create” asks all needed input parameters (course name, teacher id (which is assumed to be from the person search), number of credits and a short description). Then the course registration method on the courses web service is called and the application prints the returned course ID. Then the application starts over asking the option from the user.</li>
+</ul>
+
+<p>The <strong>second application</strong> is a web interface with the same functionality. 
+To implement this, you have to use the Vaadin framework (see <a href="https://vaadin.com/home">https://vaadin.com/home</a>). 
+The website has extensive information about the framework which is based on Google Web Toolkit.
+Install the eclipse or Netbeans plugin for automatic library management and easy debugging.</p>
+
+<p>The following <strong>reflective questions</strong> must be answered by each group and the answers must be placed in the readme.md file in the repository.</p>
+
+<ul>
+  <li>Most REST services do not use WSDL and SOAP. What could be reasons for this?</li>
+  <li>SOAP and WSDL use XML, would it be better if they would use something more modern like JSON?</li>
+  <li>How did you handle errors and how should it be done? Imagine that your application is running on a production server.</li>
+</ul>
+
+<h3 id="returning-the-task">Returning the task###</h3>
+<p>The finished project(s) must be uploaded to the git repository which will be made by the teacher.
+The repository should contain a short readme.md file which should be formatted using <a href="http://daringfireball.net/projects/markdown/">markdown</a>.
+Also add the answers to the questions to the readme file.</p>
+
+<p>Hints:</p>
+
+<ol>
+  <li>Use Eclipse IDE for Java EE Developers from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a>.</li>
+  <li>Make first the command line app and then the website stuff.</li>
+  <li>The services will not run anymore after 30 September 2014.</li>
+  <li>If you want to see an XML file in a “nice form”, open it in your web browser. 
+Most modern web browsers are able to display XML files in a relatively readable form.</li>
+  <li>Use tools available on the Internet (e.g. WSDL testers, validators, visualizers etc.).</li>
+  <li>To get some result from the people search service, use search strings that are substrings of strings stored in the database 
+(e.g. “Jo”, “Cai”, “ary”)</li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
