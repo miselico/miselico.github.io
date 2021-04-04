@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Page Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	
+	
+	
+#thecolor{
+ width: 300px;
+ height: 300px;
+ background-color: pink;
+}
+
+.part{
+
+width: 200px;
+font-size: 2em;
+text-align: center;
+margin: 0 auto;
+}
+
+.flip-horizontal{
+  -moz-transform: scale(-1, 1);
+-webkit-transform: scale(-1, 1);
+-o-transform: scale(-1, 1);
+-ms-transform: scale(-1, 1);
+transform: scale(-1, 1);
+}
+
+#partbox {
+
+margin: 0 auto;
+	
+}
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+</head>
+<body>
+
+
+
+
+<div id="thecolor">
+<div id="partbox" class="unselectable" > 
+<div id="start" class="part">
+Klik hier om te starten
+</div>
+
+<div id="lefthand" class="part">
+ linkerhand<div  style="font-size:4em" class="flip-horizontal">✋</div>
+</div>
+
+<div id="righthand" class="part">
+rechterhand<div style="font-size:4em">✋</div>
+</div>
+
+<div id="leftfoot" class="part">
+ linkervoet<div class="flip-horizontal"><img width="160px" src="voet.png"/></div>
+</div>
+
+<div id="rightfoot" class="part">
+rechtervoet  <div><img width="160px" src="voet.png"/></div>
+</div>
+
+</div>
+</div>
+
+<script>
+    $(".part").not("#start").css("visibility", "hidden");
+    $(".part").not("#start").css("height", "0px");
+    
+$('#thecolor')
+  //.html('Click voor de volgende move...') // Try edit it...
+  .on('click', () => {
+    console.log('Hi friend!');
+    colorRand = Math.random();
+    let color;
+    if (colorRand < 0.2) {
+      //paars
+      color = "#9C27B0";
+    } else if (colorRand < 0.4){
+      //oranje
+      color = "#FF5722";
+    } else if (colorRand < 0.6){
+		//blauw
+      color = "#00BCD4";  
+    } else if (colorRand < 0.8){
+		//geel
+      color = "#F5FF00";
+    } else {
+		//groen
+      color = "#36FF00";
+    }
+    $("#thecolor").css("background-color", color);
+
+
+    partRand = Math.random();
+    let part;
+    if (colorRand < 0.25) {
+      part = "#leftfoot"
+    } else if (colorRand < 0.5){
+      part = "#rightfoot"
+    } else if (colorRand < 0.75){
+      part = "#lefthand"
+    } else {
+      part = "#righthand"
+    }
+    $(".part").css("visibility", "hidden");
+    $(".part").css("height", "0px");
+    $(part).css("visibility", "visible");
+    $(part).css("height", "100px");
+  });
+
+console.log('App started');
+
+</script>
+
+
+</body>
+</html>
