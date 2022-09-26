@@ -92,7 +92,7 @@ Most of the concepts used are dealt with in the theory part of the course.</p>
 
 <p>A beginners guide to JADE : <a href="http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-beginners.pdf">http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-beginners.pdf</a></p>
 
-<p>If you are interested in the standards used for agent communication, you could attempt to read trough the 
+<p>If you are interested in the standards used for agent communication, you could attempt to read trough the
 <a href="http://www.fipa.org/specs/fipa00061/SC00061G.html">FIPA ACL Message Structure Specification</a> and the
 <a href="http://www.fipa.org/specs/fipa00037/SC00037J.html">FIPA Communicative Act Library Specification</a>.
 This is for the moment not strictly necessary.</p>
@@ -101,7 +101,7 @@ This is for the moment not strictly necessary.</p>
 
 <h2 id="tasks">Tasks</h2>
 
-<p>The assignment consists of five tasks, which build upon each other. 
+<p>The assignment consists of five tasks, which build upon each other.
 First, you will create a very simple scenario with two agents.
 Then, these two agents will have to communicate.
 Next, the functionality of the agents needs to be extended using Behaviors.
@@ -110,7 +110,7 @@ Finally, you need to implement a basic messaging pattern.</p>
 
 <p>These tasks are performed individually. You have to use Java 7 or 8 for these tasks.</p>
 
-<p>###Task 1 - Hello Agent World###</p>
+<h3 id="task-1---hello-agent-world">Task 1 - Hello Agent World</h3>
 
 <p>To start the first task, you need to create a maven project.
 Use <code class="highlighter-rouge">fi.jyu.ties454</code> as the Group Id, <code class="highlighter-rouge">&lt;username&gt;.assignment1</code> as the Artifact Id, and Version <code class="highlighter-rouge">0.0.1-SNAPSHOT</code>.</p>
@@ -149,8 +149,8 @@ Use <code class="highlighter-rouge">fi.jyu.ties454</code> as the Group Id, <code
 
 <p>In an IDE like Eclipse you might have to update the project (right click project&gt;Maven&gt;Update Project) in order for these changes to take effect.</p>
 
-<p>Now, make sure the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1</code> exists, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username. 
-All code of this assignment must be placed in that package. 
+<p>Now, make sure the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1</code> exists, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username.
+All code of this assignment must be placed in that package.
 The first task must be placed in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task1</code>, the second one in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment1.task2</code>, and so on.
 If your project contains some default code (App.java, AppTest.java), remove it.</p>
 
@@ -182,7 +182,7 @@ Also try to find your agents in the GUI and note that they are active (they are 
 <p>At the moment your agents don’t do anything yet. To make the do something you need to override the <code class="highlighter-rouge">void setup()</code> method.
 For the HelloAgent print “Hello agent world” in that method. For the HiAgent print “Hi agent world”.</p>
 
-<p>###Task 2 - Hello other agent###</p>
+<h3 id="task-2---hello-other-agent">Task 2 - Hello other agent</h3>
 
 <p>The main power of a multi-agent system lies in the fact that it is able to collaborate with other agents.
 In JADE this is facilitated by messaging. Messaging in JADE is point-to-point, i.e., a message is sent from a specified sender to a number of specified receivers.</p>
@@ -207,7 +207,7 @@ Set the content of the message to <code class="highlighter-rouge">Hello</code> o
 
 <p>All code of this task goes into the <code class="highlighter-rouge">setup()</code> method of the agent.</p>
 
-<p>###Task 3 - Behaviors###</p>
+<h3 id="task-3---behaviors">Task 3 - Behaviors</h3>
 
 <p>Writing the agent’s code in the setup method method is somewhat limited.
 All actions the agent takes must be written in a sequential fashion.
@@ -222,7 +222,7 @@ The behavior has the methods <code class="highlighter-rouge">action()</code> in 
 (If done() returns <code class="highlighter-rouge">true</code> the behavior will not be rescheduled.)
 Frequently one wants behaviors which only runs once or which run forever.
 To cater these use-cases JADE provides the <code class="highlighter-rouge">OneShotBehavior</code> and <code class="highlighter-rouge">CyclicBehavior</code> classes, respectively.
-One more possible use-case is a task which should repeat every so often (e.g. every 30 seconds). 
+One more possible use-case is a task which should repeat every so often (e.g. every 30 seconds).
 The <code class="highlighter-rouge">TickerBehavior</code> is exactly suitable for that scenario.
 Finally, there is <code class="highlighter-rouge">WakerBehavior</code> which gets executed once after a certain amount of time has elapsed.
 Behaviors can be added to an agent at any time.
@@ -238,9 +238,9 @@ The functionality needs to be as follows:</p>
   <li>The HelloAgent receives these responses and prints them to the console</li>
 </ul>
 
-<p>###Task 4 - Message filtering###</p>
+<h3 id="task-4---message-filtering">Task 4 - Message filtering</h3>
 
-<p>Often an agent will be waiting for multiple messages at the same time. 
+<p>Often an agent will be waiting for multiple messages at the same time.
 A piece of code used to handle specific messages only wants to receive and process these and not other types.
 One way to solve this problem is to receive a message and then put it back to the agent’s message queue if it was not the message you expected.
 A better way to do this is by using <code class="highlighter-rouge">MessageTemplate</code>s. These templates can, for instance, be created as follows:</p>
@@ -269,7 +269,7 @@ Now, change the functionality as follows:</p>
         // Message received. Process it
       } else {
           block();
-      } 
+      }
   }
 </code></pre></div>            </div>
           </li>
@@ -286,7 +286,7 @@ Now, change the functionality as follows:</p>
   </li>
 </ul>
 
-<p>###Task 5 - Complex behaviors and messaging patterns###</p>
+<h3 id="task-5---complex-behaviors-and-messaging-patterns">Task 5 - Complex behaviors and messaging patterns</h3>
 
 <p>Behaviors can be combined in all sorts of ways. JADE provides some classes which aim to help this composition.
 However, often it is easier to combine the four classes mentioned above to compose complex functionality, or to derive from Behavior directly.</p>

@@ -94,10 +94,10 @@
       <li>Full documentation about the tool from <a href="http://jax-ws.java.net/jax-ws-ea3/docs/wsimport.html">http://jax-ws.java.net/jax-ws-ea3/docs/wsimport.html</a></li>
     </ul>
   </li>
-  <li>To communicate with the WSDL services SOAP messages will be used. 
-Most of this will be hidden to you because of the use of wsimport. 
-However, it might be useful to have an idea what happens behind the scenes. 
-Therefore, if you are interested, you could read <a href="http://www.webreference.com/authoring/web_service/index.html">http://www.webreference.com/authoring/web_service/index.html</a>. 
+  <li>To communicate with the WSDL services SOAP messages will be used.
+Most of this will be hidden to you because of the use of wsimport.
+However, it might be useful to have an idea what happens behind the scenes.
+Therefore, if you are interested, you could read <a href="http://www.webreference.com/authoring/web_service/index.html">http://www.webreference.com/authoring/web_service/index.html</a>.
 Read the parts about Web Services, SOAP and WSDL. Continue reading about XML if you are not familiar with it.</li>
 </ul>
 
@@ -109,9 +109,9 @@ Read the parts about Web Services, SOAP and WSDL. Continue reading about XML if 
 
 <p>In the task you are required to make a simple secretary application which will communicate with web services using the WSDL/SOAP standards.</p>
 
-<p>The WSDL files of the services are located at <a href="http://ub1.ad.jyu.fi/teachers?wsdl">http://ub1.ad.jyu.fi/teacher?wsdl</a> 
-and <a href="http://ub1.ad.jyu.fi/course?wsdl">http://ub1.ad.jyu.fi/courses?wsdl</a>. 
-You can open these addresses with your browser to take a look at them. 
+<p>The WSDL files of the services are located at <a href="http://ub1.ad.jyu.fi/teachers?wsdl">http://ub1.ad.jyu.fi/teacher?wsdl</a>
+and <a href="http://ub1.ad.jyu.fi/course?wsdl">http://ub1.ad.jyu.fi/courses?wsdl</a>.
+You can open these addresses with your browser to take a look at them.
 Each WSDL file defines only one service. In a more realistic setting there would be multiple services per WSDL descriptor.</p>
 
 <p>The first <code class="highlighter-rouge">teacher</code> service defines a service from which you can search for people in the registry.
@@ -168,36 +168,36 @@ Mary
 Smith
 </td><td>
 
-ms@ms.com 
+ms@ms.com
 </td></tr></tbody></table>
 
 <p>The method in the <code class="highlighter-rouge">course</code> service defines a way of creating a new course in the system. It returns the ID of the created course.
 Your task is to make a Java application which is able to communicate with both services.</p>
 
-<p>###First application###</p>
+<h3 id="first-application">First application</h3>
 
 <p>Your <strong>first application</strong> must work from the command line and use System.in for input. (This must be a maven project)
-First, you need to use the wsimport tools to create helper classes which will interact with the published web services. 
+First, you need to use the wsimport tools to create helper classes which will interact with the published web services.
 Create the helper classes in the package fi.jyu.it.ties456.week38.services.teacher and fi.jyu.it.ties456.week38.services.course (see -p option of wsimport)
 It is the easiest to keep the generated classes in your project. (use -keep and -Xnocompile).
 If you forget to generate the classes directly in the package (using -p), it is <em>not</em> possible to just change the package name at the top of the code file.
 You will have to regenerate the files.</p>
 
-<p>Then you can write the application in the class fi.jyu.it.ties456.week38.Main, which needs to have a main method. 
+<p>Then you can write the application in the class fi.jyu.it.ties456.week38.Main, which needs to have a main method.
 In the application menu there must be three options : “quit”, “search” and “create”.</p>
 
 <ul>
   <li>“quit” quits the application.</li>
-  <li>“search” asks for a search string, performs the search method on the teachers registry and prints the results. 
+  <li>“search” asks for a search string, performs the search method on the teachers registry and prints the results.
 Then the application starts over asking the option from the user.</li>
   <li>“create” asks all needed input parameters (course name, teacher id (which should to be from the teacher search), number of credits and a short description). Then the course registration method on the courses web service is called and the application prints the returned course ID. Then the application starts over asking the option from the user.</li>
 </ul>
 
 <p>Do not spend to much time on things like input validation, beautiful design, etc. However, it would be good to have one class containing two methods. One for each action.</p>
 
-<p>###Second application###</p>
+<h3 id="second-application">Second application</h3>
 
-<p>Once this task is done, you will have to make a <strong>second application</strong>. This will be is an API with the same functionality. 
+<p>Once this task is done, you will have to make a <strong>second application</strong>. This will be is an API with the same functionality.
 <!--More details on how this application has to be build will be published here very soon. -->
 This web application should be created using Java Servlets. Each Servlet is responsible for handling one of the following requests:</p>
 
@@ -256,7 +256,7 @@ This web application should be created using Java Servlets. Each Servlet is resp
 </ol>
 
 <!--
-To implement this, you have to use the Vaadin framework (see [https://vaadin.com/home](https://vaadin.com/home)). 
+To implement this, you have to use the Vaadin framework (see [https://vaadin.com/home](https://vaadin.com/home)).
 The website has extensive information about the framework which is based on Google Web Toolkit.
 Install the eclipse or Netbeans plugin for automatic library management and easy debugging.
 -->
@@ -281,7 +281,7 @@ Also add the answers to the questions to the readme file.</p>
   <li>Make first the command line app and then the website stuff.</li>
   <li>The services will not run anymore after 30 September 2015.</li>
   <li>Use tools available on the Internet (e.g. WSDL testers, validators, visualizers etc.).</li>
-  <li>To get some result from the teachers search service, use search strings that are substrings of strings stored in the database 
+  <li>To get some result from the teachers search service, use search strings that are substrings of strings stored in the database
 (e.g. “Jo”, “Cai”, “ary”)</li>
   <li>Strictly speaking, a Servlet is anything which implements the javax.servlet.Servlet interface. However, in practice you will almost always use HttpServlets.</li>
   <li>If you are familiar with Servlets, you can also work with other web containers (Glassfish, Tomcat, …) and use <code class="highlighter-rouge">web.xml</code>. However, you have to make sure that all group members understand what is happening.</li>

@@ -87,16 +87,16 @@ In this exercise we will use tools made available by the platform providers. Mos
 Further we will try to measure the performance of the deployed applications.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
-<p>The first thing you need in order to complete this exercise is good nerves and the will to try out things (This is the real world). 
+<p>The first thing you need in order to complete this exercise is good nerves and the will to try out things (This is the real world).
 &lt;!–
-Further, you will need some knowledge about <a href="http://git-scm.com/book">git</a> for moving code to the server 
+Further, you will need some knowledge about <a href="http://git-scm.com/book">git</a> for moving code to the server
 (what you used for previous exercises should be sufficient, you might need to look into <a href="http://git-scm.com/book/ch2-5.html">adding remotes</a>, though).
 Then, b</p>
 
-<p>–&gt; 
-Because of the platforms which will be used, you need to understand what Java <a href="http://en.wikipedia.org/wiki/Java_Servlet">Servlets</a> are and 
+<p>–&gt;
+Because of the platforms which will be used, you need to understand what Java <a href="http://en.wikipedia.org/wiki/Java_Servlet">Servlets</a> are and
 what a <a href="http://en.wikipedia.org/wiki/WAR_file_format_%28Sun%29">WAR</a> package is and looks like.
-For measuring performance we will be using <a href="http://jmeter.apache.org/">JMeter</a>, 
+For measuring performance we will be using <a href="http://jmeter.apache.org/">JMeter</a>,
 most information needed for this exercise can be found from <a href="http://jmeter.apache.org/usermanual/build-web-test-plan.html">Building a Web Test Plan</a>.
 You could also check Google App Engine for Java from <a href="https://cloud.google.com/appengine/docs/java/">https://cloud.google.com/appengine/docs/java/</a>.
 <!--
@@ -107,7 +107,7 @@ https://developers.google.com/appengine/docs/java/runtime
 <h2 id="task">Task</h2>
 <p>The goal is to deploy the localGDP server which was created in <a href="../week39/">last week’s exercise</a> to cloud service providers.
 The platform we use in this exercise is offered by Google which provides the <a href="https://appengine.google.com">Google App Engine (GAE)</a>. <!-- and secondly we will deploy to [Heroku](http://www.heroku.com/). -->
-You only need to get the RESTfull interface working. 
+You only need to get the RESTfull interface working.
 Getting the SOAP interface working is possible, but is <a href="http://www.redheap.com/2014/04/host-soap-web-service-on-google-app-engine.html">quite complicated</a> on GAE.
 It is advised to use the Eclipse programming environment because providers have a plug-in, which simplifies the task.</p>
 
@@ -130,16 +130,16 @@ It seems easier to start afresh.</p>
 
 <h3 id="google-app-engine">Google App Engine</h3>
 
-<p>Start by installing the <a href="https://developers.google.com/appengine/docs/java/tools/eclipse">Google App engine plug-in</a> into Eclipse. 
+<p>Start by installing the <a href="https://developers.google.com/appengine/docs/java/tools/eclipse">Google App engine plug-in</a> into Eclipse.
 You will also need a Google account to create applications. Go to <a href="https://appengine.google.com/">https://appengine.google.com/</a> to create a new application.
 Use as an application name (replace X with your group number) <code class="highlighter-rouge">ties456-2014-groupX</code> Keep the access public for your application.</p>
 
 <h4 id="using-vaadin-on-gae">Using Vaadin on GAE</h4>
 
-<p>The teacher managed to get the Google map working on GAE. Instruction will appear <a href="vaadin/">on a separate page</a>. 
+<p>The teacher managed to get the Google map working on GAE. Instruction will appear <a href="vaadin/">on a separate page</a>.
 This is only relevant if you used Vaadin for the web interface.</p>
 
-<p>####Getting resource classes to work on GAE ####</p>
+<h4 id="getting-resource-classes-to-work-on-gae">Getting resource classes to work on GAE</h4>
 
 <p>As you might have read, GAE requires the entry point of you application to be a Servlet, while all you have for now are classes annotated with JAX-RS annotations!
 You cannot run the Grizzly server on GAE as you did on your local system.
@@ -168,7 +168,7 @@ The solution to this is to use <a href="https://jersey.java.net/apidocs/latest/j
         &lt;url-pattern&gt;/your/path/as/you/set/it/up/*&lt;/url-pattern&gt;
     &lt;/servlet-mapping&gt;</code></pre>
 
-<p>After deploying, you should able to access your application from (replace X by your group number.) <code class="highlighter-rouge">http://ties456-2014-groupX.appspot.com/your/path/as/you/set/it/up/lng/lat</code> 
+<p>After deploying, you should able to access your application from (replace X by your group number.) <code class="highlighter-rouge">http://ties456-2014-groupX.appspot.com/your/path/as/you/set/it/up/lng/lat</code>
 or something.</p>
 
 <p>Also put the code for your map in the same project and deploy it to GAE, make it accessible from <code class="highlighter-rouge">http://ties456-2014-groupX.appspot.com/</code>.
@@ -187,7 +187,7 @@ Heroku is much more flexible about the types of applications you can run in the 
 It is thus also possible to deploy an application which is quite similar to the one we deployed in the first part of the exercise to Heroku.
 Heroku provides a plugin for eclipse which has a tutorial on the [Getting Started with Heroku & Eclipse](http://eclipse-plugin.herokuapp.com/) page.
 
- old link, recheck later: https://devcenter.heroku.com/articles/getting-started-with-heroku-eclipse 
+ old link, recheck later: https://devcenter.heroku.com/articles/getting-started-with-heroku-eclipse
 
 
 While following that tutorial, make sure to choose the RESTful JAX-RS application type. This way all dependencies will be automatically arranged.
@@ -214,9 +214,9 @@ Also add the documentation about performance measuring and the URL to get the lo
 
 <h2 id="hints">Hints</h2>
 <ol>
-  <li>When deploying on GAE, you can see the log by going to your applications dashboard (click on your application name from <a href="https://appengine.google.com/">https://appengine.google.com/</a>) 
+  <li>When deploying on GAE, you can see the log by going to your applications dashboard (click on your application name from <a href="https://appengine.google.com/">https://appengine.google.com/</a>)
 and then go to Logs using the link on the left hand side of the page.</li>
-  <li>If you notice an error in your log with type <code class="highlighter-rouge">java.lang.IncompatibleClassChangeError</code>, you might need to disable <code class="highlighter-rouge">Use Datanucleus JDO/JPA to access the datastore</code> 
+  <li>If you notice an error in your log with type <code class="highlighter-rouge">java.lang.IncompatibleClassChangeError</code>, you might need to disable <code class="highlighter-rouge">Use Datanucleus JDO/JPA to access the datastore</code>
 from Project-&gt;Properties-&gt;Google-&gt;App Engine / Datastore .
 The reason for this error is that the data store code is using classes which are the same as some of the classes in the Jersey libraries except that the versions are different.</li>
   <li>Despite what you might read in multiple places, Jersey 2 should now work on AppEngine (see <a href="https://java.net/jira/browse/JERSEY-2136">this resolved bug</a>).</li>

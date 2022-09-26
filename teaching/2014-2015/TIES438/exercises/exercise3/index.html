@@ -90,18 +90,18 @@ Then we will compare the performance of different methods.</p>
 <p>In principle, the content presented during the lectures suffices to implement this task.
 However, it is certainly beneficial to study the corresponding text (sections 4.1, 4.2, 4.4) of the <em>Mining of Massive Datasets</em> book.
 You can also watch the related videos of the coursera course in week 3 : Mining Data Streams (12:01), Sampling a Stream (11:30)  and Completed Counting Distinct Elements (25:59).
-Further, there are the articles about <a href="http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> and 
+Further, there are the articles about <a href="http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> and
 <a href="http://research.neustar.biz/2012/07/09/sketch-of-the-day-k-minimum-values/">K-minimum values</a>, which are not covered in the book nor the videos.</p>
 
 <p>Basic usage of map-reduce can be found from the <a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">MapReduce Tutorial</a> of Hadoop.</p>
 
 <h2 id="task">Task</h2>
-<p>The task consists of three parts. 
+<p>The task consists of three parts.
 First, you have to investigate the limits for set sizes on your own system.
 Then you need to calculate the exact number of unique elements of a part of the stream using map-reduce.
 Finally, you will need to use two approximate methods for determining the cardinality.</p>
 
-<p>The data used is generated (<a href="generator.jar">download generator</a>). 
+<p>The data used is generated (<a href="generator.jar">download generator</a>).
 This generator is written in Java and deterministically produces the elements on its standard output (one per line).
 This makes it possible to make statistical predictions about the outcome and repeat the same stream multiple times, while there is no need to download a huge (theoretically infinite) amount of data.
 Thousand elements can be shown as follows: <code class="highlighter-rouge">java -jar generator.jar 1000</code>.
@@ -112,9 +112,9 @@ In your program you then read the elements from the standard input.</p>
 <p>This task is performed either individually or as a pair.
 You are free to work using the programming language you want, however, make sure you take a language in which you can read from standard input and in which you can handle the elements as a stream.</p>
 
-<p>###Part I###
-Investigate the limits of the set implementation of the programming language on your computer.
-The goal of this exercise is not to write an optimized implementation to achieve larger set sizes. 
+<h3 id="part-i">Part I</h3>
+<p>Investigate the limits of the set implementation of the programming language on your computer.
+The goal of this exercise is not to write an optimized implementation to achieve larger set sizes.
 Instead, the goal is to get an idea of the magnitude which a normal machine can handle.</p>
 
 <p>To test this, write something like this:</p>
@@ -136,9 +136,9 @@ However, once in a while the table used to store the values needs to be re-sized
 <p>The only thing you need to report is the amount of memory you have, the language and set type you used and how many elements you could store.
 If you have set specific memory options, you can report these as well.</p>
 
-<p>###Part II###</p>
+<h3 id="part-ii">Part II</h3>
 
-<p>The teacher has placed a set of data on Amazon S3 which contains the first 10000-10^8 elements of the stream in bucket 
+<p>The teacher has placed a set of data on Amazon S3 which contains the first 10000-10^8 elements of the stream in bucket
 <code class="highlighter-rouge">s3://data-for-stream-counting-5e33f2e9-bb84-4c40-bb03-5bb086c7adea/</code>. The dataset is there in larger sizes as well, but processing these will take quite a bit of time.
 (You can browse S3, starting from <a href="https://console.aws.amazon.com/s3/home?region=us-east-1#">here</a>).</p>
 
@@ -156,7 +156,7 @@ reduce(key, values) -&gt; 1, null
 </code></pre></div></div>
 
 <p>You are advised to work with Java. Using Java, you need to export your mapreduce code to a runnable .jar file and place it in your S3 bucket.
-However, do not use anything from the old <code class="highlighter-rouge">.mapred.</code> API, use everything from the new <code class="highlighter-rouge">.mapreduce.</code> instead. 
+However, do not use anything from the old <code class="highlighter-rouge">.mapred.</code> API, use everything from the new <code class="highlighter-rouge">.mapreduce.</code> instead.
 Read the <a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">MapReduce Tutorial</a> which was mentioned above.</p>
 
 <p>In order to work on Amazon infrastructure, you first need to get your personal password from <a href="http://jyu-aws.appspot.com">http://jyu-aws.appspot.com</a> and log-in to AWS.
@@ -176,27 +176,27 @@ Alternatively, you can use a second map-reduce job to determine the number of li
 <p>First test on the small dataset and see whether you can get the correct result <code class="highlighter-rouge">data10000</code> should give you 9925 distinct values.
 Then determine the sizes of the sets up till 10^8.</p>
 
-<p>###Part III###
-Implement two algorithms for cardinality estimation. 
+<h3 id="part-iii">Part III</h3>
+<p>Implement two algorithms for cardinality estimation.
 The first one uses (order) statistics (sampling or K-minimum values) and the second one bit pattern observables (Flajolet-Martin (from handbook), LogLog or HyperLogLog - see also hints).
 For both algorithms, you need to calculate the root-mean-square error for 1,000,000 stream elements.</p>
 
-<p>You tell the generator to produce 10000 elements with a seed of 123 as follows <code class="highlighter-rouge">java -jar generator.jar 10000 123</code>. 
+<p>You tell the generator to produce 10000 elements with a seed of 123 as follows <code class="highlighter-rouge">java -jar generator.jar 10000 123</code>.
 To calculate the error, you need to compute the estimated cardinalities for the 10 different seeds from the table below:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | seed |  exact cardinality | 
-    |      |  (1,000,000)       | 
-    |------|--------------------|
-    |  1   | 697757             | 
-    |  2   | 698466             | 
-    |  3   | 698151             |
-    |  4   | 698536             |
-    |  5   | 697079             |
-    |  6   | 697732             |
-    |  7   | 697822             |
-    |  8   | 698286             |
-    |  9   | 698364             |
-    |  10  | 697910             |
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | seed |  exact cardinality |
+    |     | (1,000,000) |
+    | --- | ----------- |
+    | 1   | 697757      |
+    | 2   | 698466      |
+    | 3   | 698151      |
+    | 4   | 698536      |
+    | 5   | 697079      |
+    | 6   | 697732      |
+    | 7   | 697822      |
+    | 8   | 698286      |
+    | 9   | 698364      |
+    | 10  | 697910      |
 </code></pre></div></div>
 
 <p>Now, for both experiments (2 algorithms) , you can calculate the root-mean-square error as follows:</p>

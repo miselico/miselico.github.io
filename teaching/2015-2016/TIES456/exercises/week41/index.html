@@ -88,7 +88,7 @@
 <p>Learn about spring boot (embedded application server for spring applications that automates a lot of spring application related configuration based on the libraries found in the classpath)
 <a href="https://spring.io/guides/gs/spring-boot/">https://spring.io/guides/gs/spring-boot/</a></p>
 
-<p>Learn how to use spring CRUD repositories (note, that these are available only in Spring 4) 
+<p>Learn how to use spring CRUD repositories (note, that these are available only in Spring 4)
 <a href="https://spring.io/guides/gs/accessing-data-mongodb/">https://spring.io/guides/gs/accessing-data-mongodb/</a> explains how to set it up in the easiest possible way and
 <a href="http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/">http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/</a> contains more information on how to use it.</p>
 
@@ -100,7 +100,7 @@ Your users will be stored in your mongodb database. MongoDB can be downloaded fr
 <p>A start for the application can be found from <a href="https://github.com/kamiljano/teaching/tree/master/teaching-spring">Kamil’s repository</a>.</p>
 
 <p>This <a href="http://stackoverflow.com/a/29606918">stackoverflow answer</a> will help to implement the authentication.
-A gradle Eclipse plugin is available as part of the buildship plug-in. 
+A gradle Eclipse plugin is available as part of the buildship plug-in.
 Use the update site from <a href="http://projects.eclipse.org/projects/tools.buildship/downloads">http://projects.eclipse.org/projects/tools.buildship/downloads</a>.</p>
 
 <p>An tutorial in which a very similar application has been implemented can be found from <a href="http://kielczewski.eu/2014/12/spring-boot-security-application/">http://kielczewski.eu/2014/12/spring-boot-security-application/</a>.</p>
@@ -125,14 +125,14 @@ If no error occurs during the registration, the user should be persisted with th
 <p>Once the user is registered, it should be possible for him to log in. You should use spring security framework for that purpose.
 When the user is finally logged in, just display his name.</p>
 
-<p>#Hints</p>
+<h1 id="hints">Hints</h1>
 
 <h2 id="dependency-injection-in-spring">Dependency injection in Spring</h2>
 <p>Spring framework provides you with dependency injection. In order to inject a resource into your controller or a service, you can use the @Autowired annotation, like in the following example</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RestController
 public class IndexController {
-    
+
     @Autowired
     private UserRepository userRepository;
 

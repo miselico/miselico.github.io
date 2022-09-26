@@ -87,7 +87,7 @@ In this exercise we will use tools made available by the platform providers. Mos
 Further we will try to measure the performance of the deployed application.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
-<p>The first thing you need in order to complete this exercise is some nerves and the will to try out things (This is the real world). 
+<p>The first thing you need in order to complete this exercise is some nerves and the will to try out things (This is the real world).
 In the exercise, we will be deploying last weeks servers to Heroku.
 For doing so, you will have to install <a href="https://maven.apache.org/install.html">maven</a> and the <a href="https://toolbelt.heroku.com/">heroku toolbelt</a>.
 After this is done, you can try the <a href="https://devcenter.heroku.com/articles/getting-started-with-java#introduction">Heroku Java tutorial</a>.
@@ -95,7 +95,7 @@ After this is done, you can try the <a href="https://devcenter.heroku.com/articl
 Deploying an application on GAE is perhaps the easiest using the [Eclipse plugins](https://developers.google.com/eclipse/).
 If you have time left, you could also check Google App Engine for Java from [https://cloud.google.com/appengine/docs/java/](https://cloud.google.com/appengine/docs/java/).
 -->
-For measuring performance we will be using <a href="http://jmeter.apache.org/">JMeter</a>, 
+For measuring performance we will be using <a href="http://jmeter.apache.org/">JMeter</a>,
 most information needed for this exercise can be found from <a href="http://jmeter.apache.org/usermanual/build-web-test-plan.html">Building a Web Test Plan</a>.
 &lt;!–
 In 2014, the deployment was on GAE.</p>
@@ -119,8 +119,8 @@ The LocalGDP project should not have a dependency on <code class="highlighter-ro
 <!--
 It seems easier to start afresh.
 
-Now change to this week's repository and remove the parts related to the SOAP localGDP server. Change to the new repo by 
-    
+Now change to this week's repository and remove the parts related to the SOAP localGDP server. Change to the new repo by
+
 0. cloning the repository
 1. adding a new remote
 2. pushing the branch to the new remote
@@ -152,7 +152,7 @@ However, a few small code changes should be made:</p>
 
 <p>Deploying this application can be done in essentially the same way as the other service.</p>
 
-<p>Note: also here you will have to replace <code class="highlighter-rouge">localhost</code> with <code class="highlighter-rouge">0.0.0.0</code> and get the port number as an environment variable. 
+<p>Note: also here you will have to replace <code class="highlighter-rouge">localhost</code> with <code class="highlighter-rouge">0.0.0.0</code> and get the port number as an environment variable.
 Further you have to regenerate the service classes using <code class="highlighter-rouge">wsimport</code>, such that the other deployed service is used.</p>
 
 <p>Finally, you cannot use <code class="highlighter-rouge">System.in.read()</code> to wait for a keypress to stop the server (heroku closes the standard input, so you will read <code class="highlighter-rouge">-1</code> when reading from <code class="highlighter-rouge">stdin</code>).
@@ -167,7 +167,7 @@ Instead, you do not have to stop the server manually and can just wait forever u
 </ul>
 
 <!-- try this out properly in time next year...
-####Getting resource classes to work on GAE ####
+#### Getting resource classes to work on GAE ####
 
 As you might have read, GAE requires the entry point of you application to be a Servlet, while all you have for now are classes annotated with JAX-RS annotations!
 You cannot run the Grizzly server on GAE as you did on your local system.
@@ -195,7 +195,7 @@ Concrete, you should be able to get your application running as follows:
     &lt;/servlet-mapping&gt;</code></pre>
 
 
-After deploying, you should able to access your application from (replace X by your group number.) `http://ties456-2014-groupX.appspot.com/your/path/as/you/set/it/up/lng/lat` 
+After deploying, you should able to access your application from (replace X by your group number.) `http://ties456-2014-groupX.appspot.com/your/path/as/you/set/it/up/lng/lat`
 or something.
 
 Also put the code for your map in the same project and deploy it to GAE, make it accessible from `http://ties456-2014-groupX.appspot.com/`.
@@ -215,7 +215,7 @@ Heroku is much more flexible about the types of applications you can run in the 
 It is thus also possible to deploy an application which is quite similar to the one we deployed in the first part of the exercise to Heroku.
 Heroku provides a plugin for eclipse which has a tutorial on the [Getting Started with Heroku & Eclipse](http://eclipse-plugin.herokuapp.com/) page.
 
- old link, recheck later: https://devcenter.heroku.com/articles/getting-started-with-heroku-eclipse 
+ old link, recheck later: https://devcenter.heroku.com/articles/getting-started-with-heroku-eclipse
 
 
 While following that tutorial, make sure to choose the RESTful JAX-RS application type. This way all dependencies will be automatically arranged.
@@ -245,9 +245,9 @@ Also add the documentation about performance measuring and the URL to get the lo
 <!--
 Hints
 -----
-1. When deploying on GAE, you can see the log by going to your applications dashboard (click on your application name from [https://appengine.google.com/](https://appengine.google.com/)) 
+1. When deploying on GAE, you can see the log by going to your applications dashboard (click on your application name from [https://appengine.google.com/](https://appengine.google.com/))
 and then go to Logs using the link on the left hand side of the page.
-2. If you notice an error in your log with type `java.lang.IncompatibleClassChangeError`, you might need to disable `Use Datanucleus JDO/JPA to access the datastore` 
+2. If you notice an error in your log with type `java.lang.IncompatibleClassChangeError`, you might need to disable `Use Datanucleus JDO/JPA to access the datastore`
 from Project->Properties->Google->App Engine / Datastore .
 The reason for this error is that the data store code is using classes which are the same as some of the classes in the Jersey libraries except that the versions are different.
 3. Despite what you might read in multiple places, Jersey 2 should now work on AppEngine (see [this resolved bug](https://java.net/jira/browse/JERSEY-2136)).

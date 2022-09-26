@@ -105,8 +105,8 @@ Wikipedia also gives a few remarks about the confusing name of this metric.</p>
 
 <p>You are free to work using the programming language you want.</p>
 
-<p>###Part I###
-Implement an exact nearest neighbor search.
+<h3 id="part-i">Part I###</h3>
+<p>Implement an exact nearest neighbor search.
 In order to do this you will need to</p>
 
 <ol>
@@ -116,8 +116,8 @@ In order to do this you will need to</p>
   <li>Find the image (<code class="highlighter-rouge">De</code>) in the set with the smallest distance to the query image</li>
 </ol>
 
-<p>###Part II###
-Implement an approximate nearest neighbor search.
+<h3 id="part-ii">Part II</h3>
+<p>Implement an approximate nearest neighbor search.
 Using random hyperplane hashing, it is possible to reduce the amount of images which we need to compare with.</p>
 
 <p>First, try to implement the method using just one hyperplane, the algorithm goes roughly as follows:</p>
@@ -137,13 +137,13 @@ Using random hyperplane hashing, it is possible to reduce the amount of images w
   <li>Now, perform the search as you created in part I, but using only the subset of images, resulting in the image <code class="highlighter-rouge">Da</code>.</li>
 </ol>
 
-<p>Once this works (commit to git), you should extend it to multiple hyperplanes. 
+<p>Once this works (commit to git), you should extend it to multiple hyperplanes.
 For example, for two hyperplanes, instead of only having a separation of the space in two parts, the space gets split in 4.
 In that case, the classes will be <code class="highlighter-rouge">(above, above)</code>, <code class="highlighter-rouge">(above,below)</code>, <code class="highlighter-rouge">(below, above)</code>, and <code class="highlighter-rouge">(below,below)</code>.
 Because of representation options, you can limit yourself to up to 60 hyperplanes.</p>
 
-<p>###Part III###
-The method developed in part two might be faster than the linear search, but a certain amount of error is made.
+<h3 id="part-iii">Part III</h3>
+<p>The method developed in part two might be faster than the linear search, but a certain amount of error is made.
 The goal of this part is to find out the size of this error.
 To measure the error, we will simply calculate the average absolute error for a set of 100 random queries.</p>
 
@@ -210,7 +210,7 @@ The datasets are somewhat easier to read in Python and matlab. In other language
     <p>Be careful with integer overflows and automatic type conversion (especially in dynamically typed languages).</p>
   </li>
   <li>
-    <p>You have many choices to represent the result of hashing using multiple hyperplanes. 
+    <p>You have many choices to represent the result of hashing using multiple hyperplanes.
 The most performant one is the use of a integer with 64 bits, where each bit represents one hash function. Then, <code class="highlighter-rouge">1</code> is <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">0</code> is <code class="highlighter-rouge">below</code>.
 Alternatively, you can use a type which can be used in a map/dictionary in the language you are using (like a tuple in python or a list in Java).</p>
   </li>

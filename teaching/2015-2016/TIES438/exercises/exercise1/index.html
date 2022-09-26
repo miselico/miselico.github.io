@@ -91,24 +91,24 @@ However, it is certainly beneficial to study the corresponding text in chapter 3
 You can also watch the videos of the coursera course related to LSH (in week 2).</p>
 
 <h2 id="task">Task</h2>
-<p>The task consists of four parts. 
+<p>The task consists of four parts.
 First, you need to devise a way to convert the documents to sets.
 Then you need to be able to calculate the exact Jaccard distance between two of these sets.
 Next, you will use locality-sensitive hashing to calculate an approximation of the distance.
 Finally, you need to evaluate the quality of the approximation.</p>
 
-<p>For this task, we will use a cleaned subset of the English Wikipedia. 
+<p>For this task, we will use a cleaned subset of the English Wikipedia.
 The dataset is downloaded to <code class="highlighter-rouge">oksa3.it.jyu.fi:/home/wikidata/wikipedia_utf8_filtered_20pageviews.csv</code> and can also be downloaded from <a href="https://blog.lateral.io/2015/06/the-unknown-perils-of-mining-wikipedia/">https://blog.lateral.io/2015/06/the-unknown-perils-of-mining-wikipedia/</a>.
-On each line of the file, you will find the an id and the text of the article. 
+On each line of the file, you will find the an id and the text of the article.
 Each article has to be taken as a document for this exercise.
 The second file at your disposal can be found from <code class="highlighter-rouge">oksa3.it.jyu.fi:/home/wikidata/words.txt</code>. This file contains all words (punctuation removed, lowercased) occurring in the document with their absolute frequencies.</p>
 
-<p>This task is performed either individually or as a pair. 
-You are free to work using the programming language you want. 
+<p>This task is performed either individually or as a pair.
+You are free to work using the programming language you want.
 You can use <code class="highlighter-rouge">oksa3.it.jyu.fi</code> to do this task (log in using <code class="highlighter-rouge">ssh</code>). Alternatively, you can do this task on your own computer.</p>
 
-<p>###Part I###
-Read the dataset one line at a time and apply the transformation to a set on each document. This should be done as follows:</p>
+<h3 id="part-i">Part I</h3>
+<p>Read the dataset one line at a time and apply the transformation to a set on each document. This should be done as follows:</p>
 
 <ul>
   <li>Until all lines are read (If your implementation is not fast enough, you can limit yourself to 50,000 articles.)
@@ -147,7 +147,7 @@ Read the dataset one line at a time and apply the transformation to a set on eac
   </li>
 </ul>
 
-<p>###Part II###</p>
+<h3 id="part-ii">Part II</h3>
 
 <p>Implement a method or function which calculates the Jaccard distance between two sets of Strings.
 To do this, you first compute the size of the union and intersection, then you apply the formula for Jaccard distance.
@@ -157,8 +157,8 @@ To do this, you first compute the size of the union and intersection, then you a
 
 <p>Now, you should be able to calculate the distance between two of the sets created in the previous parts.</p>
 
-<p>###Part III###
-First, you need to implement a min-hash algorithm, and then use it to approximate the distance between two documents.
+<h3 id="part-iii">Part III</h3>
+<p>First, you need to implement a min-hash algorithm, and then use it to approximate the distance between two documents.
 You could implement it using the somewhat optimized algorithm from the course book (section 3.3.5).
 Perhaps easier is to use <a href="Minhasher.java">this implementation</a> or port it to whatever language you are using.</p>
 
@@ -167,7 +167,7 @@ Perhaps easier is to use <a href="Minhasher.java">this implementation</a> or por
 <!-- \Pr [\text{minhash}(D1) = \text{minhash}(D2)] = 1 - \text{jaccard-distance} (D1,D2)  -->
 <p><img src="approx_deriv1.svg" alt="Probaility of equal minhash is equal to 1 minus jaccard distance" /></p>
 
-<p>And hence 
+<p>And hence
 <!-- \text{jaccard-distance} (D1,D2) = 1 - \Pr [\text{minhash}(D1) = \text{minhash}(D2)] -->
 <img src="approx_deriv2.svg" alt="jaccard distance is equal to 1 minus Probaility of equal minhash" /></p>
 
@@ -181,8 +181,8 @@ Perhaps easier is to use <a href="Minhasher.java">this implementation</a> or por
 Hence, to approximate the distance with `n` min-hash functions, you need to calculate the signature vector for both documents and determine in how many places they agree. -->
 Now you should be able to compute the approximate Jaccard distance between a pair of sets.</p>
 
-<p>###Part IV###
-To evaluate the quality of the approximation, we will observe how much it deviates from the real value.
+<h3 id="part-iv">Part IV</h3>
+<p>To evaluate the quality of the approximation, we will observe how much it deviates from the real value.
 Concretely, we will calculate the average absolute error for 100 random distance calculations.</p>
 
 <p>Work as follows:</p>
@@ -202,7 +202,7 @@ Concretely, we will calculate the average absolute error for 100 random distance
   </li>
 </ol>
 
-<p>Finally, for each <code class="highlighter-rouge">n</code>, calculate the average error as follows: 
+<p>Finally, for each <code class="highlighter-rouge">n</code>, calculate the average error as follows:
 <!-- \frac{\sum\limits_{i=1}^{100} \lvert \text{jaccard-distance}(D_1,D_2) - \text{approx. distance}(D_1,D_2) \rvert}{100} --></p>
 
 <p><img src="average_error.svg" alt="average error" /></p>
@@ -239,7 +239,7 @@ I we instead use signatures of length 100, using 4 bytes for the min-hash outcom
   <li>For the programming language, you might just want to choose the one you are most familiar with. Depending on the chosen language the teacher will be able to help more (or less) with language specific issues.</li>
   <li>Randomized algorithms are difficult to debug. Make it somehow possible by fixing the seed of the random number generator. At least each run will be the same.</li>
   <li>People using Java should check the <a href="http://code.google.com/p/guava-libraries/">Guava Libraries</a>, in particular classes for splitting strings and working with sets.</li>
-  <li>The operation for permuting lists is most often called shuffle. For instance, 
+  <li>The operation for permuting lists is most often called shuffle. For instance,
 in Java <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#shuffle%28java.util.List,%20java.util.Random%29">Collections.shuffle(List&lt;?&gt; list, Random rnd)</a>
 or in Python <a href="https://docs.python.org/2/library/random.html#random.shuffle">random.shuffle(x[, random])</a>. Not that both of these permute the list in-place (no copy is made).</li>
   <li>Most of the distances will be 1 or very close to 1. Therefore, it might be that your approximation always returns a distance of 1 for a low <code class="highlighter-rouge">n</code>.

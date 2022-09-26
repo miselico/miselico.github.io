@@ -108,8 +108,8 @@ Wikipedia also gives a few remarks about the confusing name of this metric.</p>
 
 <p>You are free to work using the programming language you want.</p>
 
-<p>###Part 0###
-Write a function/method to convert an e-mail message to a vector.
+<h3 id="part-0">Part 0</h3>
+<p>Write a function/method to convert an e-mail message to a vector.
 First decide which datatype you want to use for the vector. The vector will be large and sparse (containing a lot of zeros).
 Examples of suitable data structures are maps, multisets, or specific sparse vector datatypes.
 Then, you need to choose a normal (non cryptographic) hash function like murmurhash3 or <a href="https://en.wikipedia.org/wiki/List_of_hash_functions#Non-cryptographic_hash_functions">something else</a> with a fixed seed.
@@ -130,8 +130,8 @@ There are many preprocessing/cleaning steps possible, but you’re advised to ke
 If the sparsevector is empty, then you can either ignore the message or just add one fixed element (0) to it. This way you avoid division by zero in later computations.
 Since this processing is fairly simple, there is no need to store the result of the preprocessing to an intermediate file.</p>
 
-<p>###Part I###
-Implement an exact nearest neighbor search.
+<h3 id="part-i">Part I</h3>
+<p>Implement an exact nearest neighbor search.
 In order to do this you will need to</p>
 
 <ol>
@@ -143,8 +143,8 @@ In order to do this you will need to</p>
 
 <p>The names <code class="highlighter-rouge">Dq</code>, <code class="highlighter-rouge">De</code>, and (in part II) <code class="highlighter-rouge">Da</code> stand for query – the message for which we want to find near neighbors, the exact nearest neighbor, and the nearest neighbor as found by the approximate algorithm.</p>
 
-<p>###Part II###
-Implement an approximate nearest neighbor search.
+<h3 id="part-ii">Part II</h3>
+<p>Implement an approximate nearest neighbor search.
 Using random hyperplane hashing, it is possible to reduce the amount of messages which we need to compare with.</p>
 
 <p>First, try to implement the method using just one hyperplane, the algorithm goes roughly as follows:</p>
@@ -158,7 +158,7 @@ Using random hyperplane hashing, it is possible to reduce the amount of messages
       <li>To get the value for a certain index, hash the index. For instance, if you need n[4500], then you compute hash(4500) and take the outcome as the value of your random vector.</li>
     </ul>
   </li>
-  <li>Find out on which side of the hyperplane each message is. Create a dictionary/map which associates the keys (buckets) <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">below</code> with the set of messages which are above and below the hyperplane. 
+  <li>Find out on which side of the hyperplane each message is. Create a dictionary/map which associates the keys (buckets) <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">below</code> with the set of messages which are above and below the hyperplane.
 (You can represent above and below with a boolean or an enumeration type. See also hints below.)
     <ul>
       <li>A message which is on the same side as the random vector, will have a positive dot product when multiplied with it.</li>
@@ -170,7 +170,7 @@ Using random hyperplane hashing, it is possible to reduce the amount of messages
   </li>
   <li>Load one more message (the query)</li>
   <li>Find the subset in which to look by finding out whether the query lies above or under the hyperplane.</li>
-  <li>Now, perform the search as you created in part I, but using only the subset of messages, resulting in the message <code class="highlighter-rouge">Da</code>. 
+  <li>Now, perform the search as you created in part I, but using only the subset of messages, resulting in the message <code class="highlighter-rouge">Da</code>.
 If there are no messages in the subset, then the distance is <code class="highlighter-rouge">π/2=3.1415926/2</code>.</li>
 </ol>
 
@@ -180,8 +180,8 @@ In that case, the buckets will be <code class="highlighter-rouge">(above, above)
 Because of representation options (see hints), you can limit yourself to up to 60 hyperplanes.
 In the end you check whether you can keep the signatures of all messages from dataset 1 till 5 (~30,000 messages) in memory.</p>
 
-<p>###Part III###
-The method developed in part two might be faster than the linear search, but a certain amount of error is made.
+<h3 id="part-iii">Part III</h3>
+<p>The method developed in part two might be faster than the linear search, but a certain amount of error is made.
 The goal of this part is to find out the size of this error.
 To measure the error, we will simply calculate the average absolute error for a set of 100 random queries.</p>
 
@@ -214,9 +214,9 @@ To measure the error, we will simply calculate the average absolute error for a 
 
 <p>Create a chart in which you plot the error and timing (2 curves) in function of the number of planes. Also add the time needed for the exact computation.</p>
 
-<p>###Part VI###
-Now, we have an efficient method to find similar messages. We will use this to create the spam detector.
-First, you should create 4 different indexes, each using 16 hyperplanes. (note: this amount might still change) 
+<h3 id="part-vi">Part VI</h3>
+<p>Now, we have an efficient method to find similar messages. We will use this to create the spam detector.
+First, you should create 4 different indexes, each using 16 hyperplanes. (note: this amount might still change)
 Then, load all messages from datasets 1 till 5 into each index.</p>
 
 <p>Now, try to detect spam mail as follows:</p>
@@ -285,7 +285,7 @@ Then, load all messages from datasets 1 till 5 into each index.</p>
     <p>Be careful with integer overflows and automatic type conversion (especially in dynamically typed languages).</p>
   </li>
   <li>
-    <p>You have many choices to represent the result of hashing using multiple hyperplanes. 
+    <p>You have many choices to represent the result of hashing using multiple hyperplanes.
 The most performant one is the use of a integer with 64 bits, where each bit represents one hash function. Then, <code class="highlighter-rouge">1</code> is <code class="highlighter-rouge">above</code> and <code class="highlighter-rouge">0</code> is <code class="highlighter-rouge">below</code>.
 Alternatively, you can use a type which can be used in a map/dictionary in the language you are using (like a tuple in python or a list in Java).
 In a language like Java, you could use a Map&lt;List<Location>, List<Email>&gt;, or its multimap variant (available in the Guava library).</Email></Location></p>

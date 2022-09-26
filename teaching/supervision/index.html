@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Master Thesis supervision - Michael Cochez</title>
+  <title>Thesis supervision - Michael Cochez</title>
   <meta name="author" content="">
 
   
@@ -77,100 +77,970 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Master Thesis supervision</h1>
+    <h1 class="entry-title">Thesis supervision</h1>
     
   </header>
   
-  <p>As part of my teaching activities I supervise master students working on their thesis.
-If you want to have me as a supervisor of your thesis work, <a href="/contact/">contact</a> me.
-I can only supervise a limited number of students. There is no guarantee that I can supervise you, even if you want to work on one of the available topics below.
-You can also contact me with your own ideas.</p>
+  <p>Different institutions use different supervision systems. In the list below, I consider myself the supervisor of a student if I had a formal role in the supervision and had supervision meetings with the student.
+For most works were I was the main supervisor I was either informally or formally grading the work.</p>
 
-<p><span style="color:red">This page is no longer maintained. check your course program pages for topics I am offering</span></p>
-
-<h1 id="outdated-topic-list">Outdated topic list:</h1>
-
-<h2 id="related-to-the-big-data-engineering-course">Related to the <a href="../TIES438/">Big Data Engineering</a> course</h2>
-
-<p>Most of the topics dealt with during the lectures are still active research topics and can be used as the basis for a master thesis. Some examples:</p>
+<h2 id="master-thesis-works-i-supervised-some-titles-shortened-for-brevity">Master Thesis works I supervised (some titles shortened for brevity)</h2>
 
 <ul>
-  <li>[taken] Standard Locality-sensitive hashing (LSH) can be used to approximate, for example, Jaccard distance between documents or speed up the search for near neighbors. 
-One limitation of standard LSH is that it only works for symmetric distance metrics i.e. d(A,B)=d(B,A).
-Not all metrics are like that, however. 
-Set containment is one example of such a metric. 
-The authors of <a href="http://arxiv.org/abs/1411.3787">http://arxiv.org/abs/1411.3787</a> have investigated “Asymmetric Minwise Hashing”, which adapts the standard LSH to work for this type of asymmetric distance metrics.
-The student would give an overview of LSH and this variation. Then experiments with the asymmetric version are to be performed on specific types of data.</li>
-  <li>[taken] <a href="http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/">Apache Samza</a> is a different way to handle relational data when compared to more traditional SQL databases.
-Instead of allowing any SQL query one predefines a set of views and only these can be queried. As a result the design allows different  optimizations and robustness measures.
-This thesis would perform comparison between more traditional databases and Apache Samza. Further, the thesis should discuss how this approach compares to NOSQL approaches.
-(See also <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=199947">http://research.microsoft.com/apps/pubs/default.aspx?id=199947</a>)</li>
-  <li>Performing a thorough analyzes of the the data from the last (fourth) exercise related to the distribution of charge on the surface of the molecule could lead to a master thesis. 
-This thesis will be in collaboration with the faculty of Mathematics and Science (Gerrit Groenhof)</li>
-  <li>During the lecture we looked at the basic working of a bloom filter. 
-For a master thesis work a student can provide a broad literature review of different types of bloom filters and their use beyond fast membership checking.</li>
-  <li>We used LSH and in particular cosine distance between text documents. Cosine distance can be used for other vectors too.
-However, the distance must somehow capture the meaning which the user expects.
-When comparing images, a simple way to measure the distance would be to compute the angular distance between a vector consisting of the (e.g. RGB) values of each pixel.
-However, this simple approach does not lead to very good results.
-In this thesis the student would look at different ways to convert images into feature vectors.
-Then he or she will experimentally find out how well the used distance metric corresponds to the meaning (content) of the images.</li>
-  <li>We looked trough some algorithms for approximate cardinality estimation. The best algorithm we discussed was hyperloglog (HLL).
-Hyperlogolog uses the number of trailing zeros in the hashed values.
-This is, however, not the only possible choice.
-In a thesis a student could analyze other approaches to use the hash values and obtain an approximation.
-Warning: as part of the thesis the student should perform a mathematical analysis of the developed method and compare it with existing ones.
-This type of analysis is not easy and the teacher only has a very limited experience with it.</li>
-  <li>Random hyperplane hashing (RHH) is based on randomly selecting hyperplanes.
-However, in some cases (when we have more information about the dataset) it seems reasonable to not choose the hyperplanes completely randomly.
-Further, if normal RRH is performed with a low number of hyperplanes, then the hyperplanes are likely to not cover the space very well.
-This thesis will be about choosing the hyperplane in a data dependent way and try to sample the hyperplanes such that they cover the space nicely.</li>
-  <li>LSH works by hashing elements to discrete buckets. However, in some cases the hash function has to make a decision which leads to similar points being hashed apart.
-This, for instance, happens when a point is close to a hyperplane in RHH. One solution to this problem is to hash several small perturbations of the points and insert all of them into the indexes.
-Other solutions also exist.
-This thesis will look into the different options for improving the performance of LSH by hashing points to multiple buckets instead of just one.</li>
-  <li>Graph summarization is a technique used to obtain a more compact (exact) representation of a graph.
-The algorithms used in graph summarization are typically NP hard and will hence either not scale well or not obtain the most compact graph.
-In this thesis the student will investigate approaches to perform an approximate graph summarization where the obtained compact representation only approximatively represents the original graph in exchange for a better time and/or space complexity.</li>
+
+
+
+<li> Zhang Jinyang [IDEA grant recipient, with ETH Zürich], Modeling for Street Level Crime Prediction, Media Informatics, RWTH Aachen, Sep 2022, Joint supervision with Cristina Kadar Raquel Rosés Brüngger  </li>
+
+
+
+
+<li> Tiddo Loos, Scaling Relational Graph Convolutional Network Training with Graph Summaries and Entity Embedding Transfer, Artificial Intelligence, VU Amsterdam, Aug 2022 <a href="theses/MSc_Tiddo_Loos.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Nicole Van de Weijer, Combining Images and Tabular Data Using Deep Learning for Classification Tasks, Artificial Intelligence, VU Amsterdam, Aug 2022, Daily supervision by Taewoon Kim. Result of an internship at Clappform (supervisor Jeroen Schoonderbeek)  <a href="theses/thesis_nvandeweijer.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Meena Alfons, Multi-dimensional Positional Self-Attention With Differentiable Span, Artificial Intelligence, VU Amsterdam, Aug 2022, Daily supervision by David Romero  <a href="theses/MSc_Meena.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Maximiliane Ekert, Catch Me If You Can: Graph Neural Networks to detect fraudulent nodes to counter money laundering, Artificial Intelligence, VU Amsterdam, Aug 2022, Result of an internship at Deloitte, supervised by Evert Haasdijk, with support from TMNL  <a href="theses/MSc_Maxi.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Max Zwager, Approximate Query Answering using Answer Space Discretization, Artificial Intelligence, VU Amsterdam, Aug 2022 <a href="theses/MSc_Max.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Yu Anlan, Negative Sampling for Knowledge Graph Embedding Using Rule-Based Reasoning, Artificial Intelligence, VU Amsterdam, Dec 2021 <a href="theses/Thesis_Yu_Anlan.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Bob Mes, An approach to map textual questions to a response out of a predefined response set., Business Analytics, VU Amsterdam, Aug 2021 <a href="theses/Thesis_Bob_Mes_chatbot_13_08_2021.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Huishi Qui, Enhancing Question Answering with a Free-text Knowledge Graph, Artificial Intelligence, VU Amsterdam, Aug 2021 <a href="theses/Thesis_huishi.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+
+
+<li> Enis Zejnilovic, Batch Recommender for Fast Ontology Prototyping, Computer Science, RWTH, Aug 2021 <a href="theses/A Batch Recommender for Fast Ontology Prototyping - Enis Zejnilovic.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Tessa Helmer, Semi-supervised Invoice Information Extraction, Business Analytics, VU Amsterdam, Jul 2021, This thesis was done during an internship at SoliTrust  <a href="theses/Thesis_Tessa.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Reven Passial, Creating a patient embedding for machine learning purposes in healthcare, Business Analytics, VU Amsterdam, Nov 2020, Based on an internship at Chipsoft  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Suchanda Bhattacharyya, Imputation in Graphs Using Machine Learning, Sofware Systems Engineering, RWTH, Jul 2020, Joint supervision with Md. Rezaul Karim  <a href="theses/"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Mian, Isfandyar, Combining Vehicle Routing Optimization and Container Loading Optimization, Web Intelligence and Service Engineering (WISE), JYU, Mar 2020 <a href="theses/thesis_Isfandyar.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Frankie Robertson, Word Sense Disambiguation for Finnish (language learning), Web Intelligence and Service Engineering (WISE), JYU, Mar 2020 <a href="theses/MSc_Frankie.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+
+
+
+
+<li> Abhijeet Das, Feature Clustering and Visualization of High Dimensional Data using Clique Cover Theory, Media Informatics, RWTH, Oct 2019, Joint supervision with Arnacb Chakrabarti and Christoph Quix. A <a href="https://link.springer.com/chapter/10.1007/978-3-030-82472-3_14">further development of this work</a> was published in the ADBIS 2021 conference  <a href="theses/Abhijeet Das Master Thesis Final Report.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Michael Ellers, Privacy Attack on Social Networks Using Network Embeddings, Computer Science, RWTH Aachen, Jul 2019, Joint supervision with Florian Lemmerich and Markus Strohmaier  </li>
+
+
+
+
+<li> Jiao Jiao, Deep Learning-based Knee Osteoarthritis Diagnosis from Radiographs and Magnetic Resonance Images, Media Informatics, RWTH Aachen, Jun 2019, Jointly supervised with Oya Beyan and MD. Rezaul Karim. This work got extended into a <a href="https://ieeexplore.ieee.org/abstract/document/9363889/">journal paper available from IEEE access</a>  <a href="theses/MScJiao.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Iraklis Dimitriadis, Data Dependence and Indecisiveness for Locality-Sensitive Hashing, Computer Science, RWTH Aachen, Feb 2019 <a href="theses/MSc_Iraklis.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Touhidur Rahman, Modeling autonomous sensory agents in ROS, Computer Science, RWTH Aachen, Nov 2018, Main supervision Ahmed Hallawa. A much further developed work based on this thesis was published in the Taylor and Francis journal on <a href="https://www.tandfonline.com/doi/full/10.1080/10426914.2020.1746335">Materials and Manufacturing Processes</a>  </li>
+
+
+
+
+<li> Leandro Eichenberger, Secure Evaluation of Knowledge Graph Merging Gain, Computer Science, RWTH Aachen, Nov 2018, This thesis got extended into a paper available from <a href="https://arxiv.org/abs/2103.00082">arXiv</a>  </li>
+
+
+
+
+
+
+
+
+<li> Jasim Waheed Ansari, Semantic Data Profiling in Data Lake, Computer Science, RWTH Aachen, Feb 2018, main supervision Oya Beyan  <a href="theses/MScJasim.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+
+
+
+
+<li> Georg Groß, Go with the Flow - Exponential Decaying Reservoir Sampling of Evolving Data Streams, Computer Science, RWTH Aachen, Dec 2017 <a href="theses/MScGeorg.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Andrei Ionita, Extending Estimation of Parking Occupancy to Untracked City Areas using City Background Information, Computer Science, RWTH Aachen, Dec 2017 <a href="theses/MScAndrei.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Phesto Mwakyusa, Semantic Annotation for Big Data, Mobile Technology and Business (MoTeBu), JYU, Nov 2017 </li>
+
+
+
+
+<li> Gesche Gierse, The Pragmatics and Logic of Knowledge Representation with Prototypes, Computer Science, RWTH Aachen, Oct 2017, main supervision Stefan Decker  <a href="theses/MScGesche.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
+
+
+<li> Bushra Zafar, Using Distributional Semantics For Automatic Taxonomy Induction, Computer Software Engineering (NUST, Pakistan), JYU, Nov 2016, co-supervision with Dr.Usman Qamar, NUST Pakistan  </li>
+
+
+
+
+<li> Lauri Satokangas &amp; Olli Heimonen, Technology Selection for Off-line Web Applications, Mathematical Information Technology, JYU, Nov 2015, Original Finnish title: Teknologian valinta yhteydettömässä tilassa toimivan web-sovelluksen kehittämiseen  </li>
+
+
+
+
+<li> Jiawen Chen, Smart Semantic Multi-channel Communication, Mobile Technology and Business (MoTeBu), JYU, Feb 2015 <a href="theses/MSc_Jiawen.pdf"><img class="pdf-logo" src="images/pdf.png" /></a>  </li>
+
+
 </ul>
 
-<h2 id="related-to-the-soa-and-cloud-computing-course">Related to the <a href="../TIES456/">SOA and Cloud Computing</a> course</h2>
-
-<p>There are several topics related to SOA and Cloud Computing which can be used as a Master thesis topic. Ideas include:</p>
+<h2 id="bachelor-thesis-works-i-supervised-some-titles-shortened-for-brevity">Bachelor Thesis works I supervised (some titles shortened for brevity)</h2>
 
 <ul>
-  <li>Most modern servers will use some form of in memory caching to reduce the number of lookups on the database. A common solution for this is the use of <a href="http://memcached.org/">memcached</a>, a high-performance, distributed memory object caching system. This technology is used in very popular websites like Wikipedia, Flickr, Twitter and Youtube.
-Recently (July 2013) a new proposal was published which tends to improve certain aspects of the memcached approach. This new approach is called <a href="https://github.com/golang/groupcache">groupcache</a>. The biggest difference is that the groupcache is itself responsible for loading values when a cache miss occurs.
-  In the thesis work the student would research history of distributed caching (mainly modern caching for web servers, etc.), in particular both models described above and describes their theoretical properties. Further, the students makes a comparison between both approaches, depending on the system characteristics.
- The topic can be adapted to the interests of the student.</li>
-  <li><a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29">Paxos</a> is a protocol used to ensure the finding of a consensus about something between a group of computers.  A thesis work related to this algorithms is possible.</li>
-  <li><a href="http://docker.io">Docker</a> is a new way of managing container virtualization. You can make thesis in which you compare
-  different options for virtualization, compare and experiment with their properties.</li>
-  <li>[taken] <a href="http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/">Apache Samza</a> is a different way to handle relational data when compared to more traditional SQL databases.
-Instead of allowing any SQL query one predefines a set of views and only these can be queried. As a result the design allows different  optimizations and robustness measures.
-This thesis would perform comparison between more traditional databses and Apache Samza. Further, the thesis should discuss how this approach compares to NOSQL approaches.
-(See also <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=199947">http://research.microsoft.com/apps/pubs/default.aspx?id=199947</a>)</li>
+
+
+
+
+<li> Christopher Wewer, Dynamic Embeddings of Evolving Knowledge Graphs, Computer Science, RWTH, YYYY-MM-dd, Joint supervision with Florian Lemmerich, a restructured version of the work can be found on <a href="https://arxiv.org/abs/2109.10896">arxiv</a> </li>
+
+
+
+
+<li> Philipp Lützenkirchen, Evaluation of  Hierarchical Clustering Algorithms, Computer Science, FH Aachen, Jan 2025, Joint supervison with Martin Reißel [FH Aachen] </li>
+
+
+
+
+<li> Tommy Lohn, Evaluating a Proposed Link Interestingness Measure Using Oversampling of Triples in Knowledge Graphs, Artificial Intelligence, VU Amsterdam, Aug 2022, Daily supervision by Dimitris Alivanistos  <a href="theses/BSc_Tommy.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Renske Diependaal, Finding a good set of anchors for NodePiece, Artificial Intelligence, VU Amsterdam, Aug 2022 <a href="theses/Bachelor_Thesis_Renske.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Fredrik Skjelvik, Complex Query Answering in the Biomedical Domain, Artificial Intelligence, VU Amsterdam, Aug 2022, Daily supervisor Daniel Daza  <a href="theses/Fredrik Skjelvik Thesis - Complex Query Answering.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Razvan Gabriel Olaru, Selective Reduction of Dimensions for NodePiece Anchors, Computer Science, VU Amsterdam, Aug 2022 <a href="theses/BSc_Razvan"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Jord Beek, A Research Proposal on Improving Convolutional Neural Network Predictions of Deforestation Using Geographic Information Systems Data, Artificial Intelligence, VU Amsterdam, Aug 2022 <a href="theses/BSc_Jord.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Simone Colombo, Creating differentiable graph metrics to improve link prediction, Computer Science, VU Amsterdam, Mar 2022, This work was also published as a <a href="http://ceur-ws.org/Vol-3121/short2.pdf">paper at the AAAI Spring Symposium: MAKE</a>  <a href="theses/Bachelor_Thesis_Simone.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Marta Jansone, Deployment and Evaluation of a New Recommender System for Wikidata, Computer Science, VU Amsterdam, Aug 2021 <a href="theses/Bachelor_Thesis_Jansone.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Ken Mikovíny, MPQE Training on Entity Types, Computer Science, VU Amsterdam, Aug 2021 <a href="theses/Bachelor_Thesis_Ken.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Alessandro Generale, Scaling RGCN Training through Graph Summarization, Computer Science, VU Amsterdam, Aug 2021 <a href="theses/BSc_Alessandro.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Karim Anwar, Benefits of data scalability and transfer learning for relational graph data, Computer Science, VU Amsterdam, Jul 2021 <a href="theses/thesis_Karim_Anwar.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Ruud van Bakel, Box R-GCN: Structured Query Answering Using Box Embeddings For Entities And Queries, Artificial Intelligence, VU Amsterdam, Aug 2020, This work was also presented as a paper at the GKR2020 workshop <a href="https://link.springer.com/chapter/10.1007/978-3-030-72308-8_8">link</a>  <a href="theses/BSc_Ruud_van_Bakel.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Teodor Aleksiev, Answering approximated graph queries, embedding the queries and entities as boxes, Computer Science, VU Amsterdam, Aug 2020, This work was also presented as a paper at the GKR2020 workshop <a href="https://link.springer.com/chapter/10.1007/978-3-030-72308-8_8">link</a>  <a href="theses/Teodor_Aeksiev_Bachelor.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+
+
+
+
+<li> Minh Hai Nguyen, Data imputation with deep learning and a comparison with statistical techniques, Computer Science, VU Amsterdam, Aug 2020 <a href="theses/Thesis_Minh.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Hristo Petkov, Building on (Relational) Graph Convolutional Networks with Markov Chains, Computer Science, VU Amsterdam, Aug 2020 <a href="theses/Bachelor_Thesis_Hristo_Petkov.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+
+
+
+
+<li> Ayoub Abdelouarit, Fadi Meggouh, Bente Meijer, Maud Smulders, Lucien Tuijp, Business case Nofalab, group 2, Business Analytics, VU Amsterdam, Jul 2020</li>
+
+
+
+
+<li> Bart Silven, Pieter Steur, Dave de Moel, Sebastiaan Nijman, Business case Nofalab, group 1, Business Analytics, VU Amsterdam, Jul 2020</li>
+
+
+
+
+<li> Sophie Hallstedt, Machine Learning for Anonymization of Unstructured Text, Computer Science, RWTH Aachen, Aug 2019</li>
+
+
+
+
+<li> Abdulrahman Altaba, Accelerating KGlove Graph Embedding, Computer Science, RWTH Aachen, Feb 2019 <a href="theses/BSc_Abdulrahman.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Felix Ingenerf, Concept embeddings for Wikipedia across language editions, Computer Science, RWTH Aachen, Jan 2019, main supervision Florian Lemmerich, graded by Markus Strohmaier and Stefan Decker  <a href="theses/BSc_Felix_Ingenerf.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Jérôme Lenßen, Including Attributes in a Graph Embedding, Computer Science, RWTH Aachen, Oct 2018 <a href="theses/BScJerome.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
+
+
+<li> Dominik Hüser, Prototypes on IPFS: A Realization of globally distributed reusable Knowledge, Computer Science, RWTH Aachen, Oct 2017, An extension of this work was published as a <a href="https://ieeexplore.ieee.org/abstract/document/7980141">paper in the ICDCS 2017 conference</a>.  <a href="theses/prototypes-ipfs-realization.pdf"><img class="pdf-logo" src="images/pdf.png" /></a> </li>
+
+
 </ul>
 
-<h2 id="related-to-the-agent-technologies-for-developers-course">Related to the <a href="../TIES454/">Agent Technologies for Developers</a> course</h2>
+<h2 id="examiner--second-reader">Examiner / second reader</h2>
 
-<p>It is possible to make your master thesis around a topic related to this course. The following topics are currently available. Other topics can be discussed with the teacher.</p>
+<p>Besides the thesis works above, I was appointed as the examiner for the following thesis works, where I was not involved in the supervision process.</p>
 
 <ul>
-  <li><em>Use of  cryptography to build trust in an agent based system.</em>  <br />
-Studies related to agent based systems usually assume good behavior, i.e. agents behave towards a common goal of the system and do not try to sabotage each other intentionally.
-  <a href="http://bitcoin.org/bitcoin.pdf">Bitcoin</a> is a decentralized digital currency based on an open-source, peer-to-peer internet protocol.
-  It is using cryptography to reduce the possibility of cheating. 
-  In this thesis the student would try to find out how a similar protocol can be used to create trust in an agent based system where agents cannot count on the fact that other agents are honest.<br />
-  This thesis topic will be worked on under joint supervision with Gil David.
-  <!-- http://dl.acm.org/citation.cfm?id=1025132.1026417&coll=DL&dl=ACM&preflayout=flat --></li>
-  <li><em>Comparison between agent-based systems and emerging programming languages.</em>
-New programming languages are created regularly. Some of these languages do not live long. 
-Others gain a bigger user base and get used in large scale projects. It is possible to see an analogy between concepts used in programming languages like Go used during this course and an agent-based system. 
-This thesis would analyze how concepts can be mapped between the agent and actor based and more conventional programming paradigms. 
-It also critically evaluates whether we need actor/agent languages at all when some concurrency concepts are added to traditional programming languages.<br />
-This thesis topic will be worked on under joint supervision with Jonne Itkonen and one more supervisor.</li>
-  <li><em>Data race analyzers.</em> A thesis on the topic of existing data race analyzers (both static and run-time).</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Atilla Erdodi, Reducing the memory footprint of Knowledge Graph Embeddings, Computer Science, VU Amsterdam, Aug 2020 </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Paulo Alting von Gesau, Evaluating the Robustness of Question-Answering Models to Paraphrases, Computer Science, VU Amsterdam, Aug 2020 </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Ward Pennink, Automatically Fitting Probability Distributions to Data Samples Using a Convolutional Neural Network, Information Sciences, VU Amsterdam, Aug 2020, Supervision by Albert Meroño Peñuela  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Ayuub Hussein, Convolutional Neural Networks for Probability Distribution Classification -- An QQ plot Based Application, Information Sciences, VU Amsterdam, Aug 2020, Supervision by Albert Meroño Peñuela  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Xinran Yang, Creative Storytelling with Knowledge Graphs, Information Sciences, VU Amsterdam, Jul 2020, Supervision by Ilaria Tiddi  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Mathias Parisot, Property Inference Attack on Neural Networks: Influence of the Architecture and Implications of the GDPR, Computer Science, VU Amsterdam, Jul 2020, Supervision by Dayana Spagnuelo  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Selma Muhammad, Auditing Algorithmic Fairness with Unsupervised Bias Discovery, Artificial Intelligence, VU Amsterdam, Jan 1970, Supervision by Emma Beauxis-Aussalet, with an internship at the City of Amsterdam  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Marcel Schuchmann, Designing a cloud architecture for an application with many users, Web Intelligence and Service Engineering (WISE), JYU, May 2018 </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li> Pekka Suopellonmäki, GUI Personalization Framework using Semantic User Profile, Web Intelligence and Service Engineering (WISE), JYU, Dec 2017 </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </ul>
 
 

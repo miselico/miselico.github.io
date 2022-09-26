@@ -97,23 +97,23 @@ The <a href="http://jade.tilab.com/doc/tutorials/JADEProgramming-Tutorial-for-be
 
 <h2 id="tasks">Tasks</h2>
 
-<p>The assignment consists of three parts, which are not strictly connected (if you get stuck with one, you can start the next). 
+<p>The assignment consists of three parts, which are not strictly connected (if you get stuck with one, you can start the next).
 In the first task you will interact with the Jade Directory Facilitator (DF) and learn how you can discover other agents on the platform.
 Then, in the second task, you will have to connect multiple containers together and find out about moving agents between them.
 Finally, you need to implement an auction scenario to get an impression of how resources can be shared among agents.</p>
 
 <p>These tasks are performed individually. You have to use Java 7 or 8 for these tasks.</p>
 
-<p>###Task 0 - Creating the project###</p>
+<h3 id="task-0---creating-the-project">Task 0 - Creating the project</h3>
 
 <p>If you did the first assignment, you can just continue working in the same project/repository.
 Otherwise, check the previous task for a description on how to create the project.</p>
 
-<p>For this task, make sure you create the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2</code>, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username. 
-All code of this assignment must be placed in that package. 
+<p>For this task, make sure you create the package <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2</code>, where <code class="highlighter-rouge">&lt;username&gt;</code> must be replaced with your korppi username.
+All code of this assignment must be placed in that package.
 The first task must be placed in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2.task1</code>, the second one in <code class="highlighter-rouge">fi.jyu.ties454.&lt;username&gt;.assignment2.task2</code>, and so on.</p>
 
-<p>###Task 1 - Directory Facilitation###</p>
+<h3 id="task-1---directory-facilitation">Task 1 - Directory Facilitation</h3>
 
 <p>For this task you have to create 3 agents.
 Agent1 and Agent2 are service providers. Agent3 is a service consumer.</p>
@@ -148,7 +148,7 @@ Therefore, it needs to discover them using the directory facilitator.</p>
 The correct performative to use when asking information is <code class="highlighter-rouge">query-ref</code>. When answering <code class="highlighter-rouge">inform</code> should be sued.
 You can optionally perform the call to openweathermap.org in a separate thread.</p>
 
-<p>###Task 2 - Multiple containers - mobility and cloning###</p>
+<h3 id="task-2---multiple-containers---mobility-and-cloning">Task 2 - Multiple containers - mobility and cloning</h3>
 
 <p>In this second task you will work with more advanced features of JADE which are also avaialble on most other agent platforms.
 First, you will connect two agent containers together.
@@ -157,7 +157,7 @@ The agent platform is a collection of containers which are connected to each oth
 One platform has to be chosen as the main container and all other containers have to connect to that one.
 Up till now we have only used a single container, which was configured as a main container.</p>
 
-<p>Now, you need to start a second container which will connect to the main one. 
+<p>Now, you need to start a second container which will connect to the main one.
 To do this, create a class called <code class="highlighter-rouge">Run2</code> which has the following main method:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void main(String[] args) {
@@ -175,7 +175,7 @@ To do this, create a class called <code class="highlighter-rouge">Run2</code> wh
 }
 </code></pre></div></div>
 
-<p>This is very similar to the main method of the <code class="highlighter-rouge">Run</code> classes we have been using in earlier exercises (and which we now also need to start the main container). 
+<p>This is very similar to the main method of the <code class="highlighter-rouge">Run</code> classes we have been using in earlier exercises (and which we now also need to start the main container).
 The changes are some properties indicating how this container must connect to the main container and a different call to the JADE runtime.
 It is possible to run each container on a different computer. However, this will only work in case the firewall allows traffic to go trough on the specified port.
 Try to run both containers and check in the GUI that both containers are visible.
@@ -186,7 +186,7 @@ Therefore, it is possible for an agent to migrate from one container to another.
 In JADE the moving process requires that the agent and all classes used in the agent are <a href="https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">Serializable</a>.</p>
 
 <p>There is one difficulty with moving agents and that is specifying where the agent should be going to.
-The doMove() method of the agent requires a Location object and obtaining one of these is unnecessary hard. 
+The doMove() method of the agent requires a Location object and obtaining one of these is unnecessary hard.
 The code to obtain the list of all locations is given below:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private ArrayList&lt;Location&gt; getLocations() {
@@ -238,7 +238,7 @@ The code to obtain the list of all locations is given below:</p>
   <li>Initially you don’t know whether you should jump to the first or second location in the list. Just start by moving to the first one, even if that means you stay in the same container.</li>
 </ul>
 
-<p>###Task 3 - Auctions###</p>
+<h3 id="task-3---auctions">Task 3 - Auctions</h3>
 
 <p>Often the resources on the platform are limited and the agents should agree which ones are going to be able to use the resource.
 Resources can include things like sensors and actuators but also CPU time, etc.
@@ -257,7 +257,7 @@ Three common types of <em>open-outcry</em> auctions are:</p>
 </ol>
 
 <p>Alternatively, an auction can be done by <em>sealed-bid</em>, i.e. the offers are not publicly announced.
-Typically, the winner of the auction is the one who offered the highest amount. 
+Typically, the winner of the auction is the one who offered the highest amount.
 He will either pay the amount he offered or the amount which was offered by the second highest bidder (these are called first-price and second-price auctions).</p>
 
 <p>Your task is to implement a scenario in which 20 agents are competing for access to a sensor using one of the above <em>open-outcry</em> auction types.

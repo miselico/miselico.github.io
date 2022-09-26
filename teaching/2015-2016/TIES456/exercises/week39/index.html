@@ -86,52 +86,52 @@ next time: rewrite GDP.jar such that only one instance can be created
 -->
 
 <h2 id="goal">Goal</h2>
-<p>Learn to create SOAP and RESTful web services. 
-In this exercise we will be using libraries available for creation of this type of services. 
-The goal is however that the student also understands what happens behind the scenes. 
+<p>Learn to create SOAP and RESTful web services.
+In this exercise we will be using libraries available for creation of this type of services.
+The goal is however that the student also understands what happens behind the scenes.
 Further, this task includes service composition, where two services are combined into one - transparently for the user of the service.
 Finally, you need to implement caching and optionally take measures which prevent rate limiting.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
-<p>The group should have made the assignment “Web service clients” and “RESTful web services exercise”. 
-All prerequisite material for these exercises is prerequisite for this one as well. 
-Further, the student should get acquainted with the Jersey libraries. 
-You can read some practical info about RESTful servers from <a href="http://jersey.java.net/nonav/documentation/latest/getting-started.html">http://jersey.java.net/nonav/documentation/latest/getting-started.html</a>. 
-Please try out the examples from that webpage. 
+<p>The group should have made the assignment “Web service clients” and “RESTful web services exercise”.
+All prerequisite material for these exercises is prerequisite for this one as well.
+Further, the student should get acquainted with the Jersey libraries.
+You can read some practical info about RESTful servers from <a href="http://jersey.java.net/nonav/documentation/latest/getting-started.html">http://jersey.java.net/nonav/documentation/latest/getting-started.html</a>.
+Please try out the examples from that webpage.
 Also check the section on <a href="https://jersey.java.net/nonav/documentation/latest/user-guide.html#jaxrs-resources">JAX-RS Application, Resources and Sub-Resources</a>, to figure out how to extract parts of a URL.
 Information on how to use the Jersey REST <em>client</em> libraries can be found from <a href="https://jersey.java.net/documentation/latest/user-guide.html#client">https://jersey.java.net/documentation/latest/user-guide.html#client</a> (note that you do not necessarily need to use these).</p>
 
 <p>Basic information about implementing SOAP services in Java using JAX-WS can be found from <a href="http://www.mkyong.com/webservices/jax-ws/jax-ws-hello-world-example/">http://www.mkyong.com/webservices/jax-ws/jax-ws-hello-world-example/</a>. (the parts about ruby web services are not relevant for this exercise.)</p>
 
-<p>For the caching part of the exercise, read about google Guava’s CacheBuilder which provides basic in memory (and in process) caching. 
+<p>For the caching part of the exercise, read about google Guava’s CacheBuilder which provides basic in memory (and in process) caching.
 More information can be found from <a href="https://github.com/google/guava/wiki/CachesExplained">Guava’s wiki page on caches</a>.</p>
 
-<p>To solve the issues with browsers’ same origin policy, you can read up on <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> or <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a>. 
+<p>To solve the issues with browsers’ same origin policy, you can read up on <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> or <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a>.
 JSONP will be mostly usable for groups with an even group number.</p>
 
 <p>For the optional part of this task, if you have no experience with Java thread pools, read <a href="http://docs.oracle.com/javase/tutorial/essential/concurrency/pools.html">http://docs.oracle.com/javase/tutorial/essential/concurrency/pools.html</a> for more information.</p>
 
 <h2 id="task">Task</h2>
-<p>Two services need to be consumed and combined transparently for the user of the newly created service. 
+<p>Two services need to be consumed and combined transparently for the user of the newly created service.
 The final set-up looks like this:</p>
 
 <p><img src="img/overview.png" alt="an overview of the final set-up" /></p>
 
 <h3 id="part-1">Part 1</h3>
 
-<p>The first service you have to create, called <em>GDP Service</em>, is a service which converts a country code to a Gross Domestic Product. 
+<p>The first service you have to create, called <em>GDP Service</em>, is a service which converts a country code to a Gross Domestic Product.
 You have to create this SOAP service with the help of <a href="GDP.jar">this library</a> and JAX-WS.
 The jar file contains a class which tells you the GDP of a country when given a country code.
 Since this jar file is not available from a maven repository, you will need to install it manually to your local repository following the instruction from <a href="https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html">here</a>.
 In the computer labs, maven is installed under <code class="highlighter-rouge">/usr/local/apache-maven-3.3.3/</code>.
 If on the machine you are working no local <code class="highlighter-rouge">mvn</code> command is available, you can do the same from inside eclipse by right click on a maven project &gt; Run as &gt; Maven build … and fill the parameters to the launch as shown in <a href="img/installMaven.png">the screenshot</a>.
-An alternative, and perhaps nicer way to solve this problem is demonstrated by Kamil <a href="https://github.com/kamiljano/teaching/tree/master/custom-jar-dependencies">in his repository</a>. 
+An alternative, and perhaps nicer way to solve this problem is demonstrated by Kamil <a href="https://github.com/kamiljano/teaching/tree/master/custom-jar-dependencies">in his repository</a>.
 This self made service needs to be accessible using WSDL/SOAP.</p>
 
 <h3 id="part-2">Part 2</h3>
 
 <p>The second service, which will be called <em>localGDP service</em> will receive as a parameter a longitude and latitude.
-Then it will first make a call to the google geocoding API (more info from <a href="http://code.google.com/apis/maps/documentation/geocoding/">here</a> ) to convert the location to a country code. 
+Then it will first make a call to the google geocoding API (more info from <a href="http://code.google.com/apis/maps/documentation/geocoding/">here</a> ) to convert the location to a country code.
 Next, a call to the service you created in Part 1 will give the GDP for the country code, which is also the final outcome of the second service.
 In summary, the created service returns a GDP for the country at the location specified.</p>
 
@@ -139,7 +139,7 @@ In summary, the created service returns a GDP for the country at the location sp
 <strong>Even groups use XML to communicate with the geocoding API, add groups use JSON.</strong></p>
 
 <p>For the REST service implementation, you must use the Jersey libraries and <strong>even groups use JSON to communicate and odd groups use XML.</strong>
-You should implement the REST services using streams (it is certainly disputable that this is the best solution - point is to learn the technique). 
+You should implement the REST services using streams (it is certainly disputable that this is the best solution - point is to learn the technique).
 To use streams, you can return an object of type StreamingOutput from your resource class’ method like this (other methods achieving the same are allowed as well):</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @GET
@@ -159,13 +159,13 @@ To use streams, you can return an object of type StreamingOutput from your resou
 <h3 id="part-3">Part 3</h3>
 
 <p>Caching is essential in many applications.
-In this case we could cache the GDP of countries. 
+In this case we could cache the GDP of countries.
 The GDP library, and hence the first service you created, updates the values of the GDP for countries every 5 minutes.
-An easy way to implement caching in this situation would be to query the service every five minutes for all known countries (or all countries ever asked for) and then cache these values. 
+An easy way to implement caching in this situation would be to query the service every five minutes for all known countries (or all countries ever asked for) and then cache these values.
 To keep the exercise interesting, you should imagine that there would be too many countries to keep all this data stored in memory.
-To implement the caching, you have to use a Cache created by com.google.common.cache.CacheBuilder from the Google guava library. 
-For the sake of this exercise, you should limit your cache size to 10 and expire entries in the cache after 2.5 minutes. 
-When creating an actual application, its performance is affected greatly by a good choice of cache parameters. 
+To implement the caching, you have to use a Cache created by com.google.common.cache.CacheBuilder from the Google guava library.
+For the sake of this exercise, you should limit your cache size to 10 and expire entries in the cache after 2.5 minutes.
+When creating an actual application, its performance is affected greatly by a good choice of cache parameters.
 However, getting to know these parameters usually requires a lot of monitoring and profiling.</p>
 
 <h3 id="part-4">Part 4</h3>
@@ -204,7 +204,7 @@ Note that hosting this file on the university webspace will cause same-origin po
 
 <!--
 
-Reflective questions 
+Reflective questions
 ---------------------
 Did you use JSON or XML for the geocoding, why? Is your way of parsing efficient? Is there any point in making it more efficient?
 
@@ -224,22 +224,22 @@ What should be improved in this exercise if it is given to students in the futur
 
 -->
 
-<p>###Optional###</p>
+<h3 id="optional">Optional</h3>
 
-<p>An optional challenge is the implementation of basic rate limiting while making calls to the geocoding API. As per the <a href="https://developers.google.com/maps/documentation/geocoding/#Limits">Limits</a> section of the API documentation there are limits on the amount of requests you can perform on the API. 
+<p>An optional challenge is the implementation of basic rate limiting while making calls to the geocoding API. As per the <a href="https://developers.google.com/maps/documentation/geocoding/#Limits">Limits</a> section of the API documentation there are limits on the amount of requests you can perform on the API.
 <!--You can try to make a loop in which you call the service continuously, until you get an error message.-->
-It seems like an easy solution would be to wait some time (say, a second or so) and then try to call the service again. 
-The problem is, however, that also other calls which happen in other threads will hit the limit at the same time. 
+It seems like an easy solution would be to wait some time (say, a second or so) and then try to call the service again.
+The problem is, however, that also other calls which happen in other threads will hit the limit at the same time.
 This would result in all threads waiting a certain amount of time, and then all try again which might hit the limit again.
-People familiar with networking would think in the direction of exponential back-of approaches. 
-However, since all the work is done inside the same VM, there is a more efficient way of solving this problem. 
-You can for instance create a singleThreadExecutor (a thread pool with only one thread) which has the responsibility to execute all calls to the geocoding API. 
-You then submit() Callables to the pool and get the result from the returned Future. 
-Now, when you hit the rate limit, you can wait a fixed amount of time and try again. 
+People familiar with networking would think in the direction of exponential back-of approaches.
+However, since all the work is done inside the same VM, there is a more efficient way of solving this problem.
+You can for instance create a singleThreadExecutor (a thread pool with only one thread) which has the responsibility to execute all calls to the geocoding API.
+You then submit() Callables to the pool and get the result from the returned Future.
+Now, when you hit the rate limit, you can wait a fixed amount of time and try again.
 You can be sure that no other threads are doing the same thing at the same time.</p>
 
 <h3 id="returning-the-task">Returning the task###</h3>
-<p>Put the parts you created yourself to your git repository. 
+<p>Put the parts you created yourself to your git repository.
 Add a readme.md file describing your project structure and the choices you made for the REST API (see hint 4 below).</p>
 
 <h2 id="hints">Hints</h2>
@@ -248,14 +248,14 @@ Add a readme.md file describing your project structure and the choices you made 
     <p>Most hints from the previous exercises are still valid.</p>
   </li>
   <li>
-    <p>If you want to do JSON object marshalling, you can generate code stubs using <a href="http://jsongen.byingtondesign.com/">http://jsongen.byingtondesign.com/</a>. 
+    <p>If you want to do JSON object marshalling, you can generate code stubs using <a href="http://jsongen.byingtondesign.com/">http://jsongen.byingtondesign.com/</a>.
 The generation is not perfect and most likely needs a few manual changes.</p>
   </li>
   <li>
     <p>The wsimport tool introduced in an earlier exercise can be used to convert the WSDL file from the GDP service into classes.</p>
   </li>
   <li>
-    <p>The parts which should be included in the answer from the service is something which you should decide in your group. Also the way the information is structured is your choice. 
+    <p>The parts which should be included in the answer from the service is something which you should decide in your group. Also the way the information is structured is your choice.
 You can get inspiration from the mediafire API and the google geocoding API. Also look at the information from <a href="https://www.ibm.com/developerworks/webservices/library/ws-restful/">https://www.ibm.com/developerworks/webservices/library/ws-restful/</a>.
 Document the choices in the readme file.</p>
   </li>

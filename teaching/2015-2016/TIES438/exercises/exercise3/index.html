@@ -90,13 +90,13 @@ Then we will use map-reduce to compute the sizes of some large sets and compare 
 <p>In principle, the content presented during the lectures suffices to implement this task.
 However, it is certainly beneficial to study the corresponding text (sections 4.1, 4.2, 4.4) of the <em>Mining of Massive Datasets</em> book.
 You can also watch the related videos of the coursera course in week 3 : Mining Data Streams (12:01), Sampling a Stream (11:30)  and Completed Counting Distinct Elements (25:59).
-Further, there are the articles about <a href="http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> and 
+Further, there are the articles about <a href="http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> and
 <a href="http://research.neustar.biz/2012/07/09/sketch-of-the-day-k-minimum-values/">K-minimum values</a>, which are not covered in the book nor the videos.</p>
 
 <p>Basic usage of map-reduce can be found from the <a href="http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">MapReduce Tutorial</a> of Hadoop.</p>
 
 <h2 id="task">Task</h2>
-<p>The task consists of three parts. 
+<p>The task consists of three parts.
 First, you have to investigate the limits for set sizes on your own system.
 Then you need to calculate the exact number of unique elements of a part of the stream using map-reduce.
 Finally, you will need to use two approximate methods for determining the cardinality of a stream of data.</p>
@@ -104,9 +104,9 @@ Finally, you will need to use two approximate methods for determining the cardin
 <p>This task is performed either individually or as a pair.
 You are free to work using the programming language you want, however, make sure you take a language in which you can read from standard input and in which you can handle the elements as a stream.</p>
 
-<p>###Part I###
-Investigate the limits of the set implementation of the programming language on your computer.
-The goal of this exercise is <em>not</em> to write an optimized implementation to achieve larger set sizes. 
+<h3 id="part-i">Part I</h3>
+<p>Investigate the limits of the set implementation of the programming language on your computer.
+The goal of this exercise is <em>not</em> to write an optimized implementation to achieve larger set sizes.
 Instead, the goal is to get an idea of the magnitude which a normal machine can handle.</p>
 
 <p>To test this, write something like this:</p>
@@ -138,15 +138,15 @@ However, once in a while the table used to store the values needs to be re-sized
 
 <p>If you have set specific memory options, you should report these as well.</p>
 
-<p>###Part II###</p>
+<h3 id="part-ii">Part II</h3>
 
 <p>In order to work on Amazon infrastructure, you first need to get your personal password from <a href="http://jyu-aws.appspot.com">http://jyu-aws.appspot.com</a> and log-in to AWS.</p>
 
-<p>The teacher has placed a set of data on Amazon S3 which contains the first 10000-10^10 elements of a stream in bucket 
-<code class="highlighter-rouge">s3://data-for-stream-counting-5e33f2e9-bb84-4c40-bb03-5bb086c7adea/</code> on amazon web services (change: 10^10 has now been removed since it takes to long to process, causing all other students to wait.). 
+<p>The teacher has placed a set of data on Amazon S3 which contains the first 10000-10^10 elements of a stream in bucket
+<code class="highlighter-rouge">s3://data-for-stream-counting-5e33f2e9-bb84-4c40-bb03-5bb086c7adea/</code> on amazon web services (change: 10^10 has now been removed since it takes to long to process, causing all other students to wait.).
 (You can browse S3, starting from <a href="https://console.aws.amazon.com/s3/home?region=us-east-1#">here</a>).</p>
 
-<p>You task is to count the exact number of distinct items in the datasets of sizes 10000 till 10^8 using map-reduce. 
+<p>You task is to count the exact number of distinct items in the datasets of sizes 10000 till 10^8 using map-reduce.
 The dataset is there in larger sizes as well, but processing these will take quite a bit of time.
 To get started, you should switch to the Elastic Map Reduce (EMR) service in AWS.
 All map-reduce tasks must be run on the cluster <code class="highlighter-rouge">Count Distinct Cluster2</code> which is in availability zone <code class="highlighter-rouge">us-east-1</code> (US East N.Virginia).
@@ -176,12 +176,12 @@ Alternatively, you can use a second map-reduce job to determine the number of li
 <p>First test on the small dataset and see whether you can get the correct result <code class="highlighter-rouge">data10000</code> should give you 9925 distinct values.
 Then determine the sizes of the sets up till 10^8 (you are allowed to try larger sizes if you have time).</p>
 
-<p>###Part III###
-Implement two algorithms for cardinality estimation. 
+<h3 id="part-iii">Part III</h3>
+<p>Implement two algorithms for cardinality estimation.
 The first one uses (order) statistics (sampling or K-minimum values) and the second one bit pattern observables (Flajolet-Martin (from handbook), LogLog or HyperLogLog - see also hints).
 For both algorithms, you need to calculate the root-mean-square error for 1,000,000 stream elements.</p>
 
-<p>The data used is generated (<a href="generator2015.jar">download generator</a>). 
+<p>The data used is generated (<a href="generator2015.jar">download generator</a>).
 This generator is written in Java and deterministically produces the elements on its standard output (one per line).
 This generator makes it possible to know the outcome and repeat the same stream multiple times, while there is no need to download a huge (theoretically infinite) amount of data.</p>
 
@@ -202,18 +202,18 @@ Concrete, for both experiments (2 algorithms) , you need calculate the root-mean
 <p>where the exact cardinalities can be found from the following table:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    | seed |  exact cardinality | exact cardinality | exact cardinality | exact cardinality |
-    |      |  (1,000,000)       | (10,000,000)      | (100,000,000)     | (1,000,000,000)   | 
-    |------|--------------------|-------------------|-------------------|-------------------|
-    |  1   | 697757             | 3753742           | 14899128          | 46929246          |
-    |  2   | 698466             | 3755459           | 14899436          | 46932806          |
-    |  3   | 698151             | 3753884           | 14905011          | 46926010          |
-    |  4   | 698536             | 3755369           | 14901524          | 46927853          |
-    |  5   | 697079             | 3752845           | 14907010          | 46923292          |
-    |  6   | 697732             | 3753219           | 14901538          | 46930349          |
-    |  7   | 697822             | 3754504           | 14899040          | 46920659          |
-    |  8   | 698286             | 3755127           | 14903161          | 46924710          |
-    |  9   | 698364             | 3753823           | 14900900          | 46925823          |
-    |  10  | 697910             | 3754738           | 14901838          | 46929227          |
+    |     | (1,000,000) | (10,000,000) | (100,000,000) | (1,000,000,000) |
+    | --- | ----------- | ------------ | ------------- | --------------- |
+    | 1   | 697757      | 3753742      | 14899128      | 46929246        |
+    | 2   | 698466      | 3755459      | 14899436      | 46932806        |
+    | 3   | 698151      | 3753884      | 14905011      | 46926010        |
+    | 4   | 698536      | 3755369      | 14901524      | 46927853        |
+    | 5   | 697079      | 3752845      | 14907010      | 46923292        |
+    | 6   | 697732      | 3753219      | 14901538      | 46930349        |
+    | 7   | 697822      | 3754504      | 14899040      | 46920659        |
+    | 8   | 698286      | 3755127      | 14903161      | 46924710        |
+    | 9   | 698364      | 3753823      | 14900900      | 46925823        |
+    | 10  | 697910      | 3754738      | 14901838      | 46929227        |
 </code></pre></div></div>
 
 <h2 id="hints">Hints</h2>

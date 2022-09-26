@@ -82,7 +82,7 @@
   </header>
   
   <h2 id="goal">Goal</h2>
-<p>After completing these exercises the student should have a deeper understanding on how agents can collaborate in an environment with restricted resources. 
+<p>After completing these exercises the student should have a deeper understanding on how agents can collaborate in an environment with restricted resources.
 Further, he or she gets a chance to implement basic learning algorithms.
 Concepts covered are coordination, software robots, sensors and actuators, and resource allocation.</p>
 
@@ -110,7 +110,7 @@ In this final task you also have to create a team of dirt spreaders.</p>
 
 <p>These tasks are performed in team of 1 to 3 students. You have to use Java 8 for these tasks (Java 7 won’t do).</p>
 
-<p>###Task 0 - Obtaining the project###</p>
+<h3 id="task-0---obtaining-the-project">Task 0 - Obtaining the project</h3>
 
 <p>The teacher has prepared a project in a git repository for each group. Inform the teacher to be assigned a group.
 Once assigned to a group, you can clone the project using <code class="highlighter-rouge">git clone git@yousource.it.jyu.fi:ties454-2016-assignment3/group&lt;nr&gt;.git</code></p>
@@ -124,12 +124,12 @@ Normally you won’t change the code in that package.</li>
 </ul>
 
 <p>To start working, make a copy of the <code class="highlighter-rouge">fi.jyu.ties454.assignment3.group0</code> package and change the group number to the one you received.
-All code of this assignment must be placed in that package. 
+All code of this assignment must be placed in that package.
 The first skeleton can be found in <code class="highlighter-rouge">fi.jyu.ties454.assignment3.group&lt;number&gt;.task1</code>, the second one in <code class="highlighter-rouge">fi.jyu.ties454.assignment3.group&lt;number&gt;.task2</code>, and so on.</p>
 
 <p>Also make a copy of the resource folder <code class="highlighter-rouge">/src/main/resources/fi/jyu/ties454/assignment3/group0</code> to <code class="highlighter-rouge">/src/main/resources/fi/jyu/ties454/assignment3/group&lt;groupnumber&gt;</code>.</p>
 
-<p>###Task 1 - Cleaning the rectangle###</p>
+<h3 id="task-1---cleaning-the-rectangle">Task 1 - Cleaning the rectangle</h3>
 
 <p>In this first task you have to write the code for a cleaning robot which has to clean a rectangular room.
 The skeleton for this task is already created. Carefully read the comments on the <code class="highlighter-rouge">fi.jyu.ties454.assignment3.group&lt;nr&gt;.task1.MyCleaner</code> class.
@@ -137,7 +137,7 @@ To start the simulation, you need to execute the <code class="highlighter-rouge"
 
 <p>If the simulation runs to slow to your liking, read the hints below.</p>
 
-<p>###Task 2 - Advanced sensors and enemies###</p>
+<h3 id="task-2---advanced-sensors-and-enemies">Task 2 - Advanced sensors and enemies</h3>
 
 <p>The actuators used up till now are a bit boring. The only things you could do were making one step, rotating, and cleaning.
 Obviously, cleaning gets more fun with better gear.
@@ -147,7 +147,7 @@ If your team still has budget (the total budget is 12,000), the manager will ins
 Since sending this kind of messages is common, it has been implemented in the <code class="highlighter-rouge">getDevice()</code> method.
 See the skeleton code for an example.</p>
 
-<p>The following parts are available from the <code class="highlighter-rouge">fi.jyu.ties454.cleaningAgents.infra.DefaultDevices</code> class. 
+<p>The following parts are available from the <code class="highlighter-rouge">fi.jyu.ties454.cleaningAgents.infra.DefaultDevices</code> class.
 See the javadoc of the DefaultDevices class for more information on how they work.
 Note that there are also parts for making the rooms dirty. Your cleaning agents do not want these!</p>
 
@@ -248,7 +248,7 @@ Note that there are also parts for making the rooms dirty. Your cleaning agents 
   </tbody>
 </table>
 
-<p>Where free = 0, cheap = 500, middle = 1,500, and exp = 3,000. 
+<p>Where free = 0, cheap = 500, middle = 1,500, and exp = 3,000.
 For speeds (at default timeFactor of 50, see below), slooow = 2.5s, slow = 1.25s, normal = 0.5s, fast = 0.25s, faster = 0.05s, instant = 0s.</p>
 
 <p>Your task is to create a cleaning agent which attempts to clean the dirt which the <code class="highlighter-rouge">MyDirtier</code> agent creates.
@@ -258,7 +258,7 @@ After that the simulation will stop and inform what the average amount of dirt i
 Your goal is to get that number down.
 (Don’t spent too much time on this, there is no point trying to find the perfect solution.)</p>
 
-<p>###Task 3 - Coordinating multiple cleaners###</p>
+<h3 id="task-3---coordinating-multiple-cleaners">Task 3 - Coordinating multiple cleaners</h3>
 
 <p>When multiple cleaners are started, they all start on the same location (still, this same location will be different each time you run).
 Multiple dirtiers, however, start each on a different location.</p>
@@ -294,7 +294,7 @@ Note that the tracker class uses a coordinate system which is typical for comput
 
 <p>As a map, you could use the <code class="highlighter-rouge">rectangleRoomLargeClean.txt</code> or create your own more complicated map.</p>
 
-<p>###Task 4 - Multiple rooms - competition###</p>
+<h3 id="task-4---multiple-rooms---competition">Task 4 - Multiple rooms - competition</h3>
 
 <p>Up till now there has only been one room to clean. This tasks adds the complexity that there can be multiple rooms.
 To make things easier, you only have to consider maps with rectangular rooms (always 4 corners), there are no doors at the corner points, and doors always consist of one cell.</p>
@@ -328,7 +328,7 @@ The map consists of cells and each cell is represented by one character.</p>
   <li><em>‘ ’</em> (a space) indicates an empty cell, i.e. where there is no floor.</li>
 </ul>
 
-<p>Walls are created by inserting spaces between areas consisting of other characters. 
+<p>Walls are created by inserting spaces between areas consisting of other characters.
 Doors are creating by a normal cell.
 Hence, the following is an example of three rooms - two clean ones and a dirty one - connected by doors:</p>
 
