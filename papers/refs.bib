@@ -238,7 +238,8 @@ author={Michael Cochez and Sami Helin and Jiawen Chen},
 title={Cloud Communication Service},
 booktitle={Developing cloud software : algorithms, applications, and tools},
 url= {http://urn.fi/URN:ISBN:978-952-12-2952-7},
-crossref={Cloudbook}
+crossref={Cloudbook},
+note={This paper had a very light review}
 }
 
 @book{Cloudbook,
@@ -331,7 +332,7 @@ and Cochez, Michael",
 OPTeditor="Cal{\`i}, Andrea
 and Gorgan, Dorian
 and Ugarte, Mart{\'i}n",
-title="TB-Structure: Collective Intelligence for Exploratory Keyword Search",
+title="{TB}-Structure: Collective Intelligence for Exploratory Keyword Search",
 booktitle="Semantic Keyword-Based Search on Structured Data Sources: COST Action IC1302 Second International KEYSTONE Conference, IKC 2016, Cluj-Napoca, Romania, September 8--9, 2016, Revised Selected Papers",
 year="2017",
 publisher="Springer International Publishing",
@@ -702,7 +703,7 @@ isbn="978-3-030-18576-3"
 @INPROCEEDINGS{karim2020classification,
   author={Karim, Md. Rezaul and Raja Chakravarthi, Bharathi and McCrae, John P. and Cochez, Michael},
   booktitle={2020 IEEE 7th International Conference on Data Science and Advanced Analytics (DSAA)},
-  title={Classification Benchmarks for Under-resourced Bengali Language based on Multichannel Convolutifonal-LSTM Network},
+  title={Classification Benchmarks for Under-resourced Bengali Language based on Multichannel Convolutional-{LSTM} Network},
   year={2020},
   pages={390-399},
   notes={Best Application Paper Award},
@@ -843,7 +844,7 @@ numpages = {11}
 	author="Erik Arakelyan and Daniel Daza and Pasquale Minervini and Michael Cochez",
 	title="Complex Query Answering with Neural Link Predictors",
 	booktitle="International Conference on Learning Representations (ICLR 2021)",
-	note="Oral presentation, spotlight paper",
+	note="Oral presentation, \textbf{spotlight paper}",
 	year="2021",
 	publisher="Openreview",
 	url={https://openreview.net/forum?id=Mos9F9kDwkz},
@@ -930,16 +931,30 @@ isbn="978-3-030-82472-3"
 	pages={1--257},
 	year={2021},
 	publisher={Morgan \& Claypool Publishers},
-	url="https://kgbook.org"
+	url={https://kgbook.org}
 }
 
-@article{generale2022scaling,
-	title={Scaling {R-GCN} Training with Graph Summarization},
-	author={Generale, Alessandro and Blume, Till and Cochez, Michael},
-	note={To appear in the proceedings of the ACM Digital Library in the proceedings of the International Workshop on Graph Learning at the Webconf 2022},
-	journal={arXiv preprint arXiv:2203.02622},
-	year={2022}
+
+
+@inproceedings{generale2022scaling,
+	author = {Generale, Alessandro and Blume, Till and Cochez, Michael},
+	title = {Scaling {R-GCN} Training with Graph Summarization},
+	year = {2022},
+	isbn = {9781450391306},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3487553.3524719},
+	doi = {10.1145/3487553.3524719},
+	abstract = {Training of Relational Graph Convolutional Networks (R-GCN) is a memory intense task. The amount of gradient information that needs to be stored during training for real-world graphs is often too large for the amount of memory available on most GPUs. In this work, we experiment with the use of graph summarization techniques to compress the graph and hence reduce the amount of memory needed. After training the R-GCN on the graph summary, we transfer the weights back to the original graph and attempt to perform inference on it. We obtain reasonable results on the AIFB, MUTAG and AM datasets. Our experiments show that training on the graph summary can yield a comparable or higher accuracy to training on the original graphs. Furthermore, if we take the time to compute the summary out of the equation, we observe that the smaller graph representations obtained with graph summarization methods reduces the computational overhead. However, further experiments are needed to evaluate additional graph summary models and whether our findings also holds true for very large graphs.},
+	booktitle = {Companion Proceedings of the Web Conference 2022},
+	pages = {1073–1082},
+	numpages = {10},
+	keywords = {scalability, graph neural network, graph summarization},
+	location = {Virtual Event, Lyon, France},
+	series = {WWW '22},
+	note = {International Workshop on Graph Learning at the Webconf 2022 arXiv preprint arXiv:2203.02622}
 }
+
 
 @article{barthelemy2022towards,
 	title={Towards a standard-based open data ecosystem: analysis of DCAT-AP use at national and European level},
@@ -984,8 +999,12 @@ isbn="978-3-030-82472-3"
 	booktitle={arXiv},
 	year={2022},
 	url={https://arxiv.org/abs/2206.01818},
-	OPTnote={}
+	OPTnote={}	
 }
+
+
+
+Download PDF
 
 
 @inproceedings{xiong2022hyperbolic,
@@ -993,7 +1012,6 @@ isbn="978-3-030-82472-3"
 	title = {Hyperbolic Embedding Inference for Structured Multi-Label Prediction},
 	booktitle = {NeurIPS2022},
 	year = {2022},
-	url = {https://www.cochez.nl/papers/LabelEmbedding.pdf},
 	note = {accepted}
 }
 
@@ -1017,8 +1035,8 @@ isbn="978-3-030-82472-3"
 	author={Wang, Xu
 	and van Harmelen, Frank
 	and Cochez, Michael
-	and Huang, Zhisheng",
-	editor="Memmi, Gerard
+	and Huang, Zhisheng},
+	editor={Memmi, Gerard
 	and Yang, Baijian
 	and Kong, Linghe
 	and Zhang, Tianwei
