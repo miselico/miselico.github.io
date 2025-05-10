@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Graph Embedding Evaluation Framework - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://www.cochez.nl/datalab/embedding/evaluation/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Graph Embedding Evaluation Framework</h1>
+    
+  </header>
+  
+  <p>(most of this page was contributed by Maria Angela Pellegrino and Martina Garofalo)</p>
+
+<h1 id="overview">Overview</h1>
+
+<p>Once you have defined a new RDF embedding technique or you want to compare two existing methods, you should define a set of tests to run and analyze the results.</p>
+
+<p>By using this framework the work is simplified. It provides Machine Leraning and semantic tasks to evaluate your vectors.</p>
+
+<p>The implemented tasks are:</p>
+<ul>
+  <li>Machine Learning
+    <ul>
+      <li>Classification</li>
+      <li>Regression</li>
+      <li>Clustering</li>
+    </ul>
+  </li>
+  <li>Semantic tasks
+    <ul>
+      <li>Entity Relatedness</li>
+      <li>Document similarity</li>
+      <li>Semantic analogies</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For each task, the parameters, the procedure, the file used as gold standards and metric used to evaluate the output are presented.</p>
+
+<hr />
+
+<h1 id="embedding-framework">Embedding framework</h1>
+
+<p><strong>Link project</strong> : the project is available on <a href="https://git.rwth-aachen.de/KGEmbedding/evaluationFramework">GitHub</a></p>
+
+<p><strong>To run it</strong> :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Libraries : 
+numpy==1.14.0
+pandas==0.22.0
+scipy==1.1.0
+scikit-learn==0.19.2
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Python version : Python 2.7.3
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Parameters:
+--vectors_file, Path of the file where your vectors are stored. File format: one line for each entity with entity and vector, mandatory
+--vectors_size, default=200, Length of each vector
+--top_k, default=2, Used in SemanticAnalogies : The predicted vector will be compared with the top k closest vectors to establish if the prediction is correct or not
+</code></pre></div></div>
+<p><strong>To customize distance metric and analogy function</strong> :</p>
+
+<p>You have to redefine your own main.</p>
+
+<p>You can use one of the <strong><em>distance metric</em></strong> accepted by <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html">scipy.spatial.distance.cdist</a>.</p>
+
+<p>Your <strong><em>analogy function</em></strong> has to take</p>
+
+<ul>
+  <li>3 vectors or matrices of vectors used to forecast the forth vector,</li>
+  <li>the index (or indices) or these vectors in the data matrix</li>
+  <li>the data matrixes that contains all the vectors</li>
+  <li>the top_k, i.e., the number of vectors you want to use to check if the predicted vector is close to one in your dataset</li>
+</ul>
+
+<p>and it must return the indices of the top_k closest vector to the predicted one.</p>
+
+<hr />
+
+<h1 id="classification">Classification</h1>
+
+<h2 id="parameters">Parameters</h2>
+
+<p>-</p>
+
+<h2 id="datasets-used-as-gold-standard">Datasets used as gold standard</h2>
+
+<p>Useful information related to the dataset are listed <a href="https://dws.informatik.uni-mannheim.de/en/research/a-collection-of-benchmark-datasets-for-ml">here</a></p>
+
+<p>The datasets can be downloaded following this <a href="http://data.dws.informatik.uni-mannheim.de/rmlod/LOD_ML_Datasets/data/datasets/">link</a>.</p>
+
+<p>The datasets are explined in the <a href="https://pdfs.semanticscholar.org/4600/f2b2a143b7bcdf5dae83e456649deb1908de.pdf">paper</a>[Ristoski, P., de Vries, G.K.D., Paulheim, H.: A collection of benchmark datasets for systematic evaluations of machine learning on the semantic web. In: International Semantic Web Conference (To Appear). Springer (2016)]</p>
+
+<p>The used ones are</p>
+
+<ul>
+  <li>Cities</li>
+  <li>Metacritic movies</li>
+  <li>Metacritic albums</li>
+  <li>Forbes</li>
+  <li>AAUP (only salary information)</li>
+</ul>
+
+<p>and are available in the Git respository.</p>
+
+<h2 id="procedure">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">for</span> <span class="n">each</span> <span class="n">file_as_gold_standard</span><span class="p">:</span>
+	<span class="n">NB</span><span class="p">,</span> <span class="n">K</span><span class="p">-</span><span class="n">NN</span> <span class="k">with</span> <span class="n">k</span><span class="p">=</span><span class="m">3</span><span class="p">,</span> <span class="n">C45</span> <span class="k">and</span> <span class="n">SVM</span> <span class="k">with</span> <span class="n">C</span><span class="p">={</span><span class="n">pow</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="p">-</span><span class="m">3</span><span class="p">),</span> <span class="n">pow</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="p">-</span><span class="m">2</span><span class="p">),</span> <span class="m">0.1</span><span class="p">,</span> <span class="m">1.0</span><span class="p">,</span> <span class="m">10.0</span><span class="p">,</span> <span class="n">pow</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span> <span class="n">pow</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">3</span><span class="p">)}</span> <span class="n">are</span> <span class="n">used</span> <span class="k">as</span> <span class="n">models</span>
+
+	<span class="n">data</span> <span class="p">=</span> <span class="n">intersection</span> <span class="n">between</span> <span class="n">entities</span> <span class="k">in</span> <span class="n">vectors</span> <span class="k">and</span> <span class="k">in</span> <span class="n">file_as_gold_standard</span>
+	<span class="n">data</span> <span class="p">=</span> <span class="nb">random</span> <span class="n">sampling</span> <span class="k">of</span> <span class="n">data</span> <span class="n">is</span> <span class="n">computed</span> <span class="p">(</span><span class="n">using</span> <span class="n">seed</span> <span class="k">from</span> <span class="m">1</span> <span class="k">to</span> <span class="m">10</span> <span class="n">for</span> <span class="n">reproducibility</span><span class="p">)</span>
+
+	<span class="k">model</span> <span class="n">is</span> <span class="n">created</span>
+	<span class="k">model</span> <span class="n">is</span> <span class="n">trained</span> <span class="n">using</span> <span class="n">cv</span> <span class="p">=</span> <span class="m">10</span>
+
+	<span class="n">results</span> <span class="n">are</span> <span class="n">collected</span>
+</code></pre></div></div>
+
+<h2 id="output-metric">Output metric</h2>
+
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score"><strong>Accuracy</strong></a> is computed</p>
+
+<p>The <strong>output file</strong> is a CSV file for each file_as_gold_standard with header:</p>
+<ul>
+  <li>task_name : Classification</li>
+  <li>model_name : [NB, K-NN, C45, SVM]</li>
+  <li>model_configuration : null for NB and C45, k=3 for K-NN and current C value for SVM</li>
+  <li>score_type : accuracy</li>
+  <li>score_value : the actual score</li>
+</ul>
+
+<h2 id="reference">Reference</h2>
+
+<p>The used dataset, models, their configuration and the output metric is based on <a href="https://ub-madoc.bib.uni-mannheim.de/41307/1/Ristoski_RDF2Vec.pdf">RDF2vec evaluation</a></p>
+
+<hr />
+
+<h1 id="regression">Regression</h1>
+
+<h2 id="parameters-1">Parameters</h2>
+
+<p>-</p>
+
+<h2 id="datasets-used-as-gold-standard-1">Datasets used as gold standard</h2>
+
+<p>Useful information related to the dataset are listed <a href="https://dws.informatik.uni-mannheim.de/en/research/a-collection-of-benchmark-datasets-for-ml">here</a></p>
+
+<p>The datasets can be downloaded following this <a href="http://data.dws.informatik.uni-mannheim.de/rmlod/LOD_ML_Datasets/data/datasets/">link</a>.</p>
+
+<p>The datasets are explined in the <a href="https://pdfs.semanticscholar.org/4600/f2b2a143b7bcdf5dae83e456649deb1908de.pdf">paper</a>[Ristoski, P., de Vries, G.K.D., Paulheim, H.: A collection of benchmark datasets for systematic evaluations of machine learning on the semantic web. In: International Semantic Web Conference (To Appear). Springer (2016)]</p>
+
+<p>The used ones are</p>
+
+<ul>
+  <li>Cities</li>
+  <li>Metacritic movies</li>
+  <li>Metacritic albums</li>
+  <li>Forbes</li>
+  <li>AAUP (only salary information)</li>
+</ul>
+
+<p>and are available in the Git respository.</p>
+
+<h2 id="procedure-1">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">for</span> <span class="n">each</span> <span class="n">file_as_gold_standard</span><span class="p">:</span>
+	<span class="n">LR</span><span class="p">,</span> <span class="n">K</span><span class="p">-</span><span class="n">NN</span> <span class="k">with</span> <span class="n">k</span><span class="p">=</span><span class="m">3</span> <span class="k">and</span> <span class="n">M5</span> <span class="n">are</span> <span class="n">used</span> <span class="k">as</span> <span class="n">models</span>
+
+	<span class="n">data</span> <span class="p">=</span> <span class="n">intersection</span> <span class="n">between</span> <span class="n">entities</span> <span class="k">in</span> <span class="n">vectors</span> <span class="k">and</span> <span class="k">in</span> <span class="n">file_as_gold_standard</span>
+	<span class="n">data</span> <span class="p">=</span> <span class="nb">random</span> <span class="n">sampling</span> <span class="k">of</span> <span class="n">data</span> <span class="n">is</span> <span class="n">computed</span> <span class="p">(</span><span class="n">using</span> <span class="n">seed</span> <span class="k">from</span> <span class="m">1</span> <span class="k">to</span> <span class="m">10</span> <span class="n">for</span> <span class="n">reproducibility</span><span class="p">)</span>
+
+	<span class="k">model</span> <span class="n">is</span> <span class="n">created</span>
+	<span class="k">model</span> <span class="n">is</span> <span class="n">trained</span> <span class="n">using</span> <span class="n">cv</span> <span class="p">=</span> <span class="m">10</span>
+
+	<span class="n">results</span> <span class="n">are</span> <span class="n">collected</span>
+</code></pre></div></div>
+<h2 id="output-metric-1">Output metric</h2>
+
+<p><strong>Root mean squared error</strong> is computed</p>
+
+<p>The <strong>output file</strong> is a CSV file for each file_as_gold_standard with header:</p>
+<ul>
+  <li>task_name : Regression</li>
+  <li>model_name : [LR, K-NN, M5]</li>
+  <li>model_configuration : null for LR and M5, k=3 for K-NN</li>
+  <li>score_type : root mean squared error</li>
+  <li>score_value : the actual score</li>
+</ul>
+
+<h2 id="reference-1">Reference</h2>
+
+<p>The used dataset, models, their configuration and the output metric is based on <a href="https://ub-madoc.bib.uni-mannheim.de/41307/1/Ristoski_RDF2Vec.pdf">RDF2vec evaluation</a></p>
+
+<hr />
+
+<h1 id="clustering">Clustering</h1>
+
+<h2 id="parameters-2">Parameters</h2>
+
+<p><strong><em>Distance metric</em></strong> to compute distance score among vectors. Default: cosine</p>
+
+<h2 id="datasets-used-as-gold-standard-2">Datasets used as gold standard</h2>
+
+<ul>
+  <li>Same entities contained in the datasets Cities, Metacritic movies, Metacritic albums, AAUP and Forbes splitted in 5 clusters</li>
+  <li>Cities and Countries retrieved respectlively by DBpedia SPARQL endpoint through the queries:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prefix dbo:&lt;http://dbpedia.org/ontology/&gt;
+SELECT DISTINCT ?c{
+	?c a dbo:City
+} 
+</code></pre></div></div>
+<p>and</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prefix dbo:&lt;http://dbpedia.org/ontology/&gt;
+SELECT DISTINCT ?c{
+	?c a dbo:PopulatedPlace
+} 
+</code></pre></div></div>
+<ul>
+  <li>
+    <p>Cities and Countries ar before, but belancing the 2 clusters (retrieving only 2000 Cities)</p>
+  </li>
+  <li>
+    <p>Football and Basketball teams retrieved respectlively by DBpedia SPARQL endpoint through the queries:</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select distinct ?c where {
+	?c a &lt;http://dbpedia.org/ontology/SportsTeam&gt;.
+	BIND(STR(?c) AS ?string )
+		filter(contains(?string, 'football_team'))
+}
+</code></pre></div></div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select distinct ?c where {
+	?c a &lt;http://dbpedia.org/ontology/SportsTeam&gt;.
+	BIND(STR(?c) AS ?string )
+		filter(contains(?string, 'basketball_team'))
+}
+</code></pre></div></div>
+
+<p>The datasets are available in the Git respository.</p>
+
+<h2 id="procedure-2">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">for</span> <span class="n">each</span> <span class="n">file_as_gold_standard</span><span class="p">:</span>
+	<span class="n">DB</span><span class="p">,</span> <span class="n">KMeans</span><span class="p">,</span> <span class="n">AgglomerativeClustering</span><span class="p">,</span> <span class="n">WardHierarchicalClustering</span> <span class="k">and</span> <span class="n">SpectralClustering</span> <span class="n">are</span> <span class="n">used</span> <span class="k">as</span> <span class="n">models</span>
+
+	<span class="n">data</span> <span class="p">=</span> <span class="n">intersection</span> <span class="n">between</span> <span class="n">entities</span> <span class="k">in</span> <span class="n">vectors</span> <span class="k">and</span> <span class="k">in</span> <span class="n">file</span><span class="p">\</span><span class="n">_as</span><span class="p">\</span><span class="n">_gold</span><span class="p">\</span><span class="n">_standard</span>
+	<span class="n">ignored</span> <span class="p">=</span> <span class="n">data</span> <span class="k">in</span> <span class="n">file</span><span class="p">\</span><span class="n">_as</span><span class="p">\</span><span class="n">_gold</span><span class="p">\</span><span class="n">_standard</span> <span class="k">and</span> <span class="k">not</span> <span class="k">in</span> <span class="n">vectors</span>
+
+	<span class="k">model</span> <span class="n">is</span> <span class="n">created</span>
+	<span class="k">model</span> <span class="n">is</span> <span class="n">fit</span> 
+
+	<span class="n">for</span> <span class="n">each</span> <span class="n">ignored_data</span>
+		<span class="n">a</span> <span class="n">new</span> <span class="p">(</span><span class="n">unused</span><span class="p">)</span> <span class="n">cluster</span> <span class="n">is</span> <span class="n">created</span>
+
+	<span class="n">results</span> <span class="n">are</span> <span class="n">collected</span>
+</code></pre></div></div>
+<h2 id="output-metric-2">Output metric</h2>
+
+<p><strong>Adjusted_rand_index</strong>, <strong>adjusted_mutual_info_score</strong>, <strong>fowlkes_mallows_score</strong>, <strong>homogeneity_score</strong>, <strong>completeness_score</strong> and <strong>v_measure_score</strong> are computed. To read more details about the metrics you can follow this <a href="http://scikit-learn.org/stable/modules/model_evaluation.html">link</a>.</p>
+
+<p>The <strong>output file</strong> is a CSV file for each file_as_gold_standard with header:</p>
+<ul>
+  <li>task_name : Clustering</li>
+  <li>model_name : [DB, KMeans, AgglomerativeClustering, WardHierarchicalClustering, SpectralClustering]</li>
+  <li>model_configuration : used metric</li>
+  <li>adjusted_rand_index : the actual score</li>
+  <li>adjusted_mutual_info_score : the actual score</li>
+  <li>fowlkes_mallows_score : the actual score</li>
+  <li>homogeneity_score : the actual score</li>
+  <li>completeness_score : the actual score</li>
+  <li>v_measure_score : the actual score</li>
+</ul>
+
+<hr />
+
+<h1 id="entity-relatedness">Entity relatedness</h1>
+
+<h2 id="parameters-3">Parameters</h2>
+
+<p><strong><em>Distance metric</em></strong> to compute distance score among vectors. Default: cosine</p>
+
+<h2 id="datasets-used-as-gold-standard-3">Datasets used as gold standard</h2>
+
+<p>The used dataset is <a href="https://people.mpi-inf.mpg.de/~sseufert/papers/kore.pdf">KORE</a> that contains 21 entities (Actors, Companies, TV series and Videogames) and 20 ranked related entites.</p>
+
+<p>The original dataset contains words. The used datasets contains DBpedia entities linked to these words.
+The used dataset is available in the Git respository.</p>
+
+<h2 id="procedure-3">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data = intersection between entities in vectors and in KORE
+ignored = data in KORE and not in vectors
+
+for each group in data (GROUP is the set of the current entities among the 21 and the 20 ranked related entities attach to it)
+	distances : the distance score is computed for all the pairs
+	sorted_distances : the distances are sorted from the close entities to the most far one
+
+	for each ignored_data
+		the distance between the current entity and the ignored one is set as maximum
+
+	the actual ranking and the one in KORE are compared
+</code></pre></div></div>
+<h2 id="output-metric-3">Output metric</h2>
+
+<p><a href="https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.stats.kendalltau.html"><strong>Kendall tau correlation</strong></a> is computed between the actual ranking and the one in KORE</p>
+
+<p>The <strong>output file</strong> is a CSV file with header:</p>
+<ul>
+  <li>task_name : Entity relatedness</li>
+  <li>entity_name : the current entity</li>
+  <li>kendalltau_correlation : the actual score</li>
+  <li>kendalltau_pvalue : the actual score</li>
+</ul>
+
+<h2 id="reference-2">Reference</h2>
+
+<p>The used dataset, models, their configuration and the output metric is based on <a href="https://ub-madoc.bib.uni-mannheim.de/41307/1/Ristoski_RDF2Vec.pdf">RDF2vec evaluation</a></p>
+
+<hr />
+
+<h1 id="document-similarity">Document similarity</h1>
+
+<h2 id="parameters-4">Parameters</h2>
+
+<p><strong><em>Distance metric</em></strong> to compute distance score among vectors. Default: cosine</p>
+
+<h2 id="datasets-used-as-gold-standard-4">Datasets used as gold standard</h2>
+
+<p>The used dataset is LP50.
+The original dataset can be downloaded <a href="https://webfiles.uci.edu/mdlee/LeePincombeWelsh.zip">here</a>.
+The zip file contains the 50 documents used in the evaluation and the statistics computed manually by universitary students that evaluated the similarity among document assigning to each pair a point in the range [1,5] where 5 means maximum similarity. 
+The dataset is explained <a href="http://www.socsci.uci.edu/~mdlee/lee_pincombe_welsh_document.PDF">here</a>.</p>
+
+<p>The first step of the procedure is the extraction of the entities from the documents.
+The sets of entities used in this framewrok are the output of the <em>annotator xLisa</em>, as presented in <a href="http://usc-isi-i2.github.io/papers/cpaul16-eswc.pdf">this paper</a>, and the output of the tool is <a href="https://github.com/adityamogadala/SemRelDocSearch/blob/master/data/Pincombe_annotated_xLisa.json">the following</a>.</p>
+
+<p>The stats are scan through and, for each pair of document, the mean of the rates given by the students is computed and then used as gold standard in the evaluation. 
+The output of this elaboration is available in the Git repository.</p>
+
+<h2 id="procedure-4">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for each pair of documents (doc1, doc2)
+	set1 := set of entities in doc1 and in vectors
+	set2 := set of entities in doc2 and in vectors
+
+	for each entity in set1 as entity1
+		for each entity in set2 as entity2
+			distance_score = distance between (entity1, entity2)
+		sorted_distance_score = sort distance_scores between entity1 and all the entities in set2
+		min_distance_1 = the min is picked and stored
+
+	for each entity in set2 as entity2
+		for each entity in set1 as entity1
+			distance_score = distance between (entity2, entity1)
+		sorted_distance_score = sort distance_scores between entity2 and all the entities in set1
+		min_distance_2 = the min is picked and stored	
+	
+	document_similarity = (min_distance_1 + min_distance_2) / (|set1| + |set2|)
+
+	results are collected
+</code></pre></div></div>
+<p>For each annotation in the JSON file, also weights are provided. 
+The same procedure is repetead also considering them in the entity distance computation: 
+min_distance = min_distance/ (weight1 + weight2)</p>
+
+<h2 id="output-metric-4">Output metric</h2>
+
+<p><a href="https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.stats.pearsonr.html"><strong>Pearson</strong></a> and <a href="https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.stats.spearmanr.html"><strong>Spearman</strong></a> correlation and their <a href="https://docs.scipy.org/doc/scipy-0.13.0/reference/generated/scipy.stats.hmean.html"><strong>harmonic mean</strong></a> are used to evaluate the obtained distance scores against the one considered <em>gold standard</em>.</p>
+
+<p>The <strong>output file</strong> is a CSV file with header:</p>
+<ul>
+  <li>task_name : Document similarity</li>
+  <li>conf : with or without weights</li>
+  <li>pearson_score : the actual score</li>
+  <li>spearman_score : the actual score</li>
+  <li>harmonic_mean : harmonic mean between pearson and spearman scores</li>
+</ul>
+
+<h2 id="reference-3">Reference</h2>
+
+<p>The used dataset, models, their configuration and the output metric is based on <a href="https://ub-madoc.bib.uni-mannheim.de/41307/1/Ristoski_RDF2Vec.pdf">RDF2vec evaluation</a></p>
+
+<hr />
+
+<h1 id="semantic-analogies">Semantic Analogies</h1>
+
+<p>The test is based on quadruplets (word1, word2, word3, word4) and the idea is to check is working on the first three ones, it is possible to predict the last word with a low error.</p>
+
+<p>A practical example is:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X = vector("queen") − vector("woman") +vector("man")
+</code></pre></div></div>
+<p>and check if X is near to “king”.</p>
+
+<p>If the vector manipulation is able to predict the right vector, the embedding technique that produced these vectors is able to keep the semanti of the embedded entities in the vectors.</p>
+
+<p>Both syntantic and semantic analogies could be considered.</p>
+
+<p>In the framework we consider only semantic analogies.</p>
+
+<p>The used dataset are:</p>
+
+<ul>
+  <li>capital and country</li>
+  <li>currency</li>
+  <li>city and state</li>
+</ul>
+
+<h2 id="parameters-5">Parameters</h2>
+
+<p><strong>Analogy function</strong> to predict the forth vector.</p>
+
+<p>Default :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def default_analogy_function(a, b, c, index_a, index_b, index_c, data, top_k):
+    pred_vec = np.array(b) - np.array(a) + np.array(c)
+
+    dist = np.dot(data, pred_vec.T)
+
+    for k in range(len(a)):
+        dist[index_a[k], k] = -np.Inf
+        dist[index_b[k], k] = -np.Inf
+        dist[index_c[k], k] = -np.Inf
+
+    return np.argsort(-dist, axis=0)[:top_k].T
+</code></pre></div></div>
+<p><strong>input</strong> : a, b, c are vectors or matrices to speed up the computation
+index_a, index_b and index_c are indexes of a, b and c in data
+data is the matrix of vectors
+top_k is the number of vectors to take into account to check if the predicted vector is close to one of these actual k vectors</p>
+
+<p><strong>output</strong> indexes in data of the top_k vectors closest to the predicted one</p>
+
+<h2 id="datasets-used-as-gold-standard-5">Datasets used as gold standard</h2>
+
+<p>The original datasets are available <a href="https://sites.google.com/site/semeval2012task2/download">here</a>.
+All the words have been substituted with DBpedia entities and the obtained dataset is available in the Git repository.</p>
+
+<h2 id="procedure-5">Procedure</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for each file_as_gold_standard
+	right_answer=0
+
+	for each (word1, word2, word3, word4)
+		predicted_vecs = analogy_function(vec(word1), vec(word2), vec(word3))
+		for each prec_vector in predicted_vecs
+			if the right answer is equal to prec_vector
+				right_answer++
+
+	results are collected
+</code></pre></div></div>
+<h2 id="output-metric-5">Output metric</h2>
+
+<p><strong>Semantic accuracy</strong> (correct_answer/total_answers) is computed.</p>
+
+<p>The <strong>output file</strong> is a CSV file for each file_as_gold_standard with header:</p>
+<ul>
+  <li>task_name : Semantic Analogies</li>
+  <li>top_k : the actual value of top_k</li>
+  <li>right_answers : the actual value</li>
+  <li>tot_answers : the actual value</li>
+  <li>accuracy : correct_answer/total_answers</li>
+</ul>
+
+<h2 id="reference-4">Reference</h2>
+
+<p>The used dataset, the procedure and the output metric is based on <a href="https://arxiv.org/pdf/1310.4546.pdf">Word2vec evaluation</a></p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Task</th>
+      <th style="text-align: center">Classification</th>
+      <th style="text-align: center">Regression</th>
+      <th style="text-align: center">Clustering</th>
+      <th style="text-align: center">Semantic Analogies</th>
+      <th style="text-align: center">Document Similarity</th>
+      <th style="text-align: center">Entity Relatedness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Input</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">distance function</td>
+      <td style="text-align: center">analogy function</td>
+      <td style="text-align: center">distance function</td>
+      <td style="text-align: center">distance function</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Gold standard</td>
+      <td style="text-align: center">Cities Metacritic movies Matacritic albums AAUP Forbes</td>
+      <td style="text-align: center">Cities Metacritic movies Matacritic albums AAUP Forbes</td>
+      <td style="text-align: center">1.Cities Metacritic movies Matacritic albums AAUP Forbes 2.Cities and Countries 3. Football</td>
+      <td style="text-align: center">Dataset provided  by WORD2vec</td>
+      <td style="text-align: center">LP50</td>
+      <td style="text-align: center">KORE</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Methods and configurations</td>
+      <td style="text-align: center">GaussianNB K-NN k=3 SVM with C in {10^-3, 10^-2, 0.1, 1, 10, 10^2, 10^3 }  C45</td>
+      <td style="text-align: center">LR M5 K-NN k=3</td>
+      <td style="text-align: center">k-means,   agglomerative clustering,   ward hierarchical clustering, spectral clustering</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Evaluation metric</td>
+      <td style="text-align: center">accuracy</td>
+      <td style="text-align: center">root mean squared error</td>
+      <td style="text-align: center">adjusted rand index, adjusted mutual info score, fowlkes mallows score, homogeneity score, completeness score, v measure score</td>
+      <td style="text-align: center">accuracy</td>
+      <td style="text-align: center">Pearson score,  Spearman score and their harmonic mean</td>
+      <td style="text-align: center">kendall tau  correlation</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="structure-of-the-project">Structure of the project</h2>
+
+<p>(./img/structureFramework.png)</p>
+
+<p><em>main.py</em> instantiates the distance function to measure how much two vectors are distant and the analogy function used in Semantic Analogies task.
+It manages the parameters and instantiates the evaluator_manager.</p>
+
+<p>The <em>evaluator_manager.py</em> reads the vectors file, runs all the tasks sequentially or in parallel and creates the output directory calling it results_<date>\_<hour>.</hour></date></p>
+
+<p>Each task is in a separate folder and each of them is costituted by:
+	a manager that supervises the work and organizes the output,
+	a data_manager that reads the files used as gold standard and merges them with the actual vectors,
+	a model that computes the task and provides the output to the manager.</p>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+<img src="/images/me.jpg" />
+  <p>
+  I am an Assistant Professor in the <a href="https://lr.cs.vu.nl/">Learning and Reasoning</a> group at the Vrije Universiteit Amsterdam.
+  I also have my own [consultancy business](https://www.graphino.nl).
+
+  The subjects covered in my research are related to 
+<ul>
+<li style="list-style: square" >Machine Learning and Graphs
+    <ul>
+    <li>Knowledge Graph Embedding</li>
+    <li>Including Knowledge Graphs into end-to-end ML models</li>
+    <li>Approximate Query Answering</li>
+    </ul>
+</li>
+<li style="list-style: square" >Knowledge Representation
+    <ul>
+    <li>Prototype-Based Ontologies</li>
+    <li>Knowledge Evolution and Matching</li>
+    <li>Ontology Learning and Matching</li>
+    </ul>
+</li>
+</ul>
+</p>
+
+<p>
+I do teach various topics related to Intelligent Systems, Data Mining, and Machine learning.
+
+Earlier,I have been teaching courses on Service Oriented Architecture, cloud computing, (big) data analysis, and multi-agent systems.
+</p>
+
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

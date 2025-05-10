@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>KGloVe - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://www.cochez.nl/datalab/embedding/KGloVe/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">KGloVe</h1>
+    
+  </header>
+  
+  <p>(most of this page was contributed by Maria Angela Pellegrino)</p>
+
+<h1 id="kglove--global-rdf-vector-space-embeddings">KGloVe : Global RDF vector space embeddings</h1>
+
+<p>Approach that adapts language modeling approaches to extract features from sequences of words to RDF graphs, exactly as the previous technique.</p>
+
+<p><em>Step 1 :</em> the building of a co-occurrence matrix from graph data</p>
+
+<p>Firstly <strong><em>weighs</em></strong> are added to the edges of the graph and compute <strong><em>approximate personalized PageRank scores</em></strong> starting from each node.
+Biasing these walks, they are made more meaningful, i.e. they are able to capture the most important infomation about the observed entities. Weight will bias he random walks. When a walk arrives in a vertex <em>v</em> with out edges <em>v_{o1}, …, v_{od}</em>, then the walk will follow edge <em>v_{ol}</em> with a probability related to the normalized edge weight.
+<strong>Twelve</strong> different strategies for assigning these weights to the edges of the graph are evaluated:</p>
+
+<p>UNIFORM APPROCH</p>
+<ol>
+  <li><em>uniform approach</em> = <em>object frequency split</em> : it is the same to not apply bias over the graph</li>
+</ol>
+
+<p>EDGE-CENTRIC APPROACHES</p>
+<ol>
+  <li><em>predicate frequency</em> : they count the number of times each predicate occurs (only as a predicate) and they weight the edges with this value. Edges with more common predicates are more often followed.</li>
+  <li><em>inverse predicate frequency</em> : similar to the previous one, but in this case the <em>rare</em> predicates will be followed often.</li>
+  <li><em>predicate-object frequency</em> : for each pair of a predicate and an object in the dataset, they count the number of times they appear as predicate-object. It is similar to the predicate frequency weight, but differentiating the objects as well.</li>
+  <li><em>inverse predicate-object frequency</em></li>
+</ol>
+
+<p>When computing the inverse metrics, not the absolute frequency is assigned, but its multiplicative inverse.</p>
+
+<p>NODE-CENTRIC OBJECT FREQUENCY APPROACHES (also strategy 1)</p>
+<ol>
+  <li><em>object frequency</em> : for each resource in the dataset, they count the number of times it occurs as the object of a triple. This techinique assign a score to each node. To weight the edges, they either <em>push</em> the number down (default) or <em>split</em> the number down to all in edges. It ignores the predicate labels and ensures that entities with high in degree get visited even more often.</li>
+  <li><em>inverse object frequency</em></li>
+  <li><em>inverse object frequency split</em></li>
+</ol>
+
+<p>NODE-CENTRIC PAGERANK APPROACHES</p>
+
+<p>PageRank is computed based on links between the Wikipedia articles representing the same entities of the graph. To the page not linked to Wikipedia pages, a fixed PageRank value is assigned: 0.2.</p>
+<ol>
+  <li><em>PageRank</em></li>
+  <li><em>inverse PageRank</em></li>
+  <li><em>PageRank split</em> : it does not depend only on the structure of the graph.</li>
+  <li><em>inverse PageRank split</em></li>
+</ol>
+
+<p>The PageRank score for the other nodes is then used as the absolute frequency in the matrix.</p>
+
+<p>This procedure is then repeated on the graph with all edges reversed and the result is added to the co-occurrence matrix.</p>
+
+<p>The obtained matrix is then normalized.</p>
+
+<p><strong><em>Co-occurrence matrix creation by Personalized PageRank</em></strong></p>
+
+<p>The co-occurrence matrix for textual data is obtained by linearly scanning through the text and counting the occurrence of context words in the context of each word. Instead the graph has not a linear structure.</p>
+
+<p>To define it, the Personalized PageRank has been used.
+It determines how important nodes in the context of a focus node. The PageRank is used to find important nodes in a direct graph. At its heart, it works by simulating random walkers over the graph and observing where these random walkers end up. The simplified page rank problem is solved by finding the stationary solution to</p>
+
+<p>p<sup>(k+1)</sup> = P<sup>T</sup> p<sup>(k)</sup></p>
+
+<p>where P is a nxn matrix where n is the node number in the graph filled with zeros excepts for positions <em>i,j</em> for which there exists an arc from  i to j and these positions contain 1/deg(i) with deg(i) is the out degree of the node <em>i</em>.</p>
+
+<p>To solve the problem of <em>dangling nodes</em>, i.e. nodes with zero out degree, a node could continue from another node selected from a distribution <em>v</em>, called the <em>teleportation distribution</em>. Usually <em>v</em> is chosen to be a uniform distribution. To avoid ending in a cycle, a random jump is also performed with probability <em>p</em> to the focus node (this is a difference with the classical PageRank that consider the target node a node chosen with the same probability of all other nodes).
+The Personalized PageRank assign a value to all nodes in the graph, ending up with a very large dense matrix with small values. To make this step faster, the co-occurrence matrix is created by a fast personalized PageRank Approximation.</p>
+
+<p><strong><em>Co-occurrence matrix creation by a fast personalized PagerRank Approximation</em></strong>
+The effort of the algorithm is only used for the nodes which will receive a significant rank. <em>b</em> is the focus node and the algorithm starts injecting a unit amount of paint to <em>b</em>. The paint represents the random walk in the original algorithm. From this paint, an p-portion is retained and added to the value for <em>b</em> in the related position in the ouput vector. The remaining (1-p)-portion is distributed uniformly over the out-links. This retain-and-distributed process is repeated recursively for all nodes. When a node has a zero out degree, the outgoing paint is discarder. The best performance is obtaining by:</p>
+<ul>
+  <li>choosing the oder in which nodes are evaluated</li>
+  <li>reusing the value of the output vector</li>
+  <li>changing the uniform distribution with a biased one</li>
+</ul>
+
+<p><em>Step 2 :</em> GloVe is applied to the obtained co-occurrence matrix</p>
+
+<p><strong><em>The GloVe model</em></strong>
+GloVe is designed for creating word embeddings from natural language texts. It creates the co-occurrence matrix evaluating the size of the context window, distinguishing left from right context and a weighting function to weight the contribution of each word co-occurrence.</p>
+
+<p><img src="https://latex.codecogs.com/gif.latex?\sum_{i,j&space;=&space;1}^{V}&space;f(X_{ij})&space;(w_{i}^{T}\cdot\widetilde&space;w_{j}&plus;b_{i}&plus;\widetilde&space;b_{j}-logX_{ij})^{2}" title="\sum_{i,j = 1}^{V} f(X_{ij}) (w_{i}^{T}\cdot\widetilde w_{j}+b_{i}+\widetilde b_{j}-logX_{ij})^{2}" /></p>
+
+<p>where <em><img src="https://latex.codecogs.com/gif.latex?f(X_{ij})" /></em> is a weighting function on co-occurrence counts of word <em>j</em> in the context of word <em>i</em> , value represented by <em><img src="https://latex.codecogs.com/gif.latex?X_{ij}" /></em>, <em><img src="https://latex.codecogs.com/gif.latex?w_{i}" /></em> are word vectors, <em><img src="https://latex.codecogs.com/gif.latex?\tilde{w}_{j}" /></em> are context vectors, <em><img src="https://latex.codecogs.com/gif.latex?b_{i}" /></em> and <em><img src="https://latex.codecogs.com/gif.latex?\tilde{b}_{j}" /></em> are biases. The idea is that when two words co-occur often, their vectors’ dot product will be relatively high, meaning that the vectors are more similar to make the error factor smaller.</p>
+
+<!-- Then, it tries to minimize the following cost function:
+
+
+J = \sum_{i,j = 1}^{V} f(X_{ij}) (w_{i}^{T}\cdot\widetilde w_{j}+b_{i}+\widetilde b_{j}-logX_{ij})^{2}
+
+where $f(X_{ij})$ is a weighting function on co-occurrence counts of word \textit{j} in the context of word \textit{i}, value represented by $X_{ij}$, 
+$w_{i}$ are word vectors, $\widetilde w_{j}$ are context vectors, $ b_{i} $ and $\widetilde b_{j} $ are biases. The idea is that when two words co-occur often, their vectors' dot product will be relatively high, meaning that the vectors are more similar to make the error factor smaller.
+-->
+
+<h2 id="evaluation-metrics">Evaluation metrics</h2>
+
+<h3 id="1-machine-learning-tasks">1. Machine Learning Tasks</h3>
+
+<p><strong><em>Classification</em></strong></p>
+
+<p>In machine learning and statistics, classification is the problem of identifying to which of a set of categories (sub-populations) a new observation belongs, on the basis of a training set of data containing observations (or instances) whose category membership is known.</p>
+
+<p><strong><em>Regression</em></strong></p>
+
+<p>In statistical modeling, regression analysis is a statistical process for estimating the relationships among variables. 
+Regression is used to predict continuous values.</p>
+
+<h3 id="2-document-similarity">2. Document similarity</h3>
+
+<p>It can be repeated the same speech done above for RDF2Vec about the most important document similarity indexes to compare with.</p>
+
+<h2 id="datasets">Datasets</h2>
+
+<p>In <em>machine learning task</em> has been used 5 different datasets from different domains: 
+<a href="https://www.imercer.com/content/mobility/quality-of-living-city-rankings.html">Cities</a>, 
+<a href="http://www.metacritic.com/browse/movies/score/metascore/all">Metacritic Movies</a>, 
+<a href="http://www.metacritic.com/browse/albums/score/metascore/all">Metacritic Albums</a>, 
+<a href="http://www.amstat.org/publications/jse/jse\_data\_archive.htm">AAUP</a>
+and <a href="http://www.forbes.com/global2000/list/">Forbes</a></p>
+
+<p>In <em>document similarity</em> task, as benchmark datasets is used the <strong>LP50</strong>  [Lee, M., Pincombe, B., Welsh, M.: An empirical evaluation of models of text document similarity. Cognitive Science Society (2005)]</p>
+
+<h2 id="notice-that">Notice that…</h2>
+
+<ol>
+  <li>It uses <em>global</em> informations</li>
+  <li>It ignores literals</li>
+</ol>
+
+<h1 id="datasets-1">Datasets</h1>
+
+<p>Here you can find the vectors from computing RDF2vec and KGlove embeddings from DBpedia 2016-04 graph weighted in different way. For each weighting technique, the link to the zip file is provided.</p>
+
+<p>For each entity in the graph, the text file in the zip archive contains a line with the entity name and the embedded vector.</p>
+
+<h2 id="kglove">KGloVe</h2>
+
+<ul>
+  <li><a href="https://zenodo.org/record/1320148#.W1sNqXYzbAI">Uniform</a></li>
+  <li><a href="https://zenodo.org/record/1320150#.W1sNN3YzbAI">Predicate Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320152#.W1sNh3YzbAI">Inverse Predicate Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320154#.W1sNlnYzbAI">Predicate-Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320159#.W1sNX3YzbAI">Inverse Predicate-Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320165#.W1sNVHYzbAI">Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320018#.W1sOJHYzbAI">Inverse Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320028#.W1sNznYzbAI">Inverse Object Frequency Split</a></li>
+  <li><a href="https://zenodo.org/record/1320167#.W1sNSHYzbAI">PageRank</a></li>
+  <li><a href="https://zenodo.org/record/1320030#.W1sOGXYzbAI">Inverse PageRank</a></li>
+  <li><a href="https://zenodo.org/record/1320169#.W1sNJnYzbAI">PageRank Split</a></li>
+  <li><a href="https://zenodo.org/record/1320032#.W1sOCXYzbAI">Inverse PageRank Split</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+<img src="/images/me.jpg" />
+  <p>
+  I am an Assistant Professor in the <a href="https://lr.cs.vu.nl/">Learning and Reasoning</a> group at the Vrije Universiteit Amsterdam.
+  I also have my own [consultancy business](https://www.graphino.nl).
+
+  The subjects covered in my research are related to 
+<ul>
+<li style="list-style: square" >Machine Learning and Graphs
+    <ul>
+    <li>Knowledge Graph Embedding</li>
+    <li>Including Knowledge Graphs into end-to-end ML models</li>
+    <li>Approximate Query Answering</li>
+    </ul>
+</li>
+<li style="list-style: square" >Knowledge Representation
+    <ul>
+    <li>Prototype-Based Ontologies</li>
+    <li>Knowledge Evolution and Matching</li>
+    <li>Ontology Learning and Matching</li>
+    </ul>
+</li>
+</ul>
+</p>
+
+<p>
+I do teach various topics related to Intelligent Systems, Data Mining, and Machine learning.
+
+Earlier,I have been teaching courses on Service Oriented Architecture, cloud computing, (big) data analysis, and multi-agent systems.
+</p>
+
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

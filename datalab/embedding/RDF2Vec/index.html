@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RDF2Vec - Michael Cochez</title>
+  <meta name="author" content="">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://www.cochez.nl/datalab/embedding/RDF2Vec/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="" rel="alternate" title="Michael Cochez" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54043599-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Michael Cochez</a></h1>
+  
+    <h2>Assistant Professor at Vrije Universiteit Amsterdam</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+-->
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/research/">Research</a></li>
+  <li><a href="/teaching/">Teaching</a></li>  
+  <li><a href="/software/">Software</a></li>
+  <li><a href="/contact/">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">RDF2Vec</h1>
+    
+  </header>
+  
+  <p>(most of this page was contributed by Maria Angela Pellegrino)</p>
+
+<p>RDF2Vec is a technique to embed RDF graphs. The <a href="https://ub-madoc.bib.uni-mannheim.de/41307/1/Ristoski_RDF2Vec.pdf">original paper</a>  is only about performing uniform walks, while <a href="http://users.jyu.fi/~miselico/papers/biasedGraphWalks.pdf">later work also introduces biased ones</a>.</p>
+
+<p>The algorithm has three steps:</p>
+
+<ol>
+  <li>Weighing of the graph (especially important for the biased version)</li>
+  <li>Performing random walks on the graph (or compute graph kernels)</li>
+  <li>Computing word2vec embeddings of these walks</li>
+</ol>
+
+<p>The evaluation of these embeddings has been performed using ‘downstream’ machine learning tasks.</p>
+
+<h1 id="rdf2vec">RDF2Vec</h1>
+
+<p><em>Step 1 :</em> create a sequence of entities, that can be assimilated to a sequence of words, starting from a graph</p>
+
+<p>Applied techniques : Graph walks and Weisfeiler-Lehman Subtree RDF Graph Kernels</p>
+
+<p><strong><em>Random graph walks</em></strong></p>
+
+<p>For each vertex <em>v</em> of the graph, generate all graph walks of depth <em>d</em> rooted in the vertex <em>v</em> through breath-first algorithm.</p>
+
+<p>The <em>final set of sequences</em> for the given graph is the <em>union of the sequences of all the vertices crossed by all the paths</em>.</p>
+
+<p><strong><em>Weisfeiler-Lehman Subtree RDF Graph Kernels</em></strong></p>
+
+<p>The basic idea behind their computation is to evaluate the distance between two data instances by counting common subtrees in the graph. 
+The kernel computes the number of subtrees shared between two or more graph by using the Weisfeiler-Lehman test of graph isomorphism.  To apply the algorithm, it must be adapted to the graph in input: it has to manage a directed edges and the labels from two iterations can potentially be different while still representing the same subtree. To avoid it, at each iteration the neighboring labels of the previous iteration is compared to the actual one and, if they are identical, the label of the previous iteration is reused. For each vertex, all the paths of depth <em>d</em> within the subgraph of the vertex <em>v</em> on the relabeled graph are extracted. Then the original label of the vertex <em>v</em> is set as the starting token of each path. This process is repeat for <em>h</em> times.</p>
+
+<p>The <em>final set of sequences</em> is the <em>union of the sequences of all the vertices in each iteration</em>.</p>
+
+<p><em>Step 2 :</em> apply Word2Vec to the obtained sequences to transform them into numerical vectors</p>
+
+<p><strong><em>Word2Vec</em></strong></p>
+
+<p>It is a one level neural networks for learning a low-dimensional, dense representation of words with two essential properties: 
+(a) similar words are close in the vector space, and (b) relations between pairs of words can be represented as vectors as well, allowing for arithmetic operations in the vector space. 
+Word2Vec estimates the likelihood of a sequence of entities appearing in the graph. 
+There are two different algorithms: the Continuous Bag-of-Words (<strong>CBOW</strong>) and <strong>Skip-Gram</strong> model. 
+The CBOW model predicts target words from context words within a given window. For each word of the vocabulary, the algorithm establishes which is the probability of the word being a target word.
+The Skip-gram model does the inverse of the CBOW model and tries to predict the context words from the target words.</p>
+
+<p>Hierarchical softmax and negative sampling are used as optimizations.</p>
+
+<p>Once the training is finished, all the words (for instance the entities) are projected into a lower-dimensional feature space and semantically similar words (or entities) are positioned close to each other.</p>
+
+<h2 id="evaluation-metrics">Evaluation metrics</h2>
+
+<p>It is evaluated on three different tasks:</p>
+<ol>
+  <li>standard machine-learning tasks</li>
+  <li>entity and document modeling</li>
+  <li>content-based recommender systems and for each of them reaches high level results.</li>
+</ol>
+
+<h3 id="21-entity-similarity">2.1 Entity similarity</h3>
+<p>In most embedding techniques semantically related entities appear close to each other in the feature space, as a consequence the problem of calculating entity similarity is a matter of calculating the distance between two instances. Some methods includes the standard cosine similarity measure applied on the vectors of the entities. Formally, the similarity between two entities e<sub>1</sub> and e<sub>2</sub>, with vectors V<sub>1</sub> and V<sub>2</sub> , is calculated as the cosine similarity between the vectors V<sub>1</sub> and V<sub>2</sub>.</p>
+
+<h3 id="22-document-similarity">2.2 Document similarity</h3>
+<p>It is based on entity similarity, two document are considered to be similar if many entities of the one document are similar to at least one entity in the other document. More precisely, we try to identify the most similar pairs of entities in both documents, ignoring the similarity of all the other 1-1 similarities values.  Given two documents d<sub>1</sub> and d<sub>2</sub> , the similarity between the documents <em>sim</em>(d<sub>1</sub>, d<sub>2</sub>) is calculated as follows:</p>
+<ol>
+  <li>Extract the sets of entities E<sub>1</sub> and E<sub>2</sub> in the documents d<sub>1</sub> and d<sub>2</sub> .</li>
+  <li>Calculate the similarity score <em>sim</em>(e<sub>1i</sub>, e<sub>2j</sub>) for each pair of entities in document d<sub>1</sub> and d<sub>2</sub>, where e<sub>1i</sub>∈ E<sub>1</sub> and e<sub>2j</sub> ∈ E<sub>2</sub>.</li>
+  <li>For each entity e<sub>1i</sub> in d<sub>1</sub> identify the maximum similarity to an entity in d<sub>2</sub> <em>max_sim</em>(e<sub>1i</sub>, e<sub>2j</sub> ∈ E<sub>2</sub> ), and vice versa.</li>
+  <li>Calculate the similarity score between the documents d<sub>1</sub> and d<sub>2</sub>.</li>
+</ol>
+
+<p>Some of the most important document similarity indexes to compare with:</p>
+
+<ul>
+  <li>
+    <p>TF-IDF: Distributional baseline algorithm.</p>
+  </li>
+  <li>
+    <p>AnnOv: Similarity score based on annotation overlap.</p>
+  </li>
+  <li>
+    <p>Explicit Semantic Analysis (ESA) [Gabrilovich, E., Markovitch, S.: Computing semantic relatedness using wikipedia-based explicit semantic analysis. In: IJcAI. vol. 7, pp. 1606–1611 (2007)]</p>
+  </li>
+  <li>
+    <p>GED: semantic similarity using a Graph Edit Distance based measure [Schuhmacher, M., Ponzetto, S.P.: Knowledge-based graph document modeling. In: Proceedings of the 7th ACM international conference on Web search and data mining. pp. 543–552. ACM (2014)]</p>
+  </li>
+  <li>
+    <p>Salient Semantic Analysis (SSA), Latent Semantic Analysis (LSA) [Hassan, S., Mihalcea, R.: Semantic relatedness using salient semantic analysis. In: AAAI (2011)]</p>
+  </li>
+  <li>
+    <p>Graph-based Semantic Similarity (GBSS) [Paul, C., Rettinger, A., Mogadala, A., Knoblock, C.A., Szekely, P.: Efficient graph-based document similarity. In: International Semantic Web Conference. pp. 334–349. Springer (2016)]</p>
+  </li>
+</ul>
+
+<h3 id="23-entity-relatedness">2.3 Entity relatedness</h3>
+<p>One approach is to assume that two entities are related if they often appear in the same context. To do so the probability p(e<sub>1</sub>|e<sub>2</sub>) has to be calculated for each couple e<sub>1</sub>, e<sub>2</sub>. This probability highly depend on the embeddings itself, in fact in RDF2vec two formulas are provided for CBOW and skip-gram. Other state-of-the-art graph-based entity relatedness approaches are:</p>
+<ul>
+  <li>baseline: computes entity relatedness as a function of distance between the entities in the network.</li>
+  <li>KORE: calculates keyphrase overlap relatedness, as described in the original KORE paper.</li>
+  <li>CombIC: semantic similarity using a Graph Edit Distance based measure [Schuhmacher, M., Ponzetto, S.P.: Knowledge-based graph document modeling. In: Proceedings of the 7th ACM international conference on Web search and data mining. pp. 543–552. ACM (2014)].</li>
+  <li>ER: Exclusivity-based relatedness [Hulpuş, I., Prangnawarat, N., Hayes, C.: Path-based semantic relatedness on linked data and its use to word and entity disambiguation. In: International Semantic Web Conference. pp. 442–457. Springer (2015)].</li>
+</ul>
+
+<h3 id="3-recommender-systems">3 Recommender Systems</h3>
+<p>Given that the items to be recommended are linked to a LOD dataset, information from LOD can be exploited to determine which items are considered to be similar to the ones that the user has consumed in the past, allowing to discover hidden information and implicit relations between objects. The cosine similarity between the latent
+vectors representing the items can be interpreted as a measure of reciprocal proximity and then exploited to produce recommendations.
+Recommender systems to be compared with are:</p>
+<ul>
+  <li>SLIM, is a Sparse LInear Method for top-N recommendation that learns a sparse coefficient matrix for the items involved in the system by only relying on the users purchase/ratings profile and by solving a L1-norm and L2-norm regularized optimization problem. [Ning, X., Karypis, G.: SLIM: sparse linear methods for top-n recommender systems. In: 11th IEEE International Conference on Data Mining, ICDM 2011, Vancouver, BC, Canada, December 11-14, 2011. pp. 497–506 (2011), http://dx.doi.org/10.1109/ICDM.2011.134]</li>
+  <li>BPR-SSPLIM, is a Sparse LInear Method using item Side information (SSLIM) and the Bayesian Personalized Ranking (BPR) optimization criterion.</li>
+  <li>SPRank, is a novel hybrid recommender system that solves the top-N recommendation problem in a learning to rank fashion, exploiting the freely available knowledge in the Linked Open Data to build semantic path-based features.  [Di Noia, T., Ostuni, V.C., Tomeo, P., Di Sciascio, E.: Sprank: Semantic path-based ranking for top-n recommendations using linked open data. ACM Transactions on Intelligent Systems and Technology (TIST) (2016)]</li>
+</ul>
+
+<h2 id="datasets">Datasets</h2>
+
+<p>In document similarity task, as benchmark datasets is used the <strong>LP50</strong>  [Lee, M., Pincombe, B., Welsh, M.: An empirical evaluation of models of text document similarity. Cognitive Science Society (2005)]</p>
+
+<p>In entity relatedness task, as benchmark dataset is used the <strong>KORE</strong>. The dataset consists of 21 main entities, whose relatedness to other 20 entities manually assessed. The relatedness is not estimated, but the related entities are ranked from the closest concept to the most far one.  [Hoffart, J., Seufert, S., Nguyen, D.B., Theobald, M., Weikum, G.: Kore: keyphrase overlap relatedness for entity disambiguation. In: Proceedings of the 21st ACM international conference on Information and knowledge management. pp. 545–554. ACM (2012)]</p>
+
+<p>In the recommendation task are used:</p>
+<ul>
+  <li><a href="http://grouplens.org/datasets/movielens/">Movielens</a> for movies</li>
+  <li>LibraryThing for books</li>
+  <li>Last.fm for music.</li>
+</ul>
+
+<p>The original datasets are enriched with side information thanks to the item mapping and linking to DBpedia, whose dump is available <a href="https://github.com/sisinflab/LODrecsys-datasets">here</a>, info about the techniques is in [Ostuni, V.C., Noia, T.D., Sciascio, E.D., Mirizzi, R.: Top-n recommendations from implicit feedback leveraging linked open data. In: ACM RecSys ’13. pp. 85–92 (2013)]. The datasets are finally preprocessed to guarantee a fair comparison with the state of the art approaches. In general the authors propose to (i) remove popularity biases from the evaluation not considering the top 1% most popular items, (ii) reduce the sparsity of Movielens dataset in order to have at least a sparser test dataset and (iii) remove from LibraryThing and Last.fm users with less than five ratings and items rated less than five times.</p>
+
+<h2 id="notice-that">Notice that…</h2>
+
+<ol>
+  <li>It exploits only <em>local</em> informations</li>
+  <li>It ignores literals</li>
+  <li>The generation of the entities’ vectors is task and dataset independent</li>
+  <li>Graph kernels are not scalable for large dataset</li>
+  <li>It embeds only the nodes of the graph</li>
+</ol>
+
+<h1 id="datasets-1">Datasets</h1>
+
+<p>Here you can find the vectors from computing RDF2vec and KGlove embeddings from DBpedia 2016-04 graph weighted in different way. For each weighting technique, the link to the zip file is provided.</p>
+
+<p>For each entity in the graph, the text file in the zip archive contains a line with the entity name and the embedded vector.</p>
+
+<h2 id="rdf2vec-1">RDF2Vec</h2>
+
+<ul>
+  <li><a href="https://zenodo.org/record/1318146#.W1sMGXYzbAI">Uniform</a></li>
+  <li><a href="https://zenodo.org/record/1320081#.W1sNv3YzbAI">Predicate Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320007#.W1sOZHYzbAI">Inverse Predicate Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320211#.W1sNBnYzbAI">Predicate-Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320013#.W1sOSnYzbAI">Inverse Predicate-Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320015#.W1sOWnYzbAI">Object Frequency</a></li>
+  <li><a href="https://zenodo.org/record/1320001#.W1sM9HYzbAI">Inverse Object Frequency</a></li>
+  <li>Inverse Object Frequency Split</li>
+  <li><a href="https://zenodo.org/record/1320038#.W1sT5XYzbAI">PageRank</a></li>
+  <li><a href="https://zenodo.org/record/1320810#.W1sOkHYzbAI">Inverse PageRank</a></li>
+  <li><a href="https://zenodo.org/record/1320042#.W1sOw3YzbAI">PageRank Split</a></li>
+  <li><a href="https://zenodo.org/record/1320005#.W1sM5HYzbAI">Inverse PageRank Split</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+<img src="/images/me.jpg" />
+  <p>
+  I am an Assistant Professor in the <a href="https://lr.cs.vu.nl/">Learning and Reasoning</a> group at the Vrije Universiteit Amsterdam.
+  I also have my own [consultancy business](https://www.graphino.nl).
+
+  The subjects covered in my research are related to 
+<ul>
+<li style="list-style: square" >Machine Learning and Graphs
+    <ul>
+    <li>Knowledge Graph Embedding</li>
+    <li>Including Knowledge Graphs into end-to-end ML models</li>
+    <li>Approximate Query Answering</li>
+    </ul>
+</li>
+<li style="list-style: square" >Knowledge Representation
+    <ul>
+    <li>Prototype-Based Ontologies</li>
+    <li>Knowledge Evolution and Matching</li>
+    <li>Ontology Learning and Matching</li>
+    </ul>
+</li>
+</ul>
+</p>
+
+<p>
+I do teach various topics related to Intelligent Systems, Data Mining, and Machine learning.
+
+Earlier,I have been teaching courses on Service Oriented Architecture, cloud computing, (big) data analysis, and multi-agent systems.
+</p>
+
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Michael Cochez -
+  <span class="credit">Powered by Jekyll. Derived from Octopress.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
