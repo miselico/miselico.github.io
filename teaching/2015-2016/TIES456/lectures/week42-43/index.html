@@ -29,8 +29,12 @@
 
 <p><img src="logo.png" width=100%/></p>
 <p>Autumn 2015</p>
-<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
-<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456
+Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2
+id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532
+- Service oriented architectures and cloud computing <strong>for
+developers</strong>, 5 ECTS</h2>
 </div>
 <div id="today" class="slide section level1">
 <h1>Today</h1>
@@ -47,13 +51,19 @@
 <div id="test-feedback" class="slide section level1">
 <h1>Test – feedback</h1>
 </div>
-<div id="discussion-about-reflective-questions" class="slide section level1">
+<div id="discussion-about-reflective-questions"
+class="slide section level1">
 <h1>Discussion about reflective questions</h1>
 <ol style="list-style-type: decimal">
-<li>How would you implement a page which shows a list of contacts. See also <a href="http://docs.basho.com/riak/latest/dev/references/http/list-keys/">List keys</a>.</li>
-<li>Why would you ever use a set-up with virtual machines in a real (production) environment? Or would you not?</li>
+<li>How would you implement a page which shows a list of contacts. See
+also <a
+href="http://docs.basho.com/riak/latest/dev/references/http/list-keys/">List
+keys</a>.</li>
+<li>Why would you ever use a set-up with virtual machines in a real
+(production) environment? Or would you not?</li>
 <li>Which of the optimizations made sense, which ones not?</li>
-<li>What should be improved in this exercise if it is given to students in the future?</li>
+<li>What should be improved in this exercise if it is given to students
+in the future?</li>
 </ol>
 </div>
 <div id="listing-keys" class="slide section level1">
@@ -68,7 +78,8 @@
 <li>Benefits
 <ul>
 <li>easy deployment (you can define templates)</li>
-<li>improve utilization rate by putting multiple VM on one real server - cost effective</li>
+<li>improve utilization rate by putting multiple VM on one real server -
+cost effective</li>
 <li>security (restrict access)
 <ul>
 <li>Isolated environment for testing things</li>
@@ -83,14 +94,17 @@
 </ul></li>
 <li>Drawback
 <ul>
-<li>For the absolute performance virtual machines are not the best, but security wise they make a lot of sense.
+<li>For the absolute performance virtual machines are not the best, but
+security wise they make a lot of sense.
 <ul>
 <li>HPC is <em>never</em> done using virtual machines</li>
 </ul></li>
 </ul></li>
 <li>Note
 <ul>
-<li>Your http server was only accesible from the host (oksa3), one can set-up port forwarding such that one port of oksa3 is forwarded to a specific port on the VM</li>
+<li>Your http server was only accesible from the host (oksa3), one can
+set-up port forwarding such that one port of oksa3 is forwarded to a
+specific port on the VM</li>
 </ul></li>
 </ul>
 </div>
@@ -117,9 +131,15 @@
 <li>Similar idea to cache from Guava</li>
 <li>The cache is reponsible for fetching missing data</li>
 </ul></li>
-<li><a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29">Paxos</a> is a protocol used to ensure the finding of a consensus about something between a group of computers.<br />
+<li><a
+href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29">Paxos</a>
+is a protocol used to ensure the finding of a consensus about something
+between a group of computers.<br />
 A thesis work related to this algorithms is possible.</li>
-<li><a href="http://docker.io">Docker</a> is a new way of managing container virtualization. You can make thesis in which you compare different options for virtualization, compare and experiment with their properties.</li>
+<li><a href="http://docker.io">Docker</a> is a new way of managing
+container virtualization. You can make thesis in which you compare
+different options for virtualization, compare and experiment with their
+properties.</li>
 <li>…</li>
 </ul>
 </div>
@@ -173,7 +193,8 @@ A thesis work related to this algorithms is possible.</li>
 <div id="review-week-42---caching-2" class="slide section level1">
 <h1>Review week 42 - caching</h1>
 <ul>
-<li><p>Caches are hard to get right - let’s try to solve this - attempt 1</p>
+<li><p>Caches are hard to get right - let’s try to solve this - attempt
+1</p>
 <pre><code>              @post(&#39;/add&#39;)
               def add():
                   ... get name and number from form
@@ -193,15 +214,22 @@ A thesis work related to this algorithms is possible.</li>
 <h1>Review week 42 - caching</h1>
 <!-- This slide was skipped in class -->
 <ul>
-<li>Problem : stale data in cache in the following (multi-threaded) case:
+<li>Problem : stale data in cache in the following (multi-threaded)
+case:
 <ol style="list-style-type: decimal">
-<li>/add?name=A&amp;number=0
+<li><p>/add?name=A&amp;number=0</p>
 <ul>
 <li>DB: (A,0)</li>
 <li>MC: -</li>
 </ul></li>
 <li><p><em>Add and search simultaneously</em></p>
 <table>
+<colgroup>
+<col width="33%" />
+<col width="52%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>/add?name=A&amp;number=1</th>
@@ -259,7 +287,7 @@ A thesis work related to this algorithms is possible.</li>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
 </ul></li>
-<li>/search?name=A //returns 0
+<li><p>/search?name=A //returns 0</p>
 <ul>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
@@ -270,7 +298,8 @@ A thesis work related to this algorithms is possible.</li>
 <div id="review-week-42---caching-4" class="slide section level1">
 <h1>Review week 42 - caching</h1>
 <ul>
-<li><p>Caches are hard to get right - let’s try to solve this - attempt 2</p>
+<li><p>Caches are hard to get right - let’s try to solve this - attempt
+2</p>
 <pre><code>              @post(&#39;/add&#39;)
               def add():
                   ... get name and number from form
@@ -290,15 +319,22 @@ A thesis work related to this algorithms is possible.</li>
 <h1>Review week 42 - caching</h1>
 <!-- This slide was skipped in class -->
 <ul>
-<li>Problem : stale data in cache in the following (multi-threaded) case:
+<li>Problem : stale data in cache in the following (multi-threaded)
+case:
 <ol style="list-style-type: decimal">
-<li>/add?name=A&amp;number=0
+<li><p>/add?name=A&amp;number=0</p>
 <ul>
 <li>DB: (A,0)</li>
 <li>MC: -</li>
 </ul></li>
 <li><p><em>Add and search simultaneously</em></p>
 <table>
+<colgroup>
+<col width="33%" />
+<col width="52%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>/add?name=A&amp;number=1</th>
@@ -362,7 +398,7 @@ A thesis work related to this algorithms is possible.</li>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
 </ul></li>
-<li>/search?name=A //returns 0
+<li><p>/search?name=A //returns 0</p>
 <ul>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
@@ -381,19 +417,27 @@ A thesis work related to this algorithms is possible.</li>
                   ... set on memcache = overwrite</code></pre></li>
 </ul>
 </div>
-<div id="review-week-42---caching---a-problem-can-still-occur" class="slide section level1">
+<div id="review-week-42---caching---a-problem-can-still-occur"
+class="slide section level1">
 <h1>Review week 42 - caching - a problem can still occur</h1>
 <!-- This slide was skipped in class -->
 <ul>
-<li>Problem : stale data in cache in the following (multi-threaded) case:
+<li>Problem : stale data in cache in the following (multi-threaded)
+case:
 <ol style="list-style-type: decimal">
-<li>/add?name=A&amp;number=0
+<li><p>/add?name=A&amp;number=0</p>
 <ul>
 <li>DB: (A,0)</li>
 <li>MC: -</li>
 </ul></li>
 <li><p><em>Add and search simultaneously</em></p>
 <table>
+<colgroup>
+<col width="33%" />
+<col width="52%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>/add?name=A&amp;number=0</th>
@@ -457,7 +501,7 @@ A thesis work related to this algorithms is possible.</li>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
 </ul></li>
-<li>/search?name=A //returns 0
+<li><p>/search?name=A //returns 0</p>
 <ul>
 <li>DB: (A,1)</li>
 <li>MC: (A,0)</li>
@@ -488,15 +532,24 @@ A thesis work related to this algorithms is possible.</li>
 <h1>Review week 42 - caching</h1>
 <!-- This slide was not skipped in class -->
 <ul>
-<li><p>Problem : The teacher cannot find any guarantees on whether the CAS counter is updated on delete. If this is not the case, the following could happen: stale data in cache in the following (multi-threaded) case:</p>
+<li><p>Problem : The teacher cannot find any guarantees on whether the
+CAS counter is updated on delete. If this is not the case, the following
+could happen: stale data in cache in the following (multi-threaded)
+case:</p>
 <ol style="list-style-type: decimal">
-<li>/add?name=A&amp;number=1
+<li><p>/add?name=A&amp;number=1</p>
 <ul>
 <li>DB: (A,1)</li>
 <li>MC: (-,-)</li>
 </ul></li>
 <li><p><em>Add and search simultaneously</em></p>
 <table>
+<colgroup>
+<col width="31%" />
+<col width="55%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>/add?name=A&amp;number=2</th>
@@ -559,7 +612,8 @@ A thesis work related to this algorithms is possible.</li>
 <ul>
 <li>case 1
 <ul>
-<li>The counter is not updated on delete and null == null, then the cas will succeed!</li>
+<li>The counter is not updated on delete and null == null, then the cas
+will succeed!</li>
 <li>DB: (A,2)</li>
 <li>MC: (A,1)</li>
 </ul>
@@ -593,19 +647,27 @@ A thesis work related to this algorithms is possible.</li>
 <ul>
 <li>Caches are hard to get right
 <ul>
-<li>One feasible way seems to put a time-out on your memcache entries and time a request can take.
+<li>One feasible way seems to put a time-out on your memcache entries
+and time a request can take.
 <ul>
-<li>It might still be that old data is returned, but it should be rare and only for limited time.</li>
+<li>It might still be that old data is returned, but it should be rare
+and only for limited time.</li>
 </ul></li>
-<li>Another way is by using a <a href="https://code.google.com/p/memcached/wiki/NewCommands#cas">compare-and-swap operation</a>, where you only overwrite if the data is what you expect.</li>
-<li>If there are multiple memcache servers, they will not inform each other : remove from all
+<li>Another way is by using a <a
+href="https://code.google.com/p/memcached/wiki/NewCommands#cas">compare-and-swap
+operation</a>, where you only overwrite if the data is what you
+expect.</li>
+<li>If there are multiple memcache servers, they will not inform each
+other : remove from all
 <ul>
-<li>If this is a <em>hot</em> piece of data, your database will get be hit a lot of times with the same request</li>
+<li>If this is a <em>hot</em> piece of data, your database will get be
+hit a lot of times with the same request</li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
-<div id="review-week-42---caching---another-problem" class="slide section level1">
+<div id="review-week-42---caching---another-problem"
+class="slide section level1">
 <h1>Review week 42 - caching - another problem</h1>
 <ul>
 <li><p>In search</p>
@@ -614,7 +676,8 @@ A thesis work related to this algorithms is possible.</li>
 <li><p>Or</p>
 <pre><code>              mc[name] = fetched.encoded_data
               return mc[name] </code></pre></li>
-<li><p>It might be that the data in memcache is removed in between the two calls.</p></li>
+<li><p>It might be that the data in memcache is removed in between the
+two calls.</p></li>
 </ul>
 </div>
 </body></html>

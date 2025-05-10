@@ -29,7 +29,8 @@
 
 <p><img src="logo.png" width=100%/></p>
 <p>Spring 2016</p>
-<h2 id="agent-technologies-for-developers-ties454.">Agent Technologies for Developers (TIES454).</h2>
+<h2 id="agent-technologies-for-developers-ties454.">Agent Technologies
+for Developers (TIES454).</h2>
 <h2 id="final-session">Final Session</h2>
 </div>
 <div id="things-we-touched-upon" class="slide section level1">
@@ -77,7 +78,8 @@
 <li>Blackboard vs. Messaging
 <ul>
 <li>Indirect communication vs. Message passing</li>
-<li>Communicating by sharing memory vs. sharing memory by communicating</li>
+<li>Communicating by sharing memory vs. sharing memory by
+communicating</li>
 <li>They are in essence equivalent</li>
 </ul></li>
 <li>Broadcasting</li>
@@ -95,16 +97,21 @@
 </ul></li>
 </ul>
 </div>
-<div id="communication-between-agents-and-actuators-sensors-and-external-services" class="slide section level1">
-<h1>Communication Between Agents and Actuators, Sensors and External Services</h1>
+<div
+id="communication-between-agents-and-actuators-sensors-and-external-services"
+class="slide section level1">
+<h1>Communication Between Agents and Actuators, Sensors and External
+Services</h1>
 <ul>
 <li><p>Is an external service an actuator or sensor?</p></li>
-<li>Options
+<li><p>Options</p>
 <ul>
-<li>You can wrap every sensor and actuator inside an agent which is representing it. SmartResource.</li>
+<li>You can wrap every sensor and actuator inside an agent which is
+representing it. SmartResource.</li>
 <li>A sensor, actuator can send messages to the agent and vice verse
 <ul>
-<li>Sensors and actuators are first class members of the environment.</li>
+<li>Sensors and actuators are first class members of the
+environment.</li>
 </ul></li>
 <li>Agents have direct access to sensors and actuators
 <ul>
@@ -158,11 +165,14 @@
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---what-to-avoid" class="slide section level1">
+<div id="where-to-go-from-here---what-to-avoid"
+class="slide section level1">
 <h1>Where to go from here - What to avoid</h1>
 <ul>
-<li>Many implementations of agent based systems are merely academic and best avoided (except for research purposes)</li>
-<li>Do not use agent based systems where other technology is more appropriate
+<li>Many implementations of agent based systems are merely academic and
+best avoided (except for research purposes)</li>
+<li>Do not use agent based systems where other technology is more
+appropriate
 <ul>
 <li>Systems with a fixed/simple set-up</li>
 <li>Systems which do not solve any concurrent problem</li>
@@ -179,7 +189,8 @@
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---what-to-use---agent-based-systems" class="slide section level1">
+<div id="where-to-go-from-here---what-to-use---agent-based-systems"
+class="slide section level1">
 <h1>Where to go from here - what to use - agent based systems</h1>
 <ul>
 <li><a href="http://www.cougaar.org/">Cougaar</a>
@@ -190,7 +201,8 @@
 <li>Includes planning</li>
 <li>Allows multiple protocols
 <ul>
-<li>Loopback, RMI, SSL-encrypted RMI, CORBA, HTTP, JMS, and XMPP (Jabber)</li>
+<li>Loopback, RMI, SSL-encrypted RMI, CORBA, HTTP, JMS, and XMPP
+(Jabber)</li>
 </ul></li>
 <li>Complex and does not follow standards
 <ul>
@@ -201,8 +213,11 @@
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---what-to-use-instead---agent-based-systems" class="slide section level1">
-<h1>Where to go from here - what to use instead - agent based systems</h1>
+<div
+id="where-to-go-from-here---what-to-use-instead---agent-based-systems"
+class="slide section level1">
+<h1>Where to go from here - what to use instead - agent based
+systems</h1>
 <ul>
 <li><a href="http://jade.tilab.com/">JADE</a>
 <ul>
@@ -223,10 +238,15 @@
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---what-to-use-instead---agent-based-systems-1" class="slide section level1">
-<h1>Where to go from here - what to use instead - agent based systems</h1>
+<div
+id="where-to-go-from-here---what-to-use-instead---agent-based-systems-1"
+class="slide section level1">
+<h1>Where to go from here - what to use instead - agent based
+systems</h1>
 <ul>
-<li><a href="http://www.cs.jyu.fi/ai/OntoGroup/UBIWARE_details.htm">UBIWARE</a> (developed at JYU)
+<li><a
+href="http://www.cs.jyu.fi/ai/OntoGroup/UBIWARE_details.htm">UBIWARE</a>
+(developed at JYU)
 <ul>
 <li>Mainly academic, but used in industry</li>
 <li>Built on top of JADE</li>
@@ -243,7 +263,8 @@
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---what-to-use-instead---actor-systems" class="slide section level1">
+<div id="where-to-go-from-here---what-to-use-instead---actor-systems"
+class="slide section level1">
 <h1>Where to go from here - what to use instead - actor systems</h1>
 <ul>
 <li>Languages
@@ -252,28 +273,35 @@
 <li><a href="http://www.scala-lang.org/">Scala</a></li>
 <li>Some newcomers
 <ul>
-<li><a href="http://www.rust-lang.org/">Rust</a> (changing frequently)</li>
+<li><a href="http://www.rust-lang.org/">Rust</a> (changing
+frequently)</li>
 <li><a href="http://iolanguage.org/">Io</a> (weird)</li>
 </ul></li>
 </ul></li>
 <li>Libraries for languages
 <ul>
 <li>Java / Scala : <a href="http://akka.io/">Akka</a></li>
-<li>F# : <a href="http://en.wikibooks.org/wiki/F_Sharp_Programming/MailboxProcessor">MailboxProcessor</a></li>
-<li>Haskell : <a href="http://haskell-distributed.github.io/">Cloud Haskell</a></li>
-<li>Many more exist, see <a href="http://en.wikipedia.org/wiki/Actor_model#Actor_libraries_and_frameworks">wikipedia</a></li>
+<li>F# : <a
+href="http://en.wikibooks.org/wiki/F_Sharp_Programming/MailboxProcessor">MailboxProcessor</a></li>
+<li>Haskell : <a href="http://haskell-distributed.github.io/">Cloud
+Haskell</a></li>
+<li>Many more exist, see <a
+href="http://en.wikipedia.org/wiki/Actor_model#Actor_libraries_and_frameworks">wikipedia</a></li>
 </ul></li>
 <li>Go is not an agent based or actor system!
 <ul>
-<li>goroutines do not have identity/communication possibilities built-in</li>
+<li>goroutines do not have identity/communication possibilities
+built-in</li>
 <li>But has many similar features</li>
 </ul></li>
 </ul>
 </div>
-<div id="where-to-go-from-here---reactive-manifesto" class="slide section level1">
+<div id="where-to-go-from-here---reactive-manifesto"
+class="slide section level1">
 <h1>Where to go from here - Reactive manifesto</h1>
 <ul>
-<li><a href="http://www.reactivemanifesto.org/">Reactive manifesto</a></li>
+<li><a href="http://www.reactivemanifesto.org/">Reactive
+manifesto</a></li>
 <li>Characteristics of a reactive application
 <ul>
 <li>Responsive
@@ -289,7 +317,9 @@
 <li>Loosely coupled design</li>
 <li>Extendable</li>
 <li>Maintainable</li>
-<li>A counter argument : <a href="https://www.usenix.org/legacy/events/hotos03/tech/vonbehren.html">Why Events Are A Bad Idea (for High-concurrency Servers)</a></li>
+<li>A counter argument : <a
+href="https://www.usenix.org/legacy/events/hotos03/tech/vonbehren.html">Why
+Events Are A Bad Idea (for High-concurrency Servers)</a></li>
 </ul></li>
 <li>Resilient
 <ul>
@@ -299,7 +329,8 @@
 </ul></li>
 </ul>
 </div>
-<div id="why-is-writing-concurrent-software-difficult" class="slide section level1">
+<div id="why-is-writing-concurrent-software-difficult"
+class="slide section level1">
 <h1>Why is writing concurrent software difficult?</h1>
 <ul>
 <li>Non-reproducible errors
@@ -311,7 +342,8 @@
 <li>Different way of thinking
 <ul>
 <li>Each thread works independently</li>
-<li>Between each two consecutive statements, a whole lot of other things might happen.</li>
+<li>Between each two consecutive statements, a whole lot of other things
+might happen.</li>
 </ul></li>
 <li>Shared data
 <ul>
@@ -320,7 +352,8 @@
 </ul></li>
 </ul>
 </div>
-<div id="how-do-you-write-concurrent-software" class="slide section level1">
+<div id="how-do-you-write-concurrent-software"
+class="slide section level1">
 <h1>How do you write concurrent software?</h1>
 <ul>
 <li>Avoid shared data

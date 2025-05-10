@@ -29,8 +29,12 @@
 
 <p><img src="logo.png" width=100%/></p>
 <p>Autumn 2015</p>
-<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
-<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456
+Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2
+id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532
+- Service oriented architectures and cloud computing <strong>for
+developers</strong>, 5 ECTS</h2>
 </div>
 <div id="today" class="slide section level1">
 <h1>Today</h1>
@@ -40,17 +44,20 @@
 <li>Next weeks exercise</li>
 </ul>
 </div>
-<div id="general-feedback---received-submissions" class="slide section level1">
+<div id="general-feedback---received-submissions"
+class="slide section level1">
 <h1>General feedback - Received submissions</h1>
 <ul>
 <li>Check from the table
 <ul>
 <li>Details will be put in your repository after the lecture</li>
 </ul></li>
-<li>Use references when answering to questions. Especially when taking quotes.</li>
+<li>Use references when answering to questions. Especially when taking
+quotes.</li>
 </ul>
 </div>
-<div id="general-feedback---repository-structure" class="slide section level1">
+<div id="general-feedback---repository-structure"
+class="slide section level1">
 <h1>General feedback - Repository structure</h1>
 <ul>
 <li>Keep a project structure
@@ -59,17 +66,20 @@
 <li>Do not dump source files in root directory.</li>
 <li>Do not put compressed files in the repo</li>
 </ul></li>
-<li>Include group number in project and package names (just easier for me correcting things)</li>
+<li>Include group number in project and package names (just easier for
+me correcting things)</li>
 </ul>
 </div>
-<div id="general-feedback---repository-clean-up" class="slide section level1">
+<div id="general-feedback---repository-clean-up"
+class="slide section level1">
 <h1>General feedback - Repository clean-up</h1>
 <ul>
 <li>Clean up stuff which is not used.
 <ul>
 <li>Unused imports, methods, classes</li>
 </ul></li>
-<li>Check out a clean copy of your repository and see whether you get it working</li>
+<li>Check out a clean copy of your repository and see whether you get it
+working</li>
 </ul>
 </div>
 <div id="coding-style---use-of-null" class="slide section level1">
@@ -77,20 +87,25 @@
 <ul>
 <li>Do ‘never’ return null from any method.
 <ul>
-<li><a href="http://andyp-tw.blogspot.fi/2008/08/returning-null-considered-dishonest.html">Returning ‘null’ Considered Dishonest</a></li>
-<li>Mainly true for Java because it has (checked) exceptions! But also for many other languages.</li>
+<li><a
+href="http://andyp-tw.blogspot.fi/2008/08/returning-null-considered-dishonest.html">Returning
+‘null’ Considered Dishonest</a></li>
+<li>Mainly true for Java because it has (checked) exceptions! But also
+for many other languages.</li>
 <li>An empty list and null are very different things.</li>
 </ul></li>
 <li>The same counts for using
 <ul>
 <li>-1</li>
-<li>""</li>
+<li>“”</li>
 <li>any valid value for the type to indicate failure.</li>
-<li>In some cases it is reasonable (programming language dependent).</li>
+<li>In some cases it is reasonable (programming language
+dependent).</li>
 </ul></li>
 </ul>
 </div>
-<div id="coding-style---use-of-static-and-singleton" class="slide section level1">
+<div id="coding-style---use-of-static-and-singleton"
+class="slide section level1">
 <h1>Coding style - Use of static and Singleton</h1>
 <ul>
 <li>Singleton is a widely used design pattern, but
@@ -108,7 +123,8 @@
 <li>The same applies to public static methods</li>
 </ul>
 </div>
-<div id="copying-slides-from-last-week---streams-or-string" class="slide section level1">
+<div id="copying-slides-from-last-week---streams-or-string"
+class="slide section level1">
 <h1>Copying slides from last week - Streams or String</h1>
 <pre><code>    .asString()
     .toString
@@ -123,7 +139,8 @@
 <ul>
 <li>Fine for small deployment
 <ul>
-<li>A disaster for large scale deployments (if the string is very large)</li>
+<li>A disaster for large scale deployments (if the string is very
+large)</li>
 </ul></li>
 </ul></li>
 <li>Use streams instead</li>
@@ -132,27 +149,33 @@
 <div id="questions-for-discussion" class="slide section level1">
 <h1>Questions for discussion</h1>
 <ul>
-<li>Most REST services do not use WSDL and SOAP. What could be reasons for this?</li>
-<li>SOAP and WSDL use XML, would it be better if they would use something more modern like JSON?</li>
-<li>How did you handle errors and how should it be done? Imagine that your application is running on a production server.</li>
+<li>Most REST services do not use WSDL and SOAP. What could be reasons
+for this?</li>
+<li>SOAP and WSDL use XML, would it be better if they would use
+something more modern like JSON?</li>
+<li>How did you handle errors and how should it be done? Imagine that
+your application is running on a production server.</li>
 </ul>
 </div>
 <div id="questions-for-discussion-1" class="slide section level1">
 <h1>Questions for discussion 1</h1>
 <ul>
-<li>Most REST services do not use WSDL and SOAP. What could be reasons for this?</li>
+<li>Most REST services do not use WSDL and SOAP. What could be reasons
+for this?</li>
 </ul>
 </div>
 <div id="questions-for-discussion-2" class="slide section level1">
 <h1>Questions for discussion 2</h1>
 <ul>
-<li>SOAP and WSDL use XML, would it be better if they would use something more modern like JSON?</li>
+<li>SOAP and WSDL use XML, would it be better if they would use
+something more modern like JSON?</li>
 </ul>
 </div>
 <div id="questions-for-discussion-3" class="slide section level1">
 <h1>Questions for discussion 3</h1>
 <ul>
-<li>How did you handle errors and how should it be done? Imagine that your application is running on a production server.</li>
+<li>How did you handle errors and how should it be done? Imagine that
+your application is running on a production server.</li>
 </ul>
 </div>
 <div id="tasks-for-week-39" class="slide section level1">

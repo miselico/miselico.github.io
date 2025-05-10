@@ -29,8 +29,12 @@
 
 <p><img src="logo.png" width=100%/></p>
 <p>Autumn 2015</p>
-<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456 Introduction to SOA and Cloud Computing, 5 ECTS</h2>
-<h2 id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532 - Service oriented architectures and cloud computing <strong>for developers</strong>, 5 ECTS</h2>
+<h2 id="ties456-introduction-to-soa-and-cloud-computing-5-ects">TIES456
+Introduction to SOA and Cloud Computing, 5 ECTS</h2>
+<h2
+id="ties532---service-oriented-architectures-and-cloud-computing-for-developers-5-ects">TIES532
+- Service oriented architectures and cloud computing <strong>for
+developers</strong>, 5 ECTS</h2>
 </div>
 <div id="today" class="slide section level1">
 <h1>Today</h1>
@@ -41,7 +45,8 @@
 <li>Next week’s exercise</li>
 </ul>
 </div>
-<div id="general-feedback---received-submissions" class="slide section level1">
+<div id="general-feedback---received-submissions"
+class="slide section level1">
 <h1>General feedback - Received submissions</h1>
 <ul>
 <li>Check for your name</li>
@@ -64,15 +69,16 @@
 <div id="general-feedback---submission" class="slide section level1">
 <h1>General feedback - Submission</h1>
 <ul>
-<li>You can use a structure in the repo from which one can continue the work
+<li>You can use a structure in the repo from which one can continue the
+work
 <ul>
 <li>maven project</li>
 <li>eclipse/netbeans/… project</li>
 </ul></li>
 <li>Remove all unused code! You can always go back in the history!
 <ul>
-<li>Commit more often</li>
-<li>Unused imports, methods, classes</li>
+<li><p>Commit more often</p></li>
+<li><p>Unused imports, methods, classes</p></li>
 <li><p>after removing stuff locally, it is not removed from git yet!</p>
 <p><code>git rm file.txt</code></p></li>
 <li><p>demonstrate?</p></li>
@@ -90,7 +96,8 @@
 <li>Please make/edit the README file.</li>
 </ul>
 </div>
-<div id="general-notes---streams-or-string" class="slide section level1">
+<div id="general-notes---streams-or-string"
+class="slide section level1">
 <h1>General notes - Streams or String</h1>
 <pre><code>    .asString()
     .toString
@@ -105,28 +112,41 @@
 <ul>
 <li>Fine for small deployment
 <ul>
-<li>A disaster for large scale deployments (if the string is very large)</li>
+<li>A disaster for large scale deployments (if the string is very
+large)</li>
 </ul></li>
 </ul></li>
 <li>Try to use streams instead</li>
 </ul>
 </div>
-<div id="general-note---streams-and-readers" class="slide section level1">
+<div id="general-note---streams-and-readers"
+class="slide section level1">
 <h1>General note - Streams and Readers</h1>
 <ul>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html">Reader</a>/<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html">Writer</a>
+<li><a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html">Reader</a>/<a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html">Writer</a>
 <ul>
 <li>Used for characters (a .txt file, JSON, XML, …)</li>
 </ul></li>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html">InputStream</a>/<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html">OutputStream</a>
+<li><a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html">InputStream</a>/<a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html">OutputStream</a>
 <ul>
 <li>User for bytes - binary data (e.g. an image, sound, …)</li>
 </ul></li>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStreamReader.html">InputStreamReader</a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStreamWriter.html">OutputStreamWriter</a> bridge between the byte and chatacter world
+<li><a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStreamReader.html">InputStreamReader</a>
+and <a
+href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStreamWriter.html">OutputStreamWriter</a>
+bridge between the byte and chatacter world
 <ul>
-<li>You can and should specify a <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html">character encoding</a> for the conversion
+<li>You can and should specify a <a
+href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html">character
+encoding</a> for the conversion
 <ul>
-<li>otherwise some default will be used (= bad things will happen to ö, ä, 错, …).</li>
+<li>otherwise some default will be used (= bad things will happen to ö,
+ä, 错, …).</li>
 </ul></li>
 <li>Why is there no ReaderInputStream and WriterOutputStream ?</li>
 </ul></li>
@@ -148,13 +168,15 @@
 </ul></li>
 </ul>
 </div>
-<div id="general-feedback---manual-xmljson-conversion" class="slide section level1">
+<div id="general-feedback---manual-xmljson-conversion"
+class="slide section level1">
 <h1>General feedback - Manual XML/JSON conversion</h1>
 <ul>
 <li>Used by some, but error prone (even more for XML as for JSON).</li>
 <li>Might be more efficient in some rare cases
 <ul>
-<li><p>There are several options for parsing available in ‘all’ programming languages.</p>
+<li><p>There are several options for parsing available in ‘all’
+programming languages.</p>
 <pre><code>      Reader in = new InputStreamReader(url.openConnection().getInputStream());
       String inputLine = in.readLine();
       in.close();
@@ -167,10 +189,12 @@
 </ul></li>
 </ul>
 </div>
-<div id="general-note---use-of-uri-builders" class="slide section level1">
+<div id="general-note---use-of-uri-builders"
+class="slide section level1">
 <h1>General note - Use of URI Builders</h1>
 <ul>
-<li>Seem awkward sometimes - why do they throw these annoying exceptions?</li>
+<li>Seem awkward sometimes - why do they throw these annoying
+exceptions?</li>
 </ul>
 <h2 id="general-note---exceptions">General note - Exceptions</h2>
 <ul>
@@ -180,14 +204,19 @@
 <div id="questions-for-discussion" class="slide section level1">
 <h1>Questions for discussion</h1>
 <ul>
-<li>Is the API provided by mediafire <a href="http://developers.mediafire.com/index.php/REST_API">REST_API</a> according to the principles which are listed in the IBM article <a href="https://www.ibm.com/developerworks/webservices/library/ws-restful/">RESTful API</a>?
+<li><p>Is the API provided by mediafire <a
+href="http://developers.mediafire.com/index.php/REST_API">REST_API</a>
+according to the principles which are listed in the IBM article <a
+href="https://www.ibm.com/developerworks/webservices/library/ws-restful/">RESTful
+API</a>?</p>
 <ul>
 <li>Use HTTP methods explicitly</li>
 <li>Be stateless</li>
 <li>Expose directory structure-like URIs</li>
 <li>Transfer XML, JSON, or both</li>
 </ul></li>
-<li><p>Did anyone implement URL encoding correctly, without adding the parameters one by one?</p></li>
+<li><p>Did anyone implement URL encoding correctly, without adding the
+parameters one by one?</p></li>
 <li><p>Is it safe to send parameters in the query string of the URL?</p>
 <pre><code>  https://www.mediafire.com/api/user/get_session_token.php?email=mumail%40gmail.com&amp;password=lookatme&amp;application_id=37456&amp;signature=deadbeef&amp;response_format=json</code></pre></li>
 </ul>
@@ -195,8 +224,10 @@
 <div id="example-code" class="slide section level1">
 <h1>Example code</h1>
 <ul>
-<li><p>A short example <a href="http://yousource.it.jyu.fi/~miselico/miselicos-week37-2">http://yousource.it.jyu.fi/~miselico/miselicos-week37-2</a></p></li>
-<li><p>A long example <a href="http://yousource.it.jyu.fi/ties456-2015/week37-testable">http://yousource.it.jyu.fi/ties456-2015/week37-testable</a></p></li>
+<li><p>A short example <a
+href="http://yousource.it.jyu.fi/~miselico/miselicos-week37-2">http://yousource.it.jyu.fi/~miselico/miselicos-week37-2</a></p></li>
+<li><p>A long example <a
+href="http://yousource.it.jyu.fi/ties456-2015/week37-testable">http://yousource.it.jyu.fi/ties456-2015/week37-testable</a></p></li>
 </ul>
 </div>
 <div id="making-groups" class="slide section level1">
