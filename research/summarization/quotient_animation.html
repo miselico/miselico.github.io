@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bisimulation: Non-Overlapping Endpoints</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        #container {
+            position: relative;
+            width: 900px;
+            height: 650px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #357abd;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #status {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-top: 20px;
+            min-height: 30px;
+            text-align: center;
+        }
+
+        .node {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .link {
+            fill: none;
+            stroke-opacity: 0.6;
+            stroke-linecap: round;
+        }
+
+        .super-node-circle {
+            fill: none;
+            stroke-dasharray: 6, 6;
+            stroke-width: 2px;
+        }
+
+        .label-text {
+            font-size: 12px;
+            fill: #555;
+            font-weight: bold;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="status">Step 1: Initial Graph</div>
+    <div id="container"></div>
+
+    <div id="controls">
+        <button id="btn-next" onclick="nextStep()">Next Step</button>
+        <!-- <button id="btn-reset" onclick="resetAnimation()" style="background-color: #e53e3e;">Reset</button> -->
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const width = 900;
+        const height = 650;
+        const nodeCount = 14;
+        const edgeCount = 28;
+        const nodeRadius = 15;
+        const superNodeRadius = 80;
+
+        // Colors
+        const defaultColor = "#cbd5e0";
+        const edgeColors = ["#e53e3e", "#3182ce"]; // 0: Red, 1: Blue
+        const nodeColors = ["#ecc94b", "#48bb78", "#9f7aea", "#718096"];
+
+        // Layout for the 4 Supernodes
+        const clusters = [
+            { id: 0, x: width * 0.25, y: height * 0.25, color: nodeColors[0], label: "Red Only" },
+            { id: 1, x: width * 0.75, y: height * 0.25, color: nodeColors[1], label: "Blue Only" },
+            { id: 2, x: width * 0.25, y: height * 0.75, color: nodeColors[2], label: "Both Red & Blue" },
+            { id: 3, x: width * 0.75, y: height * 0.75, color: nodeColors[3], label: "No Outgoing" }
+        ];
+
+        // --- STATE ---
+        let step = 0;
+        let nodes = [];
+        let links = [];
+        let simulation;
+        let svg, linkGroup, nodeGroup, hullGroup, quotientGroup, defs;
+
+        function initSVG() {
+            d3.select("#container").innerHTML = "";
+            svg = d3.select("#container").append("svg").attr("width", width).attr("height", height);
+
+            // Define Arrow Markers
+            defs = svg.append("defs");
+
+            const createMarker = (id, color) => {
+                defs.append("marker")
+                    .attr("id", id)
+                    .attr("viewBox", "0 -5 10 10")
+                    .attr("refX", 0) // Calculated manually in path
+                    .attr("refY", 0)
+                    .attr("markerWidth", 6)
+                    .attr("markerHeight", 6)
+                    .attr("orient", "auto")
+                    .append("path").attr("d", "M0,-5L10,0L0,5").attr("fill", color);
+            };
+
+            createMarker("arrow-gray", "#999");
+            createMarker("arrow-0", edgeColors[0]);
+            createMarker("arrow-1", edgeColors[1]);
+
+            // Large markers for Quotient Graph 
+            defs.append("marker").attr("id", "arrow-q-0").attr("viewBox", "0 -5 10 10").attr("refX", 0).attr("refY", 0).attr("markerWidth", 8).attr("markerHeight", 8).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5").attr("fill", edgeColors[0]);
+            defs.append("marker").attr("id", "arrow-q-1").attr("viewBox", "0 -5 10 10").attr("refX", 0).attr("refY", 0).attr("markerWidth", 8).attr("markerHeight", 8).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5").attr("fill", edgeColors[1]);
+
+            hullGroup = svg.append("g").attr("class", "hulls");
+            quotientGroup = svg.append("g").attr("class", "quotient-links");
+            linkGroup = svg.append("g").attr("class", "links");
+            nodeGroup = svg.append("g").attr("class", "nodes");
+        }
+
+        function generateData() {
+            nodes = d3.range(nodeCount).map(i => ({ id: i }));
+            links = [];
+
+            let attempts = 0;
+            while (links.length < edgeCount && attempts < 1000) {
+                attempts++;
+                let s = Math.floor(Math.random() * nodeCount);
+                let t = Math.floor(Math.random() * nodeCount);
+
+                if (s === t) continue;
+
+                let forward = links.find(l => l.source === s && l.target === t);
+                let reverse = links.find(l => l.source === t && l.target === s);
+
+                if (!forward && !reverse) {
+                    links.push({
+                        source: s,
+                        target: t,
+                        type: Math.random() > 0.5 ? 0 : 1,
+                        id: links.length
+                    });
+                }
+            }
+
+            nodes.forEach(n => {
+                const outgoing = links.filter(l => l.source === n.id);
+                const hasRed = outgoing.some(l => l.type === 0);
+                const hasBlue = outgoing.some(l => l.type === 1);
+
+                if (hasRed && hasBlue) n.group = 2;
+                else if (hasRed) n.group = 0;
+                else if (hasBlue) n.group = 1;
+                else n.group = 3;
+            });
+        }
+
+        function initSimulation() {
+            simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+                .force("charge", d3.forceManyBody().strength(-300))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collide", d3.forceCollide(nodeRadius + 5));
+
+            const link = linkGroup.selectAll("path")
+                .data(links)
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("stroke", defaultColor)
+                .attr("stroke-width", 2)
+                .attr("marker-end", "url(#arrow-gray)");
+
+            const node = nodeGroup.selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("r", nodeRadius)
+                .attr("fill", defaultColor);
+
+            simulation.on("tick", () => {
+                link.attr("d", d => getSimplePath(d.source, d.target, nodeRadius + 8));
+                node.attr("cx", d => d.x).attr("cy", d => d.y);
+            });
+        }
+
+        // --- GEOMETRY HELPERS ---
+
+        // Simple straight line for initial graph
+        function getSimplePath(source, target, offsetRadius) {
+            if (source === target) return "";
+            const dx = target.x - source.x;
+            const dy = target.y - source.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist === 0) return "";
+
+            const ux = dx / dist;
+            const uy = dy / dist;
+
+            const targetX = target.x - (ux * offsetRadius);
+            const targetY = target.y - (uy * offsetRadius);
+            const sourceX = source.x + (ux * nodeRadius);
+            const sourceY = source.y + (uy * nodeRadius);
+
+            return `M${sourceX},${sourceY} L${targetX},${targetY}`;
+        }
+
+        // Advanced Curved Path for Quotient Graph with START/END OFFSET
+        function getQuotientPath(source, target, radius, siblingIndex, totalSiblings) {
+
+            // --- 1. SELF LOOPS (OUTSIDE) ---
+            if (source.id === target.id) {
+                const cx = width / 2;
+                const cy = height / 2;
+
+                // Vector from Center of Canvas to Center of Node
+                let dx = source.x - cx;
+                let dy = source.y - cy;
+                // Normalize
+                const len = Math.sqrt(dx * dx + dy * dy);
+                dx /= len; dy /= len;
+
+                // Orthogonal Vector (for width of loop)
+                const ox = -dy;
+                const oy = dx;
+
+                // Start/End points on the rim, separated based on sibling index to avoid overlap
+                // We fan them out if there are multiple self loops (e.g. Red and Blue self loop)
+                const separation = 20;
+                // Center the group of loops
+                const offset = (siblingIndex - (totalSiblings - 1) / 2) * separation;
+
+                // Base spread of the loop legs
+                const baseSpread = 15;
+
+                const sx = source.x + dx * (radius - 5) - ox * (baseSpread + offset);
+                const sy = source.y + dy * (radius - 5) - oy * (baseSpread + offset);
+                const ex = source.x + dx * (radius - 5) + ox * (baseSpread - offset); // Note sign flip logic depends on preference, here we keep them parallel-ish
+                const ey = source.y + dy * (radius - 5) + oy * (baseSpread - offset);
+
+                // Control points extend further OUTWARDS
+                const extend = 80 + (siblingIndex * 20);
+                const spread = 60 + (Math.abs(offset) * 2);
+
+                const cp1x = source.x + dx * (radius + extend) - ox * spread;
+                const cp1y = source.y + dy * (radius + extend) - oy * spread;
+                const cp2x = source.x + dx * (radius + extend) + ox * spread;
+                const cp2y = source.y + dy * (radius + extend) + oy * spread;
+
+                return `M ${sx},${sy} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${ex},${ey}`;
+            }
+
+            // --- 2. CURVED EDGES WITH ENDPOINT OFFSET ---
+            const dx = target.x - source.x;
+            const dy = target.y - source.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            const ux = dx / dist; // Unit vector
+            const uy = dy / dist;
+            const nx = -uy; // Normal vector (Perpendicular)
+            const ny = ux;
+
+            // Calculate Offset for Start/End points
+            // This pushes the arrows side-by-side
+            const separation = 20;
+            const offset = (siblingIndex - (totalSiblings - 1) / 2) * separation;
+
+            // Calculate Curve Amplitude
+            // If we only shift endpoints, lines might cross if we don't also curve them slightly apart
+            // or if we shift them parallel.
+            // Let's keep them parallel-ish by using the same offset for start, end, and control point base
+
+            // Start Point (shifted perpendicular)
+            const startX = source.x + (ux * radius) + (nx * offset);
+            const startY = source.y + (uy * radius) + (ny * offset);
+
+            // End Point (shifted perpendicular)
+            const endX = target.x - (ux * radius) + (nx * offset);
+            const endY = target.y - (uy * radius) + (ny * offset);
+
+            // Control Point
+            // We add a bit of curvature (ux/uy) + the offset (nx/ny)
+            const curveAmp = 30; // Standard curve height
+
+            const midX = (source.x + target.x) / 2;
+            const midY = (source.y + target.y) / 2;
+
+            // Control point is Midpoint + Perpendicular Shift (Offset) + Curvature
+            // We might want to curve "out" more if they are outer edges?
+            // Simple Quadratic:
+            const cpX = midX + (nx * offset) + (nx * curveAmp * (totalSiblings > 1 ? 0.5 : 1)); // Reduce curve if shifting to keep it tidy? Or keep standard.
+            const cpY = midY + (ny * offset) + (ny * curveAmp * (totalSiblings > 1 ? 0.5 : 1));
+
+            return `M${startX},${startY} Q${cpX},${cpY} ${endX},${endY}`;
+        }
+
+        // --- ANIMATION STEPS ---
+
+        function nextStep() {
+            step++;
+            const btn = document.getElementById("btn-next");
+
+            if (step === 1) {
+                d3.select("#status").text("Step 2: ... with Edge Types");
+                linkGroup.selectAll("path")
+                    .transition().duration(1000)
+                    .attr("stroke", d => edgeColors[d.type])
+                    .attr("marker-end", d => `url(#arrow-${d.type})`);
+
+            } else if (step === 2) {
+                d3.select("#status").text("Step 3: Partition Nodes");
+                nodeGroup.selectAll("circle")
+                    .transition().duration(1000)
+                    .attr("fill", d => nodeColors[d.group]);
+
+            } else if (step === 3) {
+                d3.select("#status").text("Step 4: Group nodes ...");
+
+                linkGroup.selectAll("path").transition().duration(500).attr("stroke-opacity", 0.1);
+
+                simulation.force("charge", d3.forceManyBody().strength(-10));
+                simulation.force("link", null);
+                simulation.force("center", null);
+                simulation.force("collide", null);
+
+                simulation.force("x", d3.forceX(d => clusters[d.group].x).strength(0.05));
+                simulation.force("y", d3.forceY(d => clusters[d.group].y).strength(0.05));
+                simulation.velocityDecay(0.4);
+
+                simulation.alpha(1).restart();
+
+            } else if (step === 4) {
+                d3.select("#status").text("Step 5: Define Quotient Graph Nodes");
+
+                const g = hullGroup.selectAll("g")
+                    .data(clusters)
+                    .enter().append("g")
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+                g.append("circle")
+                    .attr("class", "super-node-circle")
+                    .attr("r", 0)
+                    .attr("stroke", d => d.color)
+                    .transition().duration(1000)
+                    .attr("r", superNodeRadius);
+
+                g.append("text")
+                    .attr("class", "label-text")
+                    .attr("x", 0).attr("y", -superNodeRadius - 15)
+                    .attr("text-anchor", "middle")
+                    .text(d => d.label)
+                    .style("opacity", 0)
+                    .transition().delay(800).style("opacity", 1);
+
+            } else if (step === 5) {
+                d3.select("#status").text("Step 6: Construct Quotient Edges");
+
+                let qEdges = [];
+                links.forEach(l => {
+                    let s = l.source.group;
+                    let t = l.target.group;
+                    let type = l.type;
+                    let existing = qEdges.find(e => e.source.id === s && e.target.id === t && e.type === type);
+                    if (!existing) {
+                        qEdges.push({ source: clusters[s], target: clusters[t], type: type });
+                    }
+                });
+
+                // Calculate siblings for offsets
+                let edgeGroups = {};
+                qEdges.forEach(e => {
+                    let key = e.source.id + "-" + e.target.id;
+                    if (!edgeGroups[key]) edgeGroups[key] = [];
+                    edgeGroups[key].push(e);
+                });
+
+                qEdges.forEach(e => {
+                    let key = e.source.id + "-" + e.target.id;
+                    let group = edgeGroups[key];
+                    group.sort((a, b) => a.type - b.type);
+                    e.siblingIndex = group.indexOf(e);
+                    e.totalSiblings = group.length;
+                    e.isSelf = (e.source.id === e.target.id);
+                });
+
+                quotientGroup.selectAll("path")
+                    .data(qEdges)
+                    .enter().append("path")
+                    .attr("class", "link")
+                    .attr("stroke", d => edgeColors[d.type])
+                    .attr("stroke-width", 5)
+                    .attr("fill", "none")
+                    .attr("marker-end", d => d.isSelf ? null : `url(#arrow-q-${d.type})`)
+                    .attr("d", d => {
+                        // superNodeRadius + 12 (buffer for marker)
+                        return getQuotientPath(d.source, d.target, superNodeRadius + 12, d.siblingIndex, d.totalSiblings);
+                    })
+                    .attr("stroke-dasharray", function () { return this.getTotalLength(); })
+                    .attr("stroke-dashoffset", function () { return this.getTotalLength(); })
+                    .transition().duration(2000)
+                    .attr("stroke-dashoffset", 0);
+
+            } else if (step === 6) {
+                d3.select("#status").text("Step 7: Remove Original Edges");
+                linkGroup.selectAll("path")
+                    .transition().duration(1000)
+                    .style("opacity", 0)
+                    .remove();
+
+                btn.innerText = "Done";
+                btn.disabled = true;
+            }
+        }
+
+        function resetAnimation() {
+            step = 0;
+            document.getElementById("btn-next").disabled = false;
+            document.getElementById("btn-next").innerText = "Next Step";
+            d3.select("#status").text("Step 1: Initial Graph");
+            initSVG();
+            generateData();
+            initSimulation();
+        }
+
+        initSVG();
+        generateData();
+        initSimulation();
+
+    </script>
+</body>
+
+</html>
